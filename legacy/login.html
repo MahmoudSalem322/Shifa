@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>شفاء | تسجيل الدخول</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- External CSS File -->
+    <link rel="stylesheet" href="css/style.css"><script src="script/api.js"></script>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- العودة للرئيسية -->
+        <a href="index.html" class="home-link">
+            ← العودة للرئيسية
+        </a>
+
+        <div class="auth-wrapper">
+
+            <div class="auth-card">
+
+                <!-- LOGIN -->
+
+                <section id="loginView">
+
+                    <div class="brand">
+                        <div class="logo"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>
+                        <div class="brand-text">شفاء</div>
+                    </div>
+
+                    <h1 class="title">تسجيل الدخول</h1>
+
+                    <p class="subtitle">
+                        سجّل الدخول للوصول إلى حسابك في شفاء
+                    </p>
+
+                    <div id="loginMessage" class="message"></div>
+
+                    <form id="loginForm">
+
+                        <div class="form-group">
+
+                            <label>
+                                البريد الإلكتروني أو رقم الهاتف
+                            </label>
+
+                            <input
+                                type="text"
+                                id="loginEmail"
+                                class="input"
+                                placeholder="name@gmail.com أو 05xxxxxxxx"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                كلمة المرور
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="loginPassword"
+                                    class="input password-input"
+                                    placeholder="أدخل كلمة المرور"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword('loginPassword', this)"
+                                    aria-label="إظهار كلمة المرور"
+                                >
+
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-options">
+
+                            <label class="remember">
+
+                                <input
+                                    type="checkbox"
+                                    id="rememberMe"
+                                >
+
+                                تذكرني
+
+                            </label>
+
+                            <span
+                                class="forgot-link"
+                                onclick="showView('forgot')"
+                            >
+                                نسيت كلمة المرور؟
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn"
+                        >
+                            تسجيل الدخول
+                        </button>
+
+                    </form>
+
+                    <div class="switch-auth">
+
+                        ليس لديك حساب؟
+
+                        <span onclick="showView('register')">
+                            إنشاء حساب
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- REGISTER -->
+
+                <section id="registerView" class="hidden">
+
+                    <div class="brand">
+                        <div class="logo"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>
+                        <div class="brand-text">شفاء</div>
+                    </div>
+
+                    <h1 class="title">
+                        إنشاء حساب
+                    </h1>
+
+                    <p class="subtitle">
+                        أنشئ حسابك وابدأ باستخدام خدمات شفاء
+                    </p>
+
+                    <form id="registerForm">
+
+                        <div class="form-group">
+
+                            <label>
+                                الاسم الكامل
+                            </label>
+
+                            <input
+                                type="text"
+                                id="registerName"
+                                class="input"
+                                placeholder="أدخل اسمك الكامل"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                البريد الإلكتروني
+                            </label>
+
+                            <input
+                                type="email"
+                                id="registerEmail"
+                                class="input"
+                                placeholder="name@gmail.com"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                رقم الهاتف
+                            </label>
+
+                            <input
+                                type="text"
+                                id="registerPhone"
+                                class="input"
+                                placeholder="05xxxxxxxx"
+                                maxlength="10"
+                                inputmode="numeric"
+                                style="direction: ltr; text-align: right;"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                نوع الحساب
+                            </label>
+
+                            <select
+                                id="registerRole"
+                                class="input"
+                                required
+                            >
+
+                                <option value="">
+                                    اختر نوع الحساب
+                                </option>
+
+                                <option value="Patient">
+                                    مريض
+                                </option>
+
+                                <option value="Doctor">
+                                    طبيب
+                                </option>
+
+                                <option value="Donor">
+                                    متبرع
+                                </option>
+
+                                <option value="Hospital">
+                                    مركز صحي
+                                </option>
+
+                                <option value="Pharmacy">
+                                    صيدلية
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                كلمة المرور
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="registerPassword"
+                                    class="input password-input"
+                                    placeholder="8 أحرف أو أكثر"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword('registerPassword', this)"
+                                    aria-label="إظهار كلمة المرور"
+                                >
+
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+                                تأكيد كلمة المرور
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="registerConfirmPassword"
+                                    class="input password-input"
+                                    placeholder="أعد كتابة كلمة المرور"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword('registerConfirmPassword', this)"
+                                    aria-label="إظهار كلمة المرور"
+                                >
+
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div id="registerMessage" class="message"></div>
+
+                        <button
+                            type="submit"
+                            class="btn"
+                        >
+                            إنشاء الحساب
+                        </button>
+
+                    </form>
+
+                    <div class="switch-auth">
+
+                        لديك حساب بالفعل؟
+
+                        <span onclick="showView('login')">
+                            تسجيل الدخول
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- FORGOT PASSWORD -->
+
+                <section id="forgotView" class="hidden">
+
+                    <div class="brand">
+                        <div class="logo"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>
+                        <div class="brand-text">شفاء</div>
+                    </div>
+
+                    <h1 class="title">
+                        نسيت كلمة المرور؟
+                    </h1>
+
+                    <p class="subtitle">
+                        أدخل بريدك الإلكتروني لإرسال رمز التحقق
+                    </p>
+
+                    <div id="forgotMessage" class="message"></div>
+
+                    <div id="emailStep">
+
+                        <div class="form-group">
+
+                            <label>
+                                البريد الإلكتروني
+                            </label>
+
+                            <input
+                                type="email"
+                                id="forgotEmail"
+                                class="input"
+                                placeholder="name@gmail.com"
+                            >
+
+                        </div>
+
+                        <button
+                            class="btn"
+                            onclick="sendOTP()"
+                        >
+                            إرسال رمز التحقق
+                        </button>
+
+                    </div>
+
+                    <div id="otpStep" class="otp-box">
+
+                        <div class="form-group">
+
+                            <label>
+                                رمز التحقق
+                            </label>
+
+                            <input
+                                type="text"
+                                id="otpInput"
+                                class="input otp-input"
+                                maxlength="6"
+                                placeholder="000000"
+                            >
+
+                        </div>
+
+                        <button
+                            class="btn"
+                            onclick="verifyOTP()"
+                        >
+                            تحقق من الرمز
+                        </button>
+
+                        <div
+                            class="resend"
+                            onclick="resendOTP()"
+                        >
+                            إعادة إرسال الرمز
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="switch-auth"
+                        onclick="showView('login')"
+                        style="cursor:pointer;"
+                    >
+                        ← العودة لتسجيل الدخول
+                    </div>
+
+                </section>
+
+
+                <!-- NEW PASSWORD -->
+
+                <section id="newPasswordView" class="hidden">
+
+                    <div class="brand">
+                        <div class="logo"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>
+                        <div class="brand-text">شفاء</div>
+                    </div>
+
+                    <h1 class="title">
+                        إنشاء كلمة مرور جديدة
+                    </h1>
+
+                    <p class="subtitle">
+                        أدخل كلمة مرور جديدة وآمنة لحسابك
+                    </p>
+
+                    <div id="newPasswordMessage" class="message"></div>
+
+                    <form id="newPasswordForm">
+
+                        <!-- كلمة المرور الجديدة -->
+
+                        <div class="form-group">
+
+                            <label>
+                                كلمة المرور الجديدة
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="newPassword"
+                                    class="input password-input"
+                                    placeholder="أدخل كلمة المرور الجديدة"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword('newPassword', this)"
+                                    aria-label="إظهار كلمة المرور"
+                                >
+
+                                    <svg viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- تأكيد كلمة المرور -->
+
+                        <div class="form-group">
+
+                            <label>
+                                تأكيد كلمة المرور
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="confirmNewPassword"
+                                    class="input password-input"
+                                    placeholder="أعد كتابة كلمة المرور الجديدة"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword('confirmNewPassword', this)"
+                                    aria-label="إظهار كلمة المرور"
+                                >
+
+                                    <svg viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn"
+                        >
+                            حفظ كلمة المرور الجديدة
+                        </button>
+
+                    </form>
+
+                </section>
+
+
+                <!-- DASHBOARD -->
+
+                <section id="dashboardView" class="hidden">
+
+                    <div class="welcome-icon">
+                        🌿
+                    </div>
+
+                    <h1 class="title">
+                        أهلًا بك في شفاء
+                    </h1>
+
+                    <p class="subtitle">
+                        تم تسجيل الدخول إلى حسابك بنجاح
+                    </p>
+
+                    <div class="user-info">
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                الاسم
+                            </span>
+
+                            <span
+                                class="info-value"
+                                id="dashboardName"
+                            >
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                البريد الإلكتروني
+                            </span>
+
+                            <span
+                                class="info-value"
+                                id="dashboardEmail"
+                            >
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                رقم الهاتف
+                            </span>
+
+                            <span
+                                class="info-value"
+                                id="dashboardPhone"
+                            >
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                نوع الحساب
+                            </span>
+
+                            <span
+                                class="info-value"
+                                id="dashboardRole"
+                            >
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-actions">
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="showView('edit')"
+                        >
+                            ✏️ تعديل البيانات
+                        </button>
+
+                        <button
+                            class="btn btn-next"
+                            onclick="goToApp()"
+                        >
+                            الدخول إلى لوحة التحكم →
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="btn logout-btn"
+                        onclick="logout()"
+                    >
+                        تسجيل الخروج
+                    </button>
+
+                </section>
+
+
+                <!-- EDIT PROFILE -->
+
+                <section id="editView" class="hidden">
+
+                    <span
+                        class="back-link"
+                        onclick="showView('dashboard')"
+                    >
+                        ← العودة
+                    </span>
+
+                    <h1 class="title">
+                        تعديل البيانات
+                    </h1>
+
+                    <p class="subtitle">
+                        يمكنك تعديل معلومات حسابك
+                    </p>
+
+                    <div id="editMessage" class="message"></div>
+
+                    <div class="form-group">
+
+                        <label>
+                            الاسم الكامل
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editName"
+                            class="input"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            البريد الإلكتروني
+                        </label>
+
+                        <input
+                            type="email"
+                            id="editEmail"
+                            class="input"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            رقم الهاتف
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editPhone"
+                            class="input"
+                            maxlength="15"
+                            style="direction: ltr; text-align: right;"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            نوع الحساب
+                        </label>
+
+                        <select
+                            id="editRole"
+                            class="input"
+                        >
+
+                            <option value="Patient">
+                                مريض
+                            </option>
+
+                            <option value="Doctor">
+                                طبيب
+                            </option>
+
+                            <option value="Donor">
+                                متبرع
+                            </option>
+
+                            <option value="Hospital">
+                                مركز صحي
+                            </option>
+
+                            <option value="Pharmacy">
+                                صيدلية
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="edit-actions">
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="showView('dashboard')"
+                        >
+                            إلغاء
+                        </button>
+
+                        <button
+                            class="btn"
+                            onclick="saveEditedProfile()"
+                        >
+                            حفظ التعديلات
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- NEXT PAGE - TEMPORARY -->
+
+                                <!-- The "temporary page" placeholder that used to live here was
+                     removed; the dashboard now enters the real app. -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- External JavaScript File -->
+    <script src="script/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+
+/* ------------------------------------------------------------------
+   Scoped reset for the app shell.
+   Tailwind's preflight is disabled (see tailwind.config.js) because the
+   landing and auth pages were styled against legacy.css alone. The app
+   pages were built on the CDN build *with* preflight, so the parts of it
+   they rely on are restored here, under :where() so utilities still win.
+   ------------------------------------------------------------------ */
+
+:where(.shifa-app-shell) *,
+:where(.shifa-app-shell) ::before,
+:where(.shifa-app-shell) ::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: #e2e8f0;
+}
+
+:where(.shifa-app-shell) :is(h1, h2, h3, h4, h5, h6) {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+:where(.shifa-app-shell) :is(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+:where(.shifa-app-shell) :is(button, [type='button'], [type='submit']) {
+  background-color: transparent;
+  background-image: none;
+  cursor: pointer;
+}
+
+:where(.shifa-app-shell) :is(button, [role='button']):disabled {
+  cursor: not-allowed;
+}
+
+:where(.shifa-app-shell) :is(img, svg, video, iframe) {
+  display: block;
+  vertical-align: middle;
+}
+
+:where(.shifa-app-shell) :is(img, video) {
+  max-width: 100%;
+  height: auto;
+}
+
+:where(.shifa-app-shell) :is(ol, ul) {
+  list-style: none;
+}
+
+:where(.shifa-app-shell) :is(input, select, textarea)::placeholder {
+  color: #94a3b8;
+}
+
+/* The CDN build also loaded @tailwindcss/forms on most pages, which gave
+   bare fields a visible edge. This is the same idea, in the palette. */
+:where(.shifa-app-shell) :is(input:not([type='checkbox']):not([type='radio']):not([type='file']), select, textarea) {
+  border: 1px solid #e2e8f0;
+}
+
+:where(.shifa-app-shell) :is(input, select, textarea):focus {
+  border-color: #0f766e;
+}
+
+:where(.shifa-app-shell) :is(input[type='checkbox'], input[type='radio']) {
+  accent-color: #0f766e;
+  width: 1rem;
+  height: 1rem;
+}
+
+.material-symbols-outlined.is-filled {
+  font-variation-settings: 'FILL' 1;
+}
+
+@tailwind utilities;

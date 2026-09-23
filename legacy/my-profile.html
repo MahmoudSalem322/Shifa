@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@500;600;700&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@100..900&amp;family=Tajawal:wght@100..900&amp;display=swap" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/><script src="script/api.js"></script><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"text-body":"#1e293b","canvas-bg":"#f0f7ff","tertiary-fixed":"#6ffbbe","text-muted":"#64748b","surface-container-lowest":"#ffffff","on-tertiary":"#ffffff","error-container":"#ffdad6","state-success-subtle":"#ecfdf5","border-focus":"#0f766e","surface-subtle":"#f8fafc","surface-container-highest":"#d3e4fe","outline-variant":"#bdc9c6","surface-card":"#ffffff","surface":"#f8f9ff","inverse-primary":"#80d5cb","inverse-surface":"#213145","text-heading":"#115e59","on-tertiary-fixed-variant":"#005236","state-info":"#0284c7","surface-dim":"#cbdbf5","on-primary-container":"#a3faef","secondary-container":"#5bb8fe","primary-container":"#0f766e","on-error":"#ffffff","outline":"#6e7977","on-primary-fixed-variant":"#00504a","secondary-fixed-dim":"#93ccff","on-background":"#0b1c30","on-surface":"#0b1c30","on-primary":"#ffffff","secondary-fixed":"#cce5ff","tertiary-fixed-dim":"#4edea3","tertiary-container":"#007952","primary":"#005c55","tertiary":"#005e3f","text-primary":"#0f766e","state-info-subtle":"#f0f9ff","primary-fixed-dim":"#80d5cb","on-tertiary-fixed":"#002113","surface-container-low":"#eff4ff","state-warning-subtle":"#fffbeb","state-danger-subtle":"#fef2f2","state-warning":"#d97706","on-error-container":"#93000a","border-soft":"#e2e8f0","state-danger":"#dc2626","error":"#ba1a1a","primary-fixed":"#9cf2e8","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","on-tertiary-container":"#99ffcd","on-surface-variant":"#3e4947","secondary":"#006398","inverse-on-surface":"#eaf1ff","state-success":"#16a34a","surface-container":"#e5eeff","on-secondary-fixed":"#001d31","on-secondary":"#ffffff","on-secondary-container":"#00476e","background":"#f8f9ff","on-primary-fixed":"#00201d","on-secondary-fixed-variant":"#004b73","surface-tint":"#006a63"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-sm":"1rem","margin-tablet":"2rem","space-xl":"2.5rem","container-max":"1280px","space-3xl":"4rem","space-2xs":"0.5rem","space-lg":"2rem","gutter-mobile":"1rem","margin-desktop":"3rem","space-md":"1.5rem","space-3xs":"0.25rem","space-2xl":"3rem","gutter-desktop":"1.5rem","space-xs":"0.75rem","margin-mobile":"1rem"},fontFamily:{"body-md":["Cairo"],"display-hero":["Tajawal"],"headline-xl":["Tajawal"],"headline-xl-mobile":["Tajawal"],"headline-lg":["Tajawal"],"label-lg":["Cairo"],"headline-sm":["Tajawal"],"display-hero-mobile":["Tajawal"],"headline-md":["Tajawal"],"body-lg":["Cairo"],"label-sm":["Cairo"],"body-sm":["Cairo"],"label-md":["Cairo"]},fontSize:{"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"display-hero":["40px",{lineHeight:"52px",fontWeight:"700"}],"headline-xl":["32px",{lineHeight:"42px",fontWeight:"700"}],"headline-xl-mobile":["26px",{lineHeight:"34px",fontWeight:"700"}],"headline-lg":["24px",{lineHeight:"34px",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"22px",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"26px",fontWeight:"600"}],"display-hero-mobile":["30px",{lineHeight:"40px",fontWeight:"700"}],"headline-md":["20px",{lineHeight:"28px",fontWeight:"600"}],"body-lg":["17px",{lineHeight:"28px",fontWeight:"400"}],"label-sm":["11px",{lineHeight:"16px",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"600"}]}}}}</script></head><body class="shifa-app-shell bg-canvas-bg font-body-md text-body min-h-screen flex"><aside class="w-72 bg-surface-card border-l border-border-soft flex flex-col shrink-0 min-h-screen sticky top-0 h-screen z-40 justify-between p-space-md shadow-[2px_0_12px_rgba(0,0,0,0.03)]"><div class="flex flex-col gap-space-lg"><a href="index.html" class="flex items-center gap-space-xs px-2"><img src="image/logo.png" alt="شفاء" class="w-10 h-10 rounded-xl object-cover shadow-sm"/><div class="flex flex-col"><span class="font-headline-lg text-headline-lg text-text-heading leading-tight tracking-tight">شِفَاء</span><span class="font-label-sm text-label-sm text-text-muted">منظومة الرعاية الصحية</span></div></a><nav class="flex flex-col gap-1.5"><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="doctor-search.html"><span class="material-symbols-outlined text-[22px] text-text-muted">person_search</span><span>البحث عن طبيب</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg bg-[#0f766e] text-on-primary shadow-sm transition-all" href="dashboard.html"><span class="material-symbols-outlined text-[22px]">dashboard</span><span>لوحة التحكم</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="dashboard.html#appointments"><span class="material-symbols-outlined text-[22px] text-text-muted">calendar_month</span><span>مواعيدي والحجوزات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="doctor-profile.html"><span class="material-symbols-outlined text-[22px]">badge</span><span>الملف الشخصي</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="facility-search.html"><span class="material-symbols-outlined text-[22px] text-text-muted">domain</span><span>المراكز والمستشفيات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="pharmacy-search.html"><span class="material-symbols-outlined text-[22px] text-text-muted">medication</span><span>الصيدليات والدواء</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="pharmacy-directory.html"><span class="material-symbols-outlined text-[22px] text-text-muted">store</span><span>دليل الصيدليات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="index.html#services"><span class="material-symbols-outlined text-[22px] text-text-muted">volunteer_activism</span><span>التبرع والمساهمات</span></a></nav></div><div class="pt-space-sm border-t border-border-soft flex flex-col gap-space-xs"><button class="flex items-center gap-2 px-3 py-2 text-state-danger hover:bg-state-danger-subtle rounded-lg font-label-md text-label-md transition-colors w-full" onclick="logout()" type="button"><span class="material-symbols-outlined text-[20px]">logout</span><span>تسجيل الخروج</span></button></div></aside><main class="flex-1 w-full bg-canvas-bg min-h-screen overflow-y-auto"><div class="flex flex-col w-full">
+<!-- Page Header -->
+<header class="relative w-full bg-surface-container-lowest border-b border-border-soft overflow-hidden">
+<div class="absolute -top-16 -left-10 w-56 h-56 bg-pink-100/60 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-20 right-16 w-64 h-64 bg-pink-50 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative max-w-[1280px] mx-auto w-full px-space-md lg:px-space-xl py-space-sm flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">لوحة تحكم الطبيب</h2>
+<p class="font-body-sm text-body-sm text-text-muted mt-1">نظرة عامة على يومك، إدارة المواعيد، ومساعد ذكي لتنظيم وقتك</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="الملف الشخصي" class="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm hover:brightness-110 transition-all" onclick="window.location.href='my-profile.html'" type="button">
+<span class="material-symbols-outlined text-[22px]">person</span>
+</button>
+<button aria-label="الإشعارات" class="w-11 h-11 rounded-full flex items-center justify-center text-text-body hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<div class="max-w-[1280px] mx-auto px-space-md lg:px-space-xl py-space-lg w-full">
+<!-- Top Action Header -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-xl">
+<div class="flex flex-col gap-space-3xs max-w-2xl">
+<div class="flex items-center flex-wrap gap-space-xs mb-1">
+<h1 class="font-headline-xl text-headline-xl text-text-heading">إدارة وتعديل الملف المهني والشخصي</h1>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-state-success-subtle text-state-success font-label-sm text-label-sm font-semibold shadow-sm">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>ملف موثق من وزارة الصحة بنجاح ✓</span>
+</span>
+</div>
+<p class="font-body-md text-body-md text-text-muted leading-relaxed">
+          جميع التعديلات والبيانات المحدثة تنعكس فورياً على صفحة حجز المواعيد العامة وبطاقة الطبيب في دليل شِفَاء الموحد لقطاع غزة.
+        </p>
+</div>
+<!-- Action Buttons & Quick Progress -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-xs self-start lg:self-center">
+<button class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container-lowest text-text-body font-label-md text-label-md hover:bg-surface-container-high transition-colors shadow-sm" onclick="window.open('doctor-profile.html', '_blank')" type="button">
+<span class="material-symbols-outlined text-[20px] text-text-muted">visibility</span>
+<span>معاينة الملف العام</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container text-text-muted font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">
+<span>إلغاء التغييرات</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-text-heading transition-all shadow-md active:scale-95" id="save-all-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span>حفظ التعديلات</span>
+</button>
+</div>
+</div>
+<!-- Section Quick Jump Sub-Navigation -->
+<div class="sticky top-20 z-40 bg-surface-card/95 backdrop-blur-md rounded-xl p-1.5 shadow-sm mb-space-xl overflow-x-auto">
+<nav class="flex items-center gap-1 min-w-max">
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md transition-all shadow-sm" href="#basic-info">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>البيانات الأساسية والصورة</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-heading hover:bg-surface-container-low font-label-md text-label-md transition-all" href="#clinical-bio">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+<span>النبذة والخبرات السريرية</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-heading hover:bg-surface-container-low font-label-md text-label-md transition-all" href="#workplace">
+<span class="material-symbols-outlined text-[18px]">domain</span>
+<span>مقر العمل والعيادة</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-heading hover:bg-surface-container-low font-label-md text-label-md transition-all" href="#working-hours">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>مواعيد وساعات الدوام</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-heading hover:bg-surface-container-low font-label-md text-label-md transition-all" href="#contact-location">
+<span class="material-symbols-outlined text-[18px]">pin_drop</span>
+<span>بيانات التواصل والموقع</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-heading hover:bg-surface-container-low font-label-md text-label-md transition-all" href="#consultation-settings">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>إعدادات الكشف والاستشارة</span>
+</a>
+</nav>
+</div>
+<!-- Form Content Stack -->
+<div class="flex flex-col gap-space-xl">
+<!-- 1. Basic Info & Avatar Card -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="basic-info">
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">badge</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">الصورة الشخصية والبيانات الأساسية</h2>
+<p class="font-body-sm text-body-sm text-text-muted">المعلومات الرسمية المعتمدة لظهور الطبيب في محركات الحجز</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-text-primary bg-surface-container px-3 py-1 rounded-full">قسم إلزامي</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Avatar Uploader -->
+<div class="lg:col-span-4 flex flex-col items-center text-center p-space-md bg-surface-subtle rounded-xl">
+<div class="relative group mb-space-xs">
+<img alt="صورة د. أحمد النجار" class="w-32 h-32 rounded-full object-cover shadow-md" data-alt="Close-up professional portrait of Dr. Ahmed Al-Najjar, a male Arab cardiologist in his mid-forties with a neat beard, wearing a crisp white medical coat and navy blue scrubs with stethoscope, warm smile, clinic background, cinematic natural lighting, clinical soft depth of field." id="avatar-preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBni9QswAWy6Kbh-XpcE12GL-5qJSJ0UVv3LDGJ9YLoG-gVjYGd1pXs4bpPPlGAdsA0ki_4X_WKJC0kZ7D_OqPb9l90tsaJrUuyY4935pmbGrTncPPGJwDG310Wl2YYh0HykSiN3hNSfVdQbZ-BwykNS6xfSFK_KRnJipPXYBNwCOgO754GhGmmYK-z4Oxjr9uJyamQiSFf9AYOaykRSxYMHykaHiGbqPxuZ3tiHKkMDc6Fgh3i0Rua"/>
+<button aria-label="تغيير الصورة" class="absolute inset-0 rounded-full bg-inverse-surface/60 text-surface flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm cursor-pointer" id="avatar-overlay-btn" type="button">
+<span class="material-symbols-outlined text-[28px]">photo_camera</span>
+<span class="font-label-sm text-label-sm">تغيير الصورة</span>
+</button>
+<div class="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-state-success text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+<input accept="image/png, image/jpeg" class="hidden" id="avatar-file-input" type="file"/>
+<span class="font-headline-sm text-headline-sm text-text-heading">د. أحمد محمد النجار</span>
+<span class="font-label-sm text-label-sm text-text-muted mt-1">طبيب استشاري معتمد</span>
+<div class="flex items-center gap-space-2xs mt-space-sm w-full">
+<button class="flex-1 py-2 px-space-2xs rounded-lg bg-surface-container-high text-text-heading hover:bg-surface-container font-label-sm text-label-sm transition-colors flex items-center justify-center gap-1" id="avatar-update-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">upload</span>
+<span>تحديث الصورة</span>
+</button>
+<button class="py-2 px-3 rounded-lg bg-error-container text-on-error-container hover:bg-state-danger-subtle font-label-sm text-label-sm transition-colors flex items-center justify-center" id="avatar-delete-btn" title="حذف الصورة" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-space-2xs text-right text-xs leading-relaxed">
+              يُفضل صورة طبية واضحة بنسبة أبعاد 1:1، خلفية حيادية، بحجم لا يتجاوز 5 ميجابايت (JPG أو PNG).
+            </p>
+</div>
+<!-- Basic Info Form Fields -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="doctor-fullname">
+<span>الاسم الرباعي واللقب العلمي</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" id="doctor-fullname" placeholder="أدخل اسمك الرباعي كاملاً" type="text" value="د. أحمد محمد كمال النجار"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">person</span>
+</div>
+</div>
+<!-- Clinical Speciality -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="doctor-speciality">
+<span>المسمى السريري والتخصص الدقيق</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" id="doctor-speciality" placeholder="مثال: أخصائي جراحة أطفال، استشاري باطنة" type="text" value="استشاري أمراض القلب والقسطرة التداخلية والشرايين التاجية"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">stethoscope</span>
+</div>
+</div>
+<!-- License Number (Verified) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading flex items-center justify-between" for="license-number">
+<span class="flex items-center gap-1">
+<span>رقم ترخيص مزاولة المهنة</span>
+<span class="text-state-danger">*</span>
+</span>
+<span class="text-state-success font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>تم التدقيق والتوثيق</span>
+</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none transition-all font-mono" id="license-number" readonly="" type="text" value="MOH-GZ-2010-8472"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-state-success text-[20px]">verified_user</span>
+</div>
+<span class="text-text-muted font-body-sm text-body-sm text-xs">صادر عن وزارة الصحة الفلسطينية - الإدارة العامة للترخيص والتنظيم الصحي</span>
+</div>
+<!-- Spoken Languages -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading">اللغات المتقنة للتواصل السريري</label>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high text-text-heading font-label-sm text-label-sm">
+<span>العربية (اللغة الأم)</span>
+<button class="text-text-muted hover:text-state-danger transition-colors" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high text-text-heading font-label-sm text-label-sm">
+<span>الإنجليزية (بطلاقة طبية)</span>
+<button class="text-text-muted hover:text-state-danger transition-colors" type="button">×</button>
+</span>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-subtle text-text-primary hover:bg-surface-container font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>إضافة لغة</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Clinical Bio & Professional Qualifications -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="clinical-bio">
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">psychology</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">النبذة المهنية والخبرة السريرية</h2>
+<p class="font-body-sm text-body-sm text-text-muted">التعريف الاحترافي الذي يقرأه المريض عند تصفح سيرتك الذاتية</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">يدعم التنسيق المباشر</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
+<!-- Years of Experience & Fellowships -->
+<div class="md:col-span-4 flex flex-col gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading" for="exp-years">سنوات الخبرة السريرية المعتمدة</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" id="exp-years" max="60" min="1" type="number" value="14"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">history_edu</span>
+</div>
+<span class="text-text-muted font-body-sm text-body-sm text-xs">تُحسب تلقائياً من سنة التخرج وبدء الامتياز السريري</span>
+</div>
+<!-- Degree Badge / Board -->
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-text-heading font-bold">الشهادات والزمالات الموثقة:</span>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-text-body font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-state-success text-[16px]">check_circle</span>
+<span>البورد الفلسطيني لأمراض القلب</span>
+</span>
+<span class="font-mono text-xs text-text-muted">2014</span>
+</div>
+<div class="flex items-center justify-between text-text-body font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-state-success text-[16px]">check_circle</span>
+<span>زمالة الكلية الملكية للأطباء (MRCP)</span>
+</span>
+<span class="font-mono text-xs text-text-muted">2017</span>
+</div>
+<div class="flex items-center justify-between text-text-body font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-state-success text-[16px]">check_circle</span>
+<span>دبلوم القسطرة القلبية التداخلية المتقدمة</span>
+</span>
+<span class="font-mono text-xs text-text-muted">2019</span>
+</div>
+</div>
+<button class="mt-2 text-text-primary hover:text-text-heading font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>إرفاق شهادة أو زمالة إضافية</span>
+</button>
+</div>
+</div>
+<!-- Rich Textarea -->
+<div class="md:col-span-8 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-text-heading" for="bio-textarea">
+<span>نبذة تفصيلية عن الطبيب والمجالات السريرية الدقيقة</span>
+</label>
+<span class="text-text-muted font-body-sm text-body-sm text-xs" id="char-counter">184 كلمة (840 حرفاً)</span>
+</div>
+<!-- Mini Rich text controls -->
+<div class="flex items-center gap-1 p-1 bg-surface-container-low rounded-t-lg">
+<button class="p-1.5 hover:bg-surface-container rounded text-text-muted hover:text-text-heading" title="عريض" type="button"><span class="material-symbols-outlined text-[18px]">format_bold</span></button>
+<button class="p-1.5 hover:bg-surface-container rounded text-text-muted hover:text-text-heading" title="مائل" type="button"><span class="material-symbols-outlined text-[18px]">format_italic</span></button>
+<button class="p-1.5 hover:bg-surface-container rounded text-text-muted hover:text-text-heading" title="قائمة نقطية" type="button"><span class="material-symbols-outlined text-[18px]">format_list_bulleted</span></button>
+<button class="p-1.5 hover:bg-surface-container rounded text-text-muted hover:text-text-heading" title="إدراج اقتباس" type="button"><span class="material-symbols-outlined text-[18px]">format_quote</span></button>
+<div class="h-4 w-px bg-surface-container-high mx-1"></div>
+<span class="font-label-sm text-label-sm text-text-muted px-2">العربية (RTL)</span>
+</div>
+<textarea class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md p-space-sm rounded-b-lg shadow-sm focus:outline-none focus:border-border-focus transition-all leading-relaxed resize-y" id="bio-textarea" rows="7">استشاري أول ورئيس قسم القسطرة التداخلية في مجمع الشفاء الطبي، خبرة سريرية تزيد عن 14 عاماً في تشخيص وعلاج أمراض الشرايين التاجية، اعتلال عضلة القلب، ارتفاع ضغط الدم الشرياني المستعصي، وقصور الصمامات القلبية.
+
+أجرى أكثر من 3,500 عملية قسطرة تشخيصية وعلاجية ناجحة وتركيب شبكات دوائية دقيقة، مع تركيز دائم على رعاية المرضى ذوي الحالات الحرجة وتقديم استشارات إدارة الأمراض المزمنة وفق أحدث البروتوكولات الأوروبية والأمريكية للقلب.</textarea>
+<div class="flex flex-wrap items-center gap-2 mt-space-2xs">
+<span class="font-label-sm text-label-sm text-text-muted">الكلمات الدلالية والتخصصات المساعدة:</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-heading font-label-sm text-label-sm">قسطرة تشخيصية</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-heading font-label-sm text-label-sm">تخطيط هولتر 24 ساعة</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-heading font-label-sm text-label-sm">تصوير إيكو دوبلر</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-text-heading font-label-sm text-label-sm">فشل عضلة القلب</span>
+<button class="text-text-primary hover:underline font-label-sm text-label-sm" type="button">+ إضافة وسم</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Primary Workplace & Clinic Information -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="workplace">
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">domain</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">مقر العمل والعيادة</h2>
+<p class="font-body-sm text-body-sm text-text-muted">المستشفيات والمراكز التي يستقبل فيها الطبيب المراجعين</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high text-text-heading hover:bg-surface-container font-label-md text-label-md transition-colors" id="add-branch-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">add_location_alt</span>
+<span>إضافة فرع أو عيادة أخرى</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Hospital / Center Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="hospital-name">
+<span>المستشفى / المجمع الرئيسي</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all appearance-none cursor-pointer" id="hospital-name"><option value="">جارٍ تحميل المنشآت…</option></select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">local_hospital</span>
+</div>
+</div>
+<!-- Department / Building -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="dept-name">
+<span>القسم ورقم الجناح / العيادة</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" id="dept-name" type="text" value="مبنى الجراحات التخصصية - الطابق الثاني - قسم القلب والقسطرة"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">meeting_room</span>
+</div>
+</div>
+<!-- Facility Sector Type -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-heading" for="facility-type">نوع المنشأة الصحية</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all appearance-none cursor-pointer" id="facility-type">
+<option selected="" value="gov">مستشفى حكومي تخصصي ومركزي</option>
+<option value="private">عيادة ومجمع طبي خاص</option>
+<option value="unrwa">مركز رعاية صحية أولية (أونروا)</option>
+<option value="charity">مستشفى أهلي خيري</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">apartment</span>
+<span class="material-symbols-outlined absolute left-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Clinic Photo Strip -->
+<div class="mt-space-md p-space-md bg-surface-subtle rounded-xl flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<img alt="صورة العيادة" class="w-20 h-20 rounded-lg object-cover shadow-sm" data-alt="Modern cardiology clinic exam room at Al-Shifa Medical Complex, clean white examination bed, ECG monitor with glowing screen, gentle teal curtain accents, soft bright overhead ambient medical lighting, immaculate hygienic space." id="clinic-photo-preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtLdINZC62-WLdbmXDA9eELfSFB1Me6syiD25JzRn6wKEzUA42VEp4tgn-apZisD-4JsPGkaZlv56XirEgoZzXlxkewYKJ5QSWF9AQ-Fvh3-EgLlK8sVPKWvgaifdDwDC9R0kgaLuEfWSGY95kEN04kvY0Us5lS4mvoVjeSaUXbINFtmpU27hjEYq7a86W23PWj3QGaN_nvA2-houjr2LPC2PqiQUIG35njSXeymi9BJUERUHmV2k6"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-heading">صورة العيادة وقاعة الانتظار</span>
+<span class="font-body-sm text-body-sm text-text-muted">تساعد المرضى على تمييز مكان العيادة عند الوصول للمجمع</span>
+</div>
+</div>
+<input accept="image/png, image/jpeg" class="hidden" id="clinic-photo-input" type="file"/>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-lowest text-text-primary hover:bg-surface-container-high font-label-md text-label-md transition-colors shadow-sm" id="clinic-photo-btn" type="button">
+            تغيير صور المنشأة
+          </button>
+</div>
+<!-- Additional Branches (added dynamically) -->
+<div class="flex flex-col gap-space-md mt-space-md" id="branches-container"></div>
+</section>
+<!-- 4. Interactive Working Hours Manager -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="working-hours">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">calendar_clock</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">ساعات وأيام العمل (جدول المواعيد السريرية)</h2>
+<p class="font-body-sm text-body-sm text-text-muted">حدد فترات استقبال المرضى للحجز التلقائي في النظام الإلكتروني</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 px-space-sm py-2 rounded-lg bg-surface-container-high text-text-heading hover:bg-surface-container font-label-sm text-label-sm transition-colors self-start sm:self-auto" id="copy-hours-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span>تطبيق نفس الأوقات على باقي الأيام</span>
+</button>
+</div>
+<!-- Working Hours Table -->
+<div class="flex flex-col gap-space-2xs" id="working-hours-table">
+<!-- الأحد -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="sunday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">الأحد</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="09:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="14:00" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="16:00" />
+<span class="text-text-muted text-xs">-</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="19:00" />
+<button type="button" class="remove-evening-btn text-text-muted hover:text-state-danger transition-colors" title="إزالة الفترة المسائية" aria-label="إزالة الفترة المسائية">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="16" />
+<span>مريض</span>
+</div>
+</div>
+
+</div>
+<!-- الإثنين -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="monday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">الإثنين</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="09:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="14:00" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<button type="button" class="add-evening-btn text-text-primary hover:underline font-label-sm text-label-sm" >+ إضافة فترة مسائية</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="10" />
+<span>مريض (عمليات قسطرة)</span>
+</div>
+</div>
+
+</div>
+<!-- الثلاثاء -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="tuesday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">الثلاثاء</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="09:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="14:00" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="16:00" />
+<span class="text-text-muted text-xs">-</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="19:00" />
+<button type="button" class="remove-evening-btn text-text-muted hover:text-state-danger transition-colors" title="إزالة الفترة المسائية" aria-label="إزالة الفترة المسائية">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="16" />
+<span>مريض</span>
+</div>
+</div>
+
+</div>
+<!-- الأربعاء -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="wednesday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">الأربعاء</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="09:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="14:00" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="16:00" />
+<span class="text-text-muted text-xs">-</span>
+<input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="19:00" />
+<button type="button" class="remove-evening-btn text-text-muted hover:text-state-danger transition-colors" title="إزالة الفترة المسائية" aria-label="إزالة الفترة المسائية">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="16" />
+<span>مريض</span>
+</div>
+</div>
+
+</div>
+<!-- الخميس -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="thursday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">الخميس</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="09:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="13:30" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<button type="button" class="add-evening-btn text-text-primary hover:underline font-label-sm text-label-sm" >+ إضافة فترة مسائية</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="12" />
+<span>مريض</span>
+</div>
+</div>
+
+</div>
+<!-- الجمعة -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low bg-surface-subtle/60 opacity-80" data-day="friday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" />
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-muted">الجمعة</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-surface-container text-text-muted px-2 py-0.5 rounded-full">عطلة أسبوعية</span>
+</div>
+<div class="day-hours-container hidden flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="10:00" disabled=""/>
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="13:00" disabled=""/>
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<button type="button" class="add-evening-btn text-text-primary hover:underline font-label-sm text-label-sm" disabled="">+ إضافة فترة مسائية</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="8" disabled=""/>
+<span>مريض</span>
+</div>
+</div>
+<p class="day-off-note font-body-sm text-body-sm text-text-muted italic mt-1">هذا اليوم عطلة أسبوعية افتراضياً. فعّل المفتاح أعلاه لإتاحة مواعيد طوارئ استثنائية.</p>
+</div>
+<!-- السبت -->
+<div class="day-row flex flex-col lg:flex-row lg:items-center justify-between p-space-sm rounded-lg bg-surface-subtle gap-space-xs transition-all hover:bg-surface-container-low" data-day="saturday">
+<div class="flex items-center gap-space-sm min-w-[160px]">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="day-toggle sr-only peer" type="checkbox" checked=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="day-name-label font-headline-sm text-headline-sm text-text-heading">السبت</span>
+<span class="day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full">متاح</span>
+</div>
+<div class="day-hours-container flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-muted">من:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="10:00" />
+<span class="font-label-sm text-label-sm text-text-muted">إلى:</span>
+<input class="day-time-input bg-surface-container-lowest text-text-body px-3 py-1.5 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none" type="time" value="15:00" />
+</div>
+<div class="evening-inputs flex items-center gap-2">
+<span class="text-text-muted text-xs">| فترة مسائية:</span>
+<button type="button" class="add-evening-btn text-text-primary hover:underline font-label-sm text-label-sm" >+ إضافة فترة مسائية</button>
+</div>
+<div class="flex items-center gap-1 text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>الحد الأقصى:</span>
+<input class="day-max-input w-16 bg-surface-container-lowest text-text-body px-2 py-1 rounded-lg shadow-sm font-label-md text-label-md focus:outline-none text-center" min="1" type="number" value="14" />
+<span>مريض</span>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+<!-- 5. Contact Information & Map Geolocation -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="contact-location">
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">contact_phone</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">بيانات التواصل والموقع الجغرافي للعيادة</h2>
+<p class="font-body-sm text-body-sm text-text-muted">أرقام الاتصال المباشر وخريطة الوصول الجغرافي للمرضى</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-state-info bg-state-info-subtle px-3 py-1 rounded-full">محمي ومشفّر للمرضى المحجوزين</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Text Inputs -->
+<div class="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Clinic Phone -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="phone-number">
+<span>رقم هاتف العيادة / المنسق الطبي المباشر</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pl-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus text-left font-mono" dir="ltr" id="phone-number" type="tel" value="+970 59 123 4567"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-text-muted text-[20px]">call</span>
+</div>
+<span class="text-text-muted font-body-sm text-body-sm text-xs">يظهر للمريض بعد تأكيد الموعد للتنسيق أو الاعتذار</span>
+</div>
+<!-- Professional Email -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading flex items-center gap-1" for="doctor-email">
+<span>البريد الإلكتروني المهني</span>
+<span class="text-state-danger">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pl-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus text-left font-mono" dir="ltr" id="doctor-email" type="email" value="dr.ahmed.najjar@shifa-gaza.ps"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-text-muted text-[20px]">alternate_email</span>
+</div>
+</div>
+<!-- Full Physical Address -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading" for="detailed-address">العنوان التفصيلي ونقاط الدلالة</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pr-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus" id="detailed-address" type="text" value="غزة - شارع الوحدة، مفترق مجمع الشفاء، بجوار عيادة الرمال المركزية"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">pin_drop</span>
+</div>
+</div>
+<!-- Emergency WhatsApp / Telegram -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-text-heading" for="whatsapp-number">رقم طوارئ الواتساب (اختياري)</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm pl-10 rounded-lg shadow-sm focus:outline-none focus:border-border-focus text-left font-mono" dir="ltr" id="whatsapp-number" type="tel" value="+970 56 987 6543"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-state-success text-[20px]">chat</span>
+</div>
+</div>
+</div>
+<!-- Geolocation Preview Map Card -->
+<div class="lg:col-span-6 flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-heading">تحديد موقع العيادة عبر نظام الملاحة</span>
+<button class="text-text-primary hover:underline font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">my_location</span>
+<span>تحديث بالإحداثيات الحالية</span>
+</button>
+</div>
+<div class="relative w-full h-64 rounded-xl overflow-hidden shadow-sm">
+<div class="w-full h-full bg-cover bg-center" data-location="Al Shifa Hospital, Gaza City, Palestine" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfkc27AeqO6h4JBxzfBIcHXbTzXhsr18SbZBrTKdjpcQogEr5e5kygKlYzakK99qlhylMmS5yPfqgoqSVJ7WSq10ZBv8HQMCGcXPaFNEMfvgc3VGWO2FW4hHDp42cvHTfASArdm6D9v3ACx7ZQ74RJPEMGfLQ1NDoZVF3V_qDEL-cL1lVYkyoqHdiXLymlMEwUFnZfzcgXQXfutNhijmGFc0zMdFjx_74Iuas1i8Zkfo-u4obI-iOX')"></div>
+<div class="absolute bottom-3 inset-x-3 bg-surface/90 backdrop-blur-md p-space-xs rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-state-danger text-[22px]">location_on</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-heading font-bold">مجمع الشفاء الطبي - مبنى الجراحات</span>
+<span class="font-mono text-xs text-text-muted">31.5241° N, 34.4452° E</span>
+</div>
+</div>
+<button class="px-3 py-1 rounded bg-surface-container-high text-text-heading font-label-sm text-label-sm hover:bg-surface-container transition-colors" type="button">
+                  تعديل الدبوس
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Consultation Settings & Remote Visits -->
+<section class="w-full bg-surface-card rounded-xl p-space-lg shadow-sm" id="consultation-settings">
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[24px]">tune</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">إعدادات الكشف والاستشارات الطبية</h2>
+<p class="font-body-sm text-body-sm text-text-muted">مدة الكشف الافتراضية، الاستشارات عن بُعد، والتنسيق المالي التكافلي</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Session Duration -->
+<div class="p-space-sm rounded-lg bg-surface-subtle flex flex-col gap-2">
+<span class="font-label-md text-label-md text-text-heading font-semibold">متوسط وقت الكشف للمريض</span>
+<div class="flex items-center gap-2">
+<select id="session-duration" class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2 px-3 rounded-lg shadow-sm focus:outline-none">
+<option value="15">15 دقيقة</option>
+<option selected="" value="20">20 دقيقة (موصى به)</option>
+<option value="30">30 دقيقة</option>
+<option value="45">45 دقيقة (حالات معقدة)</option>
+</select>
+</div>
+<span class="text-text-muted font-body-sm text-body-sm text-xs">يحدد فترات تقارب التذاكر في شاشة الاستقبال</span>
+</div>
+<!-- Remote Consultation Switch -->
+<div class="p-space-sm rounded-lg bg-surface-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-heading font-semibold">الاستشارة المرئية عن بُعد (Telemedicine)</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<p class="text-text-muted font-body-sm text-body-sm text-xs mt-1">
+                تتيح للمرضى في المناطق النائية أو حالات الطوارئ حجز جلسات فيديو مشفرة عبر منصة شفاء.
+              </p>
+</div>
+<span class="text-state-success font-label-sm text-label-sm mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+<span>مفعلة وتستقبل طلبات الحالات المستقرة</span>
+</span>
+</div>
+<!-- Free Solidarity Consultation Quota -->
+<div class="p-space-sm rounded-lg bg-surface-subtle flex flex-col justify-between">
+<div>
+<span class="font-label-md text-label-md text-text-heading font-semibold">حصة الكشوفات المجانية (صندوق التكافل)</span>
+<p class="text-text-muted font-body-sm text-body-sm text-xs mt-1">
+                كشوفات مجانية مخصصة للمرضى غير القادرين والنازحين تُوزع تلقائياً عبر لجان المنصة الطبية.
+              </p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<input class="w-20 bg-surface-container-lowest text-text-body font-bold py-1.5 px-3 rounded-lg shadow-sm text-center" max="50" min="0" type="number" value="6"/>
+<span class="font-label-sm text-label-sm text-text-heading">حالات مجانية أسبوعياً</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sticky Bottom Confirmation Bar -->
+<div class="sticky bottom-4 z-50 mt-space-xl">
+<div class="w-full bg-inverse-surface/95 backdrop-blur-lg text-inverse-on-surface rounded-xl p-space-md shadow-2xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/30 flex items-center justify-center text-primary-fixed flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">info</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-surface-container-lowest">تنبيه المزامنة السريرية الفورية</span>
+<span class="font-body-sm text-body-sm text-surface-container-high/80">تعديلك لساعات العمل أو أرقام الاتصال يحدث جداول المرضى المسبقة ويوجه إشعاراً فورياً للمراجعين المسجلين.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs w-full md:w-auto justify-end">
+<button class="px-space-md py-2.5 rounded-lg bg-inverse-surface text-surface-container-high hover:bg-inverse-surface/80 font-label-md text-label-md transition-colors" type="button">
+            إعادة تعيين
+          </button>
+<button class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-space-xl py-2.5 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-md text-label-md hover:bg-primary-fixed-dim transition-all shadow-md active:scale-95 font-bold" id="save-floating-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>حفظ واعتماد التعديلات</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+  // Simple interactive micro-interactions for doctor profile manager
+  document.addEventListener('DOMContentLoaded', () => {
+    const saveButtons = [document.getElementById('save-all-btn'), document.getElementById('save-floating-btn')];
+    const copyHoursBtn = document.getElementById('copy-hours-btn');
+    const bioTextarea = document.getElementById('bio-textarea');
+    const charCounter = document.getElementById('char-counter');
+
+    // Live counter for bio
+    if (bioTextarea && charCounter) {
+      bioTextarea.addEventListener('input', (e) => {
+        const text = e.target.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        const chars = text.length;
+        charCounter.textContent = `${words} كلمة (${chars} حرفاً)`;
+      });
+    }
+
+    // The save-simulation block that used to live here always reported
+    // success regardless of outcome. Saving is now handled by SECTION 8
+    // of script/script.js against PUT /api/doctors/me.
+
+    // --- Working hours: day toggle, evening period, copy hours ---
+    const dayRows = document.querySelectorAll('#working-hours-table .day-row');
+
+    function setRowDisabled(row, disabled) {
+      row.querySelectorAll('input, select, button.add-evening-btn, button.remove-evening-btn').forEach(el => {
+        if (el.classList.contains('day-toggle')) return; // keep the toggle itself always enabled
+        el.disabled = disabled;
+      });
+    }
+
+    function refreshDayRow(row) {
+      const toggle = row.querySelector('.day-toggle');
+      const badge = row.querySelector('.day-status-badge');
+      const nameLabel = row.querySelector('.day-name-label');
+      const hoursContainer = row.querySelector('.day-hours-container');
+      let offNote = row.querySelector('.day-off-note');
+      const isActive = toggle.checked;
+
+      setRowDisabled(row, !isActive);
+
+      if (isActive) {
+        row.classList.remove('bg-surface-subtle/60', 'opacity-80');
+        badge.textContent = 'متاح';
+        badge.className = 'day-status-badge font-label-sm text-label-sm bg-state-success-subtle text-state-success px-2 py-0.5 rounded-full';
+        nameLabel.className = 'day-name-label font-headline-sm text-headline-sm text-text-heading';
+        hoursContainer.classList.remove('hidden');
+        if (offNote) offNote.classList.add('hidden');
+      } else {
+        row.classList.add('bg-surface-subtle/60', 'opacity-80');
+        badge.textContent = 'غير متاح';
+        badge.className = 'day-status-badge font-label-sm text-label-sm bg-surface-container text-text-muted px-2 py-0.5 rounded-full';
+        nameLabel.className = 'day-name-label font-headline-sm text-headline-sm text-text-muted';
+        hoursContainer.classList.add('hidden');
+        if (offNote) offNote.classList.remove('hidden');
+      }
+    }
+
+    dayRows.forEach(row => {
+      const toggle = row.querySelector('.day-toggle');
+      if (toggle) {
+        toggle.addEventListener('change', () => refreshDayRow(row));
+      }
+
+      const addEveningBtn = row.querySelector('.add-evening-btn');
+      if (addEveningBtn) {
+        addEveningBtn.addEventListener('click', () => {
+          const wrap = addEveningBtn.closest('.evening-inputs');
+          wrap.innerHTML = `
+            <span class="text-text-muted text-xs">| فترة مسائية:</span>
+            <input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="16:00"/>
+            <span class="text-text-muted text-xs">-</span>
+            <input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="19:00"/>
+            <button type="button" class="remove-evening-btn text-text-muted hover:text-state-danger transition-colors" title="إزالة الفترة المسائية" aria-label="إزالة الفترة المسائية">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          `;
+          wrap.querySelector('.remove-evening-btn').addEventListener('click', () => resetEveningToAddButton(wrap));
+        });
+      }
+
+      const removeEveningBtn = row.querySelector('.remove-evening-btn');
+      if (removeEveningBtn) {
+        const wrap = removeEveningBtn.closest('.evening-inputs');
+        removeEveningBtn.addEventListener('click', () => resetEveningToAddButton(wrap));
+      }
+
+      // Initialize visual state to match the checkbox on load
+      refreshDayRow(row);
+    });
+
+    function resetEveningToAddButton(wrap) {
+      const row = wrap.closest('.day-row');
+      const isActive = row.querySelector('.day-toggle').checked;
+      wrap.innerHTML = `
+        <span class="text-text-muted text-xs">| فترة مسائية:</span>
+        <button type="button" class="add-evening-btn text-text-primary hover:underline font-label-sm text-label-sm" ${isActive ? '' : 'disabled'}>+ إضافة فترة مسائية</button>
+      `;
+      wrap.querySelector('.add-evening-btn').addEventListener('click', function handler() {
+        const wrap2 = this.closest('.evening-inputs');
+        wrap2.innerHTML = `
+          <span class="text-text-muted text-xs">| فترة مسائية:</span>
+          <input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="16:00"/>
+          <span class="text-text-muted text-xs">-</span>
+          <input class="day-time-input evening-time bg-surface-container-lowest text-text-body px-2.5 py-1 rounded-lg shadow-sm font-label-sm text-label-sm focus:outline-none" type="time" value="19:00"/>
+          <button type="button" class="remove-evening-btn text-text-muted hover:text-state-danger transition-colors" title="إزالة الفترة المسائية" aria-label="إزالة الفترة المسائية">
+            <span class="material-symbols-outlined text-[16px]">close</span>
+          </button>
+        `;
+        wrap2.querySelector('.remove-evening-btn').addEventListener('click', () => resetEveningToAddButton(wrap2));
+      });
+    }
+
+    // Copy hours: apply the first active day's morning hours & max patients to all other active days
+    if (copyHoursBtn) {
+      copyHoursBtn.addEventListener('click', () => {
+        const activeRows = Array.from(dayRows).filter(row => row.querySelector('.day-toggle').checked);
+        if (activeRows.length < 2) return;
+
+        const sourceRow = activeRows[0];
+        const sourceMorning = sourceRow.querySelectorAll('.day-hours-container > div:first-child .day-time-input');
+        const sourceMax = sourceRow.querySelector('.day-max-input');
+
+        activeRows.slice(1).forEach(row => {
+          const targetMorning = row.querySelectorAll('.day-hours-container > div:first-child .day-time-input');
+          if (targetMorning.length === 2 && sourceMorning.length === 2) {
+            targetMorning[0].value = sourceMorning[0].value;
+            targetMorning[1].value = sourceMorning[1].value;
+          }
+          const targetMax = row.querySelector('.day-max-input');
+          if (targetMax && sourceMax) targetMax.value = sourceMax.value;
+        });
+
+        const prevText = copyHoursBtn.innerHTML;
+        copyHoursBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[18px]">done</span>
+          <span>تم تطبيق الأوقات على كل الأيام!</span>
+        `;
+        setTimeout(() => {
+          copyHoursBtn.innerHTML = prevText;
+        }, 2000);
+      });
+    }
+
+    // --- Personal photo: update / delete ---
+    const avatarPreview = document.getElementById('avatar-preview');
+    const avatarFileInput = document.getElementById('avatar-file-input');
+    const avatarUpdateBtn = document.getElementById('avatar-update-btn');
+    const avatarOverlayBtn = document.getElementById('avatar-overlay-btn');
+    const avatarDeleteBtn = document.getElementById('avatar-delete-btn');
+    const defaultAvatarSrc = avatarPreview ? avatarPreview.getAttribute('src') : '';
+
+    if (avatarFileInput && avatarPreview) {
+      const openAvatarPicker = () => avatarFileInput.click();
+      if (avatarUpdateBtn) avatarUpdateBtn.addEventListener('click', openAvatarPicker);
+      if (avatarOverlayBtn) avatarOverlayBtn.addEventListener('click', openAvatarPicker);
+
+      avatarFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          alert('الرجاء اختيار ملف صورة (JPG أو PNG).');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          avatarPreview.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (avatarDeleteBtn && avatarPreview) {
+      avatarDeleteBtn.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من حذف الصورة الشخصية؟')) {
+          avatarPreview.src = 'https://placehold.co/256x256/e2e8f0/64748b?text=%D8%B7%D8%A8%D9%8A%D8%A8';
+          if (avatarFileInput) avatarFileInput.value = '';
+        }
+      });
+    }
+
+    // --- Clinic / facility photo change ---
+    const clinicPhotoPreview = document.getElementById('clinic-photo-preview');
+    const clinicPhotoInput = document.getElementById('clinic-photo-input');
+    const clinicPhotoBtn = document.getElementById('clinic-photo-btn');
+
+    if (clinicPhotoBtn && clinicPhotoInput && clinicPhotoPreview) {
+      clinicPhotoBtn.addEventListener('click', () => clinicPhotoInput.click());
+      clinicPhotoInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          alert('الرجاء اختيار ملف صورة (JPG أو PNG).');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          clinicPhotoPreview.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // --- Add branch / clinic ---
+    const addBranchBtn = document.getElementById('add-branch-btn');
+    const branchesContainer = document.getElementById('branches-container');
+    let branchCount = 0;
+
+    if (addBranchBtn && branchesContainer) {
+      addBranchBtn.addEventListener('click', () => {
+        branchCount += 1;
+        const branchId = `branch-${branchCount}`;
+        const branchCard = document.createElement('div');
+        branchCard.className = 'relative p-space-md bg-surface-subtle rounded-xl border border-border-soft';
+        branchCard.id = branchId;
+        branchCard.innerHTML = `
+          <button type="button" class="remove-branch-btn absolute left-3 top-3 w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-state-danger hover:bg-state-danger-subtle transition-colors" title="حذف هذا الفرع" aria-label="حذف هذا الفرع">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+          <div class="flex items-center gap-space-xs mb-space-sm">
+            <span class="material-symbols-outlined text-[20px] text-text-primary">add_location_alt</span>
+            <span class="font-headline-sm text-headline-sm text-text-heading">فرع إضافي #${branchCount}</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+            <div class="flex flex-col gap-1.5">
+              <label class="font-label-md text-label-md text-text-heading">اسم المستشفى / المركز</label>
+              <input type="text" class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" placeholder="مثال: عيادة الرمال الخاصة"/>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-label-md text-label-md text-text-heading">القسم / رقم العيادة</label>
+              <input type="text" class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all" placeholder="مثال: الطابق الأول - عيادة 3"/>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-label-md text-label-md text-text-heading">نوع المنشأة الصحية</label>
+              <select class="w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-all appearance-none cursor-pointer">
+                <option value="gov">مستشفى حكومي تخصصي ومركزي</option>
+                <option value="private">عيادة ومجمع طبي خاص</option>
+                <option value="unrwa">مركز رعاية صحية أولية (أونروا)</option>
+                <option value="charity">مستشفى أهلي خيري</option>
+              </select>
+            </div>
+          </div>
+        `;
+        branchesContainer.appendChild(branchCard);
+        branchCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        branchCard.querySelector('.remove-branch-btn').addEventListener('click', () => {
+          if (confirm('هل تريد حذف هذا الفرع؟')) {
+            branchCard.remove();
+          }
+        });
+      });
+    }
+  });
+</script></div></main><script src="script/script.js"></script></body></html>

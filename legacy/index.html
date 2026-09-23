@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شفاء | منصة الرعاية الصحية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"><script src="script/api.js"></script>
+</head>
+
+<body>
+
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>
+                <span>شفاء</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#home" class="active">الرئيسية</a>
+                <a href="#about">من نحن</a>
+                <a href="#services">الخدمات</a>
+                <a href="#map">الخريطة</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="login-btn" onclick= "window.location.href='login.html'">تسجيل الدخول</button>
+                <button class="register-btn" onclick="register()">إنشاء حساب</button>
+            </div>
+            <button class="menu-btn" id="menuBtn">☰</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">رعاية صحية أقرب وأسهل</div>
+                    <h1>لأن صحتك <span>تستحق الأفضل.</span></h1>
+                    <p class="hero-description">
+                        شفاء منصة صحية تجمع لك الخدمات الطبية التي تحتاجها في مكان واحد، لتصل إلى الطبيب والمركز الصحي والصيدلية والخدمة المناسبة بسهولة ووضوح.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="primary-btn" onclick="startJourney()">ابدأ رحلتك الصحية ←</button>
+                        <button class="secondary-btn" onclick="goToServices()">اكتشف خدماتنا</button>
+                    </div>
+                </div>
+
+                <div class="hero-image-wrapper">
+                    <div class="hero-image">
+                        <div class="hero-mini-card one">
+                            <div class="hero-mini-icon">🏥</div>
+                            <div>
+                                <strong>خدمات صحية قريبة</strong>
+                                <span>مستشفيات وعيادات وصيدليات</span>
+                            </div>
+                        </div>
+                        <div class="hero-mini-card two">
+                            <div class="hero-mini-icon">💊</div>
+                            <div>
+                                <strong>الدواء متوفر</strong>
+                                <span>ابحث عن أقرب صيدلية</span>
+                            </div>
+                        </div>
+                        <div class="shifa-phone">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="phone-header">
+                                    <div class="phone-logo"><div class="phone-logo-icon"><img src="image/logo.png" alt="شفاء" class="logo-img"></div>شفاء</div>
+                                    <div class="phone-notification">♧</div>
+                                </div>
+                                <div class="phone-welcome">
+                                    <small>أهلاً بك في شفاء</small>
+                                    <strong>كيف يمكننا مساعدتك اليوم؟</strong>
+                                </div>
+                                <div class="phone-search">🔍 <span>ابحث عن طبيب، دواء أو مركز صحي...</span></div>
+                                <div class="phone-title">خدمات شفاء</div>
+                                <div class="phone-services">
+                                    <div class="phone-service"><div class="phone-service-icon">👨‍⚕️</div><strong>الأطباء</strong><span>ابحث حسب التخصص</span></div>
+                                    <div class="phone-service"><div class="phone-service-icon">🏥</div><strong>المراكز الصحية</strong><span>الأقرب إليك</span></div>
+                                    <div class="phone-service"><div class="phone-service-icon">💊</div><strong>الأدوية</strong><span>توفر الدواء</span></div>
+                                    <div class="phone-service"><div class="phone-service-icon">🤝</div><strong>تبرع بالدواء</strong><span>ساهم لمن يحتاج</span></div>
+                                </div>
+                                <div class="phone-title">طبيب مقترح</div>
+                                <div class="phone-doctor">
+                                    <div class="doctor-avatar"></div>
+                                    <div class="doctor-info"><strong>طبيب متخصص</strong><span>طب عام • متاح الآن</span></div>
+                                    <div class="doctor-status">متاح</div>
+                                </div>
+                                <div class="phone-bottom-nav">
+                                    <div class="phone-nav-item active"><div>⌂</div>الرئيسية</div>
+                                    <div class="phone-nav-item"><div>🔍</div>بحث</div>
+                                    <div class="phone-nav-item"><div>♡</div>المفضلة</div>
+                                    <div class="phone-nav-item"><div>👤</div>حسابي</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-floating-card">
+                            <strong>رعاية في مكان واحد</strong>
+                            <small>أطباء • مراكز • صيدليات • مواعيد</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 style="font-size: 48px; color: var(--green-dark); font-weight: 800; margin-bottom: 14px;">لماذا شفاء؟</h2>
+                    <p>لأن الحصول على الخدمة الصحية المناسبة لا يجب أن يكون معقدًا.</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-image"></div>
+                    <div class="about-content">
+                        <h2>كل ما تحتاجه للرعاية الصحية في تجربة واحدة.</h2>
+                        <p class="about-intro">تساعدك شفاء على اكتشاف الخدمات الصحية المناسبة، الوصول إلى الأطباء والمراكز، البحث عن الأدوية، وتنظيم رحلتك الصحية بطريقة بسيطة وواضحة.</p>
+                        <div class="features">
+                            <div class="feature"><div class="feature-icon">✓</div><div><h4>معلومات صحية منظمة</h4><p>الوصول إلى المستشفيات والعيادات والخدمات الصحية وساعات العمل بطريقة واضحة وسهلة.</p></div></div>
+                            <div class="feature"><div class="feature-icon">♡</div><div><h4>الوصول إلى الطبيب المناسب</h4><p>ابحث عن الطبيب حسب التخصص والموقع، واعرف تفاصيل الطبيب والخدمات التي يقدمها.</p></div></div>
+                            <div class="feature"><div class="feature-icon">⌕</div><div><h4>البحث عن الأدوية</h4><p>تعرف على الصيدليات التي يتوفر فيها الدواء والكمية المتاحة والمسافة للوصول إليها.</p></div></div>
+                            <div class="feature"><div class="feature-icon">⏱</div><div><h4>توفير الوقت والجهد</h4><p>كل ما تحتاجه من خدمات صحية في تجربة واحدة منظمة تساعدك على الوصول للخدمة المناسبة.</p></div></div>
+                        </div>
+                        <div class="donation-box" onclick="donateMedicine()">
+                            <div class="donation-info">
+                                <div class="donation-icon">🤝</div>
+                                <div><h4>لديك دواء فائض؟</h4><p>يمكن للمنصة تنظيم عملية التبرع بالأدوية الفائضة وربطها بالأشخاص والجهات التي تحتاج إليها.</p></div>
+                            </div>
+                            <div class="donation-status">تبرع الآن ←</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <div class="section-heading">
+                    <span>خدمات شفاء</span>
+                    <h2>كل ما تحتاجه في مكان واحد</h2>
+                    <p>خدمات صحية مصممة لتجعل الوصول إلى الرعاية أسرع وأسهل وأكثر تنظيمًا.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card" onclick="serviceAction('الطبيب')">
+                        <div class="service-icon">👨‍⚕️</div>
+                        <h3>البحث عن طبيب</h3>
+                        <p>ابحث عن الطبيب المناسب حسب التخصص والموقع والخدمة التي تحتاجها.</p>
+                        <div class="service-link">اكتشف الأطباء ←</div>
+                    </div>
+                    <div class="service-card" onclick="serviceAction('المراكز الصحية')">
+                        <div class="service-icon">🏥</div>
+                        <h3>المستشفيات والمراكز</h3>
+                        <p>تعرف على المراكز الصحية والمستشفيات والخدمات المتوفرة بالقرب منك.</p>
+                        <div class="service-link">استكشف المراكز ←</div>
+                    </div>
+                    <div class="service-card" onclick="serviceAction('الأدوية')">
+                        <div class="service-icon">💊</div>
+                        <h3>البحث عن دواء</h3>
+                        <p>ابحث عن الأدوية وتعرف على الصيدليات التي توفرها والكمية المتاحة.</p>
+                        <div class="service-link">ابحث عن دواء ←</div>
+                    </div>
+                    <div class="service-card" onclick="serviceAction('المواعيد')">
+                        <div class="service-icon">📅</div>
+                        <h3>حجز المواعيد</h3>
+                        <p>نظم مواعيدك الصحية واحصل على تجربة حجز أكثر سهولة.</p>
+                        <div class="service-link">احجز موعدًا ←</div>
+                    </div>
+                    <div class="service-card" onclick="donateMedicine()">
+                        <div class="service-icon">🤝</div>
+                        <h3>التبرع بالدواء</h3>
+                        <p>لديك دواء فائض؟ ساهم في توفيره لمن يحتاجه من خلال عملية تبرع منظمة وآمنة.</p>
+                        <div class="service-link">ساهم بالدواء ←</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-section" id="map">
+            <div class="container">
+                <div class="section-heading">
+                    <span>الخريطة الصحية</span>
+                    <h2>اكتشف الخدمات الصحية من حولك</h2>
+                    <p>موقع واحد يساعدك على معرفة أماكن الخدمات الصحية والوصول إليها بسهولة.</p>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=34.38%2C31.45%2C35.65%2C32.60&layer=mapnik" loading="lazy"></iframe>
+                    <div class="map-overlay">
+                        <h3>ابحث عن خدمة صحية</h3>
+                        <p>اختر نوع الخدمة التي تبحث عنها</p>
+                        <input type="text" class="map-search" id="mapSearch" placeholder="مثال: صيدلية، مستشفى، مركز صحي...">
+                        <div class="map-tags">
+                            <button class="map-tag" onclick="mapService('مستشفى')">🏥 مستشفيات</button>
+                            <button class="map-tag" onclick="mapService('عيادة')">🩺 عيادات</button>
+                            <button class="map-tag" onclick="mapService('صيدلية')">💊 صيدليات</button>
+                            <button class="map-tag" onclick="mapService('طوارئ')">🚑 طوارئ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact-box">
+                    <div class="contact-content">
+                        <span>تواصل معنا</span>
+                        <h2>نحن هنا لمساعدتك</h2>
+                        <p>لديك سؤال أو اقتراح؟ يسعدنا أن نسمع منك ونعمل على تحسين تجربة شفاء باستمرار.</p>
+                    </div>
+                    <button class="contact-btn" onclick="contactUs()">تواصل معنا</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo"><div class="footer-logo-icon"><img src="image/logo.png" alt="شفاء" class="logo-img"></div><span>شفاء</span></div>
+                    <p>منصة صحية تهدف إلى تسهيل الوصول إلى الخدمات الصحية وربط المستخدمين بالأطباء والمراكز والصيدليات بطريقة بسيطة ومنظمة.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>روابط سريعة</h4>
+                    <a href="#home">الرئيسية</a>
+                    <a href="#about">من نحن</a>
+                    <a href="#services">الخدمات</a>
+                    <a href="#map">الخريطة</a>
+                </div>
+                <div class="footer-column">
+                    <h4>تواصل معنا</h4>
+                    <a href="#contact">تواصل معنا</a>
+                    <a href="#">البريد الإلكتروني</a>
+                    <a href="#">الدعم والمساعدة</a>
+                </div>
+            </div>
+            <div class="copyright">© 2026 شفاء — جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <script src="script/script.js"></script>
+</body>
+
+</html>

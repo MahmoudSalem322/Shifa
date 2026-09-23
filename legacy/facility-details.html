@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@500;600;700&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@100..900&amp;family=Tajawal:wght@100..900&amp;display=swap" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/><script src="script/api.js"></script><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"text-body":"#1e293b","canvas-bg":"#f0f7ff","tertiary-fixed":"#6ffbbe","text-muted":"#64748b","surface-container-lowest":"#ffffff","on-tertiary":"#ffffff","error-container":"#ffdad6","state-success-subtle":"#ecfdf5","border-focus":"#0f766e","surface-subtle":"#f8fafc","surface-container-highest":"#d3e4fe","outline-variant":"#bdc9c6","surface-card":"#ffffff","surface":"#f8f9ff","inverse-primary":"#80d5cb","inverse-surface":"#213145","text-heading":"#115e59","on-tertiary-fixed-variant":"#005236","state-info":"#0284c7","surface-dim":"#cbdbf5","on-primary-container":"#a3faef","secondary-container":"#5bb8fe","primary-container":"#0f766e","on-error":"#ffffff","outline":"#6e7977","on-primary-fixed-variant":"#00504a","secondary-fixed-dim":"#93ccff","on-background":"#0b1c30","on-surface":"#0b1c30","on-primary":"#ffffff","secondary-fixed":"#cce5ff","tertiary-fixed-dim":"#4edea3","tertiary-container":"#007952","primary":"#005c55","tertiary":"#005e3f","text-primary":"#0f766e","state-info-subtle":"#f0f9ff","primary-fixed-dim":"#80d5cb","on-tertiary-fixed":"#002113","surface-container-low":"#eff4ff","state-warning-subtle":"#fffbeb","state-danger-subtle":"#fef2f2","state-warning":"#d97706","on-error-container":"#93000a","border-soft":"#e2e8f0","state-danger":"#dc2626","error":"#ba1a1a","primary-fixed":"#9cf2e8","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","on-tertiary-container":"#99ffcd","on-surface-variant":"#3e4947","secondary":"#006398","inverse-on-surface":"#eaf1ff","state-success":"#16a34a","surface-container":"#e5eeff","on-secondary-fixed":"#001d31","on-secondary":"#ffffff","on-secondary-container":"#00476e","background":"#f8f9ff","on-primary-fixed":"#00201d","on-secondary-fixed-variant":"#004b73","surface-tint":"#006a63"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-sm":"1rem","margin-tablet":"2rem","space-xl":"2.5rem","container-max":"1280px","space-3xl":"4rem","space-2xs":"0.5rem","space-lg":"2rem","gutter-mobile":"1rem","margin-desktop":"3rem","space-md":"1.5rem","space-3xs":"0.25rem","space-2xl":"3rem","gutter-desktop":"1.5rem","space-xs":"0.75rem","margin-mobile":"1rem"},fontFamily:{"body-md":["Cairo"],"display-hero":["Tajawal"],"headline-xl":["Tajawal"],"headline-xl-mobile":["Tajawal"],"headline-lg":["Tajawal"],"label-lg":["Cairo"],"headline-sm":["Tajawal"],"display-hero-mobile":["Tajawal"],"headline-md":["Tajawal"],"body-lg":["Cairo"],"label-sm":["Cairo"],"body-sm":["Cairo"],"label-md":["Cairo"]},fontSize:{"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"display-hero":["40px",{lineHeight:"52px",fontWeight:"700"}],"headline-xl":["32px",{lineHeight:"42px",fontWeight:"700"}],"headline-xl-mobile":["26px",{lineHeight:"34px",fontWeight:"700"}],"headline-lg":["24px",{lineHeight:"34px",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"22px",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"26px",fontWeight:"600"}],"display-hero-mobile":["30px",{lineHeight:"40px",fontWeight:"700"}],"headline-md":["20px",{lineHeight:"28px",fontWeight:"600"}],"body-lg":["17px",{lineHeight:"28px",fontWeight:"400"}],"label-sm":["11px",{lineHeight:"16px",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"600"}]}}}}</script></head><body class="shifa-app-shell bg-canvas-bg font-body-md text-body min-h-screen flex"><aside class="w-72 bg-surface-card border-l border-border-soft flex flex-col shrink-0 min-h-screen sticky top-0 h-screen z-40 justify-between p-space-md shadow-[2px_0_12px_rgba(0,0,0,0.03)]"><div class="flex flex-col gap-space-lg"><a href="index.html" class="flex items-center gap-space-xs px-2"><img src="image/logo.png" alt="شفاء" class="w-10 h-10 rounded-xl object-cover shadow-sm"/><div class="flex flex-col"><span class="font-headline-lg text-headline-lg text-text-heading leading-tight tracking-tight">شِفَاء</span><span class="font-label-sm text-label-sm text-text-muted">منظومة الرعاية الصحية</span></div></a><nav class="flex flex-col gap-1.5"><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="doctor-search.html"><span class="material-symbols-outlined text-[22px] text-text-muted">person_search</span><span>البحث عن طبيب</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="dashboard.html"><span class="material-symbols-outlined text-[22px] text-text-muted">dashboard</span><span>لوحة التحكم</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="dashboard.html#appointments"><span class="material-symbols-outlined text-[22px] text-text-muted">calendar_month</span><span>مواعيدي والحجوزات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="doctor-profile.html"><span class="material-symbols-outlined text-[22px] text-text-muted">badge</span><span>الملف الشخصي</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg bg-[#0f766e] text-on-primary shadow-sm transition-all" href="facility-search.html"><span class="material-symbols-outlined text-[22px]">domain</span><span>المراكز والمستشفيات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="pharmacy-search.html"><span class="material-symbols-outlined text-[22px] text-text-muted">medication</span><span>الصيدليات والدواء</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="pharmacy-directory.html"><span class="material-symbols-outlined text-[22px] text-text-muted">store</span><span>دليل الصيدليات</span></a><a class="flex items-center gap-space-xs px-3.5 py-3 rounded-xl font-label-lg text-label-lg text-text-body hover:text-text-primary hover:bg-surface-subtle transition-all" href="index.html#services"><span class="material-symbols-outlined text-[22px] text-text-muted">volunteer_activism</span><span>التبرع والمساهمات</span></a></nav></div><div class="pt-space-sm border-t border-border-soft flex flex-col gap-space-xs"><button class="flex items-center gap-2 px-3 py-2 text-state-danger hover:bg-state-danger-subtle rounded-lg font-label-md text-label-md transition-colors w-full" onclick="logout()" type="button"><span class="material-symbols-outlined text-[20px]">logout</span><span>تسجيل الخروج</span></button></div></aside><main class="flex-1 w-full bg-canvas-bg min-h-screen overflow-y-auto"><div class="flex flex-col w-full">
+<!-- Page Header -->
+<header class="relative w-full bg-surface-container-lowest border-b border-border-soft overflow-hidden">
+<div class="absolute -top-16 -left-10 w-56 h-56 bg-pink-100/60 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-20 right-16 w-64 h-64 bg-pink-50 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative max-w-[1280px] mx-auto w-full px-space-md lg:px-space-xl py-space-sm flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">تفاصيل المنشأة الصحية</h2>
+<p class="font-body-sm text-body-sm text-text-muted mt-1">بيانات شاملة عن المنشأة، الأقسام الطبية، الأطباء ومواعيد العمل</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="الملف الشخصي" class="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm hover:brightness-110 transition-all" onclick="window.location.href='my-profile.html'" type="button">
+<span class="material-symbols-outlined text-[22px]">person</span>
+</button>
+<button aria-label="الإشعارات" class="w-11 h-11 rounded-full flex items-center justify-center text-text-body hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Ambient Glow Backdrop -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-24 right-10 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-48 -left-20 w-80 h-80 bg-secondary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Layout Frame: Main Content Canvas with Integrated Right-Side Navigation Rail -->
+<div class="max-w-[1280px] w-full mx-auto px-space-md lg:px-space-xl py-space-md">
+<!-- Top Nav Utility: Breadcrumbs and Context Action -->
+<div class="flex items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-2xs text-text-muted font-body-sm text-body-sm flex-wrap">
+<a class="hover:text-text-primary transition-colors" href="facility-search.html">المراكز والمستشفيات</a>
+<span class="material-symbols-outlined text-body-sm rotate-180 text-outline-variant">chevron_left</span>
+<span class="text-text-primary font-headline-sm text-label-md">مجمع الشفاء الطبي</span>
+</div>
+<a class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-lg bg-surface-card text-text-primary font-label-md text-label-md shadow-sm hover:bg-surface-container-low transition-all" href="facility-search.html">
+<span class="material-symbols-outlined text-headline-sm">arrow_forward</span>
+<span>العودة لقائمة المنشآت</span>
+</a>
+</div>
+<!-- Emergency Banner (Full Width) -->
+<div class="bg-state-danger-subtle rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm text-center md:text-right">
+<span class="material-symbols-outlined text-state-danger text-[32px]" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-state-danger">طوارئ 24 ساعة</span>
+<p class="font-body-sm text-body-sm text-text-body leading-relaxed">استقبال الإصابات الحرجة والحوادث على مدار الساعة بدون حجز مسبق.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="hidden lg:flex flex-col gap-1 text-body-sm font-body-sm text-text-muted">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">call</span>الاستعلامات: 08-2820000</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">mail</span>info@shifa.gov.ps</span>
+</div>
+<a class="flex items-center justify-center gap-space-2xs bg-state-danger text-on-error py-space-2xs px-space-md rounded-lg font-headline-sm text-label-md shadow hover:opacity-95 transition-opacity whitespace-nowrap" href="tel:082824000">
+<span class="material-symbols-outlined text-headline-sm">phone_in_talk</span>
+<span>08-2824000 (اتصال فوري)</span>
+</a>
+</div>
+</div>
+<!-- Facility Index (Horizontal Quick Jump) -->
+<div class="sticky top-0 z-30 bg-surface-card/95 backdrop-blur-md rounded-xl p-1.5 shadow-sm mb-space-xl overflow-x-auto">
+<nav class="flex items-center gap-1 min-w-max" id="facility-nav-rail">
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-primary bg-state-info-subtle font-label-md text-label-md transition-colors" href="#about">
+<span class="material-symbols-outlined text-[18px]">local_hospital</span>
+<span>عن المجمع الطبي</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#stats">
+<span class="material-symbols-outlined text-[18px]">vital_signs</span>
+<span>الجاهزية والقدرة الاستيعابية</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#departments">
+<span class="material-symbols-outlined text-[18px]">domain</span>
+<span>الأقسام السريرية</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#services">
+<span class="material-symbols-outlined text-[18px]">medical_services</span>
+<span>الخدمات والتجهيزات</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#doctors">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span>الأطباء المناوبون</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#schedule">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>ساعات العمل والزيارة</span>
+</a>
+<a class="flex items-center gap-2 px-space-sm py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-container-low font-label-md text-label-md transition-colors" href="#location">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>الموقع والوصول</span>
+</a>
+</nav>
+</div>
+<!-- Central Profile Content Canvas (Full Width) -->
+<div class="w-full flex flex-col gap-space-xl">
+<!-- Hero Banner & Profile Header -->
+<section class="bg-surface-card rounded-2xl overflow-hidden shadow-sm flex flex-col" id="about">
+<!-- Hospital Showcase Image -->
+<div class="relative w-full h-64 md:h-80 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Modern architectural coastal medical hospital complex with clean white structure, ambulance entrance, medical clinic signage, bright daylight and palms Mediterranean setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKor5kmSRz1ndHH5hVJRrlVMQpGx7Kf8gDCh-0Ql7CrdUARG41RfpPSjczUuZEyRwLXBBF0zxa4ltPmPTUAGGiFHDDtVWj4OAx6ayWECRH5FJHDSWcEPt8CohDxZ2Y4lkaehXP757akucsiuHEmyHlNDllktsqRvuzx_uXLBmIwX6mJ3W1aI3R4xZGdI1y_WO_hLqS62Mrok6Z4aW5T_F5BHhlB6ldQbjHhdR35CT3WPoBg5_y2Uq-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+<!-- Floating Verified & Emergency Badges -->
+<div class="absolute top-space-md right-space-md flex flex-wrap gap-space-2xs">
+<span class="inline-flex items-center gap-space-3xs bg-state-success text-on-primary text-label-sm font-label-sm px-space-xs py-space-3xs rounded-full shadow">
+<span class="material-symbols-outlined text-body-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>معتمد من وزارة الصحة الفلسطينية</span>
+</span>
+<span class="inline-flex items-center gap-space-3xs bg-state-danger text-on-primary text-label-sm font-label-sm px-space-xs py-space-3xs rounded-full shadow animate-pulse">
+<span class="material-symbols-outlined text-body-sm">emergency_home</span>
+<span>طوارئ مفتوحة 24/7</span>
+</span>
+</div>
+<!-- Quick Action Shortcuts in Top Left -->
+<div class="absolute top-space-md left-space-md flex items-center gap-space-2xs">
+<button aria-label="مشاركة المنشأة" class="w-10 h-10 rounded-full bg-surface-card/90 backdrop-blur text-text-heading flex items-center justify-center hover:bg-surface-card transition-colors shadow" id="share-btn" type="button">
+<span class="material-symbols-outlined text-headline-sm">share</span>
+</button>
+<button aria-label="حفظ في المفضلة" class="w-10 h-10 rounded-full bg-surface-card/90 backdrop-blur text-state-danger flex items-center justify-center hover:bg-surface-card transition-colors shadow" id="fav-btn" type="button">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<!-- Bottom Left Badge on Image -->
+<div class="absolute bottom-space-md right-space-md text-on-primary">
+<span data-facility-field="type" class="inline-block bg-primary-container/80 backdrop-blur px-space-xs py-space-3xs rounded text-label-sm font-label-sm text-on-primary mb-space-3xs">مستشفى حكومي تخصصي</span>
+<h1 data-facility-field="name" class="font-headline-xl text-headline-xl text-on-primary tracking-tight">مجمع الشفاء الطبي</h1>
+<p class="font-body-md text-body-md text-on-primary-container">مبنى الجراحات التخصصية والطوارئ المركزية - مدينة غزة</p>
+</div>
+</div>
+<!-- Facility Detailed Summary -->
+<div class="p-space-md md:p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div class="flex items-center gap-space-sm flex-wrap">
+<!-- Rating Stars -->
+<div class="flex items-center gap-space-3xs bg-state-warning-subtle px-space-xs py-space-3xs rounded-lg">
+<span class="material-symbols-outlined text-state-warning text-headline-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span data-facility-field="rating" class="font-headline-sm text-headline-sm text-on-background">4.8</span>
+<span data-facility-field="reviewsCount" class="font-body-sm text-body-sm text-text-muted">(1,240 تقييم معتمد)</span>
+</div>
+<div class="flex items-center gap-space-3xs text-text-muted font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-headline-sm text-primary">pin_drop</span>
+<span data-facility-field="address">حي الرمال الجنوبي، شارع الوحدة</span>
+</div>
+<div class="flex items-center gap-space-3xs text-state-success font-label-sm text-label-sm bg-state-success-subtle px-space-xs py-space-3xs rounded-md">
+<span class="w-2 h-2 rounded-full bg-state-success"></span>
+<span data-facility-field="status">جاهزية الاستقبال نشطة</span>
+</div>
+</div>
+<!-- CTA Booking Buttons -->
+<div class="flex items-center gap-space-2xs flex-wrap">
+<a class="inline-flex items-center justify-center gap-space-2xs px-space-md py-space-2xs rounded-lg bg-primary text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors shadow" href="#doctors">
+<span class="material-symbols-outlined text-headline-sm">event_available</span>
+<span>حجز استشارة بالعيادات</span>
+</a>
+<a class="inline-flex items-center justify-center gap-space-2xs px-space-md py-space-2xs rounded-lg bg-surface-container-low text-state-danger font-headline-sm text-label-md hover:bg-state-danger-subtle transition-colors" data-facility-field="phoneLink" href="tel:082824000">
+<span class="material-symbols-outlined text-headline-sm">call</span>
+<span>اتصال بالطوارئ</span>
+</a>
+</div>
+</div>
+<!-- Descriptive Paragraph -->
+<p data-facility-field="description" class="font-body-md text-body-md text-text-body leading-relaxed">
+              يُعد مجمع الشفاء الطبي كبرى المنشآت الصحية المرجعية في قطاع غزة، ويضم مبنى الجراحات التخصصية الحديث، مركز الإصابات والطوارئ الشامل، وأقسام قسطرة القلب وجراحة الأعصاب والأوعية الدموية. يقدم المجمع خدماته على مدار 24 ساعة عبر نخبة من أكفأ الاستشاريين والكوادر الطبية المعتمدة، مع تزويده بأحدث معدات التصوير التشخيصي وغرف العمليات الميدانية والمركزية.
+            </p>
+</div>
+</section>
+<!-- Real-time Capacity & Status Grid -->
+<section class="flex flex-col gap-space-xs" id="stats" data-shifa-unbacked="facility-capacity">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">speed</span>
+<span>مؤشرات الجاهزية والقدرة السريرية المباشرة</span>
+</h2>
+<span class="font-label-sm text-label-sm text-text-muted">محدث قبل 8 دقائق</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Stat 1: On-duty Doctors -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex items-center gap-space-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed/30 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-lg">clinical_notes</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-text-heading">38</span>
+<span class="font-label-sm text-label-sm text-text-muted">طبيب واستشاري مناوب</span>
+</div>
+</div>
+<!-- Stat 2: ICU Beds -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex items-center gap-space-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-xl bg-state-info-subtle text-state-info flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-lg">bed</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-space-3xs">
+<span class="font-headline-xl text-headline-xl text-state-info">12</span>
+<span class="font-body-sm text-body-sm text-text-muted">/ 40</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">سرير عناية مركزة (ICU) شاغر</span>
+</div>
+</div>
+<!-- Stat 3: Operations Theaters -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex items-center gap-space-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-xl bg-state-success-subtle text-state-success flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-lg">healing</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-state-success">6</span>
+<span class="font-label-sm text-label-sm text-text-muted">غرف عمليات نشطة وجاهزة</span>
+</div>
+</div>
+<!-- Stat 4: Blood Bank -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex items-center gap-space-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-xl bg-state-danger-subtle text-state-danger flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-lg" style="font-variation-settings: 'FILL' 1;">bloodtype</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-state-danger">حملة نشطة</span>
+<span class="font-label-sm text-label-sm text-text-muted">بنك الدم (مطلوب O- و B-)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Departments Grid -->
+<section class="flex flex-col gap-space-sm" id="departments">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">apartment</span>
+<span>الأقسام السريرية والوحدات التخصصية</span>
+</h2>
+<span class="font-body-sm text-body-sm text-text-muted">6 أقسام رئيسية معتمدة</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+<!-- Dep 1 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">cardiology</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-state-success-subtle text-state-success rounded">قسطرة فورية</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">جراحة القلب والقسطرة</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  وحدة معالجة الأزمات القلبية الحادة، القسطرة التداخلية، وتخطيط صدى القلب.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>8 أطباء واستشاريين</span>
+<span class="text-text-muted">رئيس القسم: د. أحمد محمد</span>
+</div>
+</div>
+<!-- Dep 2 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-state-danger-subtle text-state-danger flex items-center justify-center">
+<span class="material-symbols-outlined">e911_emergency</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-state-danger text-on-error rounded">24 ساعة</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">الطوارئ والحوادث العامة</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  فرز الإصابات السريعة (Triage)، جراحة الإصابات المتعددة، والإنعاش الرئوي.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>14 طبيباً مناوباً</span>
+<span class="text-state-success">استقبال مباشر</span>
+</div>
+</div>
+<!-- Dep 3 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">orthopedics</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-surface-container text-text-primary rounded">جراحة تخصصية</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">جراحة العظام والمفاصل</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  تثبيت الكسور المعقدة، جراحة استبدال المفاصل، وتنظير العمود الفقري.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>6 أطباء جراحين</span>
+<span class="text-text-muted">العيادة الخارجية متوفرة</span>
+</div>
+</div>
+<!-- Dep 4 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">child_care</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-state-info-subtle text-state-info rounded">حضانات خُدّج</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">الأطفال وحديثو الولادة</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  وحدة العناية الحثيثة بالأطفال (NICU)، حضانات متطورة، وعيادات نمو وتغذية.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>7 استشاريين</span>
+<span class="text-text-muted">22 حاضنة نشطة</span>
+</div>
+</div>
+<!-- Dep 5 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">monitor_heart</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-state-warning-subtle text-state-warning rounded">عناية حثيثة</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">العناية المركزة (ICU)</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  أجهزة تنفس اصطناعي متقدمة، مراقبة ديناميكية للعلامات الحيوية، وأطباء تخدير مقيمين.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>5 أطباء تخدير وعناية</span>
+<span class="text-state-success">12 سريراً متاحاً</span>
+</div>
+</div>
+<!-- Dep 6 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">nephrology</span>
+</div>
+<span class="text-label-sm font-label-sm px-space-2xs py-space-3xs bg-state-success-subtle text-state-success rounded">غسيل كلوي</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-heading mb-space-3xs">الباطنية وغسيل الكلى</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-sm">
+                  وحدة ديلزة الكلى المزمنة والطارئة بأحدث فلاتر التنقية وغرف العزل السريري.
+                </p>
+</div>
+<div class="pt-space-2xs flex items-center justify-between text-label-sm font-label-sm text-text-primary bg-surface-subtle p-space-2xs rounded">
+<span>4 أطباء كلى وباطنية</span>
+<span class="text-text-muted">3 نوبات ديلزة يومياً</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Services & Diagnostic Facilities -->
+<section class="bg-surface-card p-space-md md:p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-md" id="services">
+<h2 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">health_and_safety</span>
+<span>الخدمات المساندة والتجهيزات الطبية</span>
+</h2>
+<div data-facility-field="services" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-space-md">
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">emergency</span>
+<span class="font-headline-sm text-label-md text-text-heading">طوارئ 24/7</span>
+<span class="font-body-sm text-label-sm text-text-muted">استقبال فوري للحوادث</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">radiology</span>
+<span class="font-headline-sm text-label-md text-text-heading">رنين وأشعة CT</span>
+<span class="font-body-sm text-label-sm text-text-muted">تشخيص تصويري رقمي</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">medication</span>
+<span class="font-headline-sm text-label-md text-text-heading">صيدلية مركزية</span>
+<span class="font-body-sm text-label-sm text-text-muted">صرف الأدوية المزمنة</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">bloodtype</span>
+<span class="font-headline-sm text-label-md text-text-heading">بنك دم مركزي</span>
+<span class="font-body-sm text-label-sm text-text-muted">فحوصات تطابق فورية</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">chips</span>
+<span class="font-headline-sm text-label-md text-text-heading">مختبر تحاليل</span>
+<span class="font-body-sm text-label-sm text-text-muted">نتائج عاجلة ودقيقة</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">surgical</span>
+<span class="font-headline-sm text-label-md text-text-heading">غرف عمليات كبرى</span>
+<span class="font-body-sm text-label-sm text-text-muted">معقمة بنظام ضغط موجب</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">flight_land</span>
+<span class="font-headline-sm text-label-md text-text-heading">مهبط إسعاف</span>
+<span class="font-body-sm text-label-sm text-text-muted">لنقل الحالات الحرجة</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
+<span class="material-symbols-outlined text-display-hero-mobile text-primary">accessible</span>
+<span class="font-headline-sm text-label-md text-text-heading">مسارات مهيأة</span>
+<span class="font-body-sm text-label-sm text-text-muted">وصول كامل لذوي الإعاقة</span>
+</div>
+</div>
+</section>
+<!-- Doctors in Facility -->
+<section class="flex flex-col gap-space-sm" id="doctors">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">groups</span>
+<span>الأطباء البارزون في المجمع</span>
+</h2>
+<p class="font-body-sm text-body-sm text-text-muted">يمكنك حجز موعد مسبق في العيادات الخارجية أو استشارة الكادر</p>
+</div>
+<a class="font-label-md text-label-md text-text-primary hover:underline flex items-center gap-space-3xs" data-path="find-doctors" href="#">
+<span>عرض كافة الأطباء (38)</span>
+<span class="material-symbols-outlined text-body-sm rotate-180">arrow_forward</span>
+</a>
+</div>
+<div data-facility-field="doctors" class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Doctor 1 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start gap-space-sm mb-space-sm">
+<img class="w-16 h-16 rounded-xl object-cover" data-alt="Middle eastern male senior medical cardiologist doctor with stethoscope in modern hospital uniform clinical portrait gentle smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1n1e3vWmVjv0X7GT0YOmEMlcJraVG3X7VtX5Xld0aaWHZLetjijiRCvxSfYceVaKGn8aSAlgKG39Vj2vRx6UQQ30vVMKJHkZfBEQdMdcPYSUfEFfX_pbzpo1CaTkaWcUSVArxlkXYNrl-yN0yrGBb--g7E9V184Gze4l2zqTkj16vTzGVeveAAu2hlfFD2cAhnymhWle4V03WJrmywwokemqYbMC1eILVDwb2QXxiwRzZW1wXUXqz"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-3xs">
+<span class="font-headline-sm text-headline-sm text-text-heading">د. أحمد النجار</span>
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">استشاري جراحة وقسطرة القلب</span>
+<div class="flex items-center gap-space-3xs text-text-muted font-body-sm text-label-sm mt-space-3xs">
+<span class="material-symbols-outlined text-state-warning text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9 (340 مريض)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-2xs rounded-lg mb-space-sm text-label-sm font-label-sm text-text-muted flex justify-between">
+<span>المناوبة: الأحد والثلاثاء</span>
+<span class="text-state-success font-headline-sm">متاح للحجز</span>
+</div>
+<button class="w-full py-space-2xs px-space-sm rounded-lg bg-primary-container text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors" type="button">
+                حجز موعد عيادة
+              </button>
+</div>
+<!-- Doctor 2 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start gap-space-sm mb-space-sm">
+<img class="w-16 h-16 rounded-xl object-cover" data-alt="Arab female pediatrician doctor in medical coat smiling softly inside clinical children examination room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Ih-RzsjGZrEXQ9k3R5zrCENFiwGf3bptemHqY5dEpZ0tsmhdhK31E11ULwoN7VWuwpCeMqIKJTlLAZ2dOBuNfSEp9lWEM-aGe45-hmNYBPg2FSIPZ9NE0m5wIP49ltYGj_rG4nZUTerlFQ57MGiXf779A776USn_XIwuDjtHt9lAe55mC87uhEyjzp7afCZSN7eEg_7VYvMaDP7BcuTpc7DBfR0dMxS9Cm9jtW-PA92XChNsKxmx"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-3xs">
+<span class="font-headline-sm text-headline-sm text-text-heading">د. سارة الكرد</span>
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">أخصائية طب الأطفال وحديثي الولادة</span>
+<div class="flex items-center gap-space-3xs text-text-muted font-body-sm text-label-sm mt-space-3xs">
+<span class="material-symbols-outlined text-state-warning text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.8 (210 مرضى)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-2xs rounded-lg mb-space-sm text-label-sm font-label-sm text-text-muted flex justify-between">
+<span>المناوبة: يومياً صباحاً</span>
+<span class="text-state-success font-headline-sm">متاحة للحجز</span>
+</div>
+<button class="w-full py-space-2xs px-space-sm rounded-lg bg-primary-container text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors" type="button">
+                حجز موعد عيادة
+              </button>
+</div>
+<!-- Doctor 3 -->
+<div class="bg-surface-card p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start gap-space-sm mb-space-sm">
+<img class="w-16 h-16 rounded-xl object-cover" data-alt="Arab male orthopedic surgeon doctor wearing scrubs and glasses inside sterile hospital hallway professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZF7mjS6jbnm1P19m1ZCX4SleTbSyHfoFziwD6J-SI59xNozE6AIV0r-60jsgDBI0nQwd3MkSVJeD6XIsUOfFuh8UXPdri8WhhBmeR2nEjsVsY7HcohgfIe33L-B6mWJloo6TGB7hRElsmTcsMg385qiKX1vBGkyrIwBZRCuDlBDpNKHh_60i5dLqx8BrhLDfAmmpp5f55CRWrPxlXC_igozSwVNKTuhUPJ1stBYDrFT_TDevJrSto"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-3xs">
+<span class="font-headline-sm text-headline-sm text-text-heading">د. محمود حامد</span>
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">استشاري جراحة العظام والمفاصل</span>
+<div class="flex items-center gap-space-3xs text-text-muted font-body-sm text-label-sm mt-space-3xs">
+<span class="material-symbols-outlined text-state-warning text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.7 (185 مريض)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-2xs rounded-lg mb-space-sm text-label-sm font-label-sm text-text-muted flex justify-between">
+<span>المناوبة: الإثنين والأربعاء</span>
+<span class="text-state-warning font-headline-sm">مواعيد محدودة</span>
+</div>
+<button class="w-full py-space-2xs px-space-sm rounded-lg bg-primary-container text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors" type="button">
+                حجز موعد عيادة
+              </button>
+</div>
+</div>
+</section>
+<!-- Working Hours & Visiting Policy -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-space-md" id="schedule">
+<!-- Schedule Table -->
+<div class="bg-surface-card p-space-md md:p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">alarm</span>
+<span>مواعيد العمل وجداول الاستقبال</span>
+</h3>
+<div class="flex flex-col gap-space-2xs text-body-sm font-body-sm">
+<div class="flex items-center justify-between p-space-2xs bg-state-danger-subtle rounded-lg">
+<span class="font-headline-sm text-state-danger flex items-center gap-space-3xs">
+<span class="material-symbols-outlined text-body-md">emergency</span>
+<span>قسم الطوارئ والاستقبال</span>
+</span>
+<span class="font-headline-sm text-state-danger">24 ساعة / 7 أيام طوال الأسبوع</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs bg-surface-subtle rounded-lg">
+<span class="font-headline-sm text-text-heading">العيادات الخارجية التخصصية</span>
+<span class="text-text-muted">السبت - الخميس: 08:00 ص - 03:00 م</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs bg-surface-subtle rounded-lg">
+<span class="font-headline-sm text-text-heading">المختبر المركزي وبنك الدم</span>
+<span class="text-text-muted">طوال الأسبوع: 24 ساعة للعينات الطارئة</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs bg-surface-subtle rounded-lg">
+<span class="font-headline-sm text-text-heading">أشعة الرنين والمفراس CT</span>
+<span class="text-text-muted">السبت - الخميس: 08:00 ص - 08:00 م</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs bg-surface-subtle rounded-lg">
+<span class="font-headline-sm text-text-heading">يوم الجمعة</span>
+<span class="text-state-danger">مغلق للعيادات (طوارئ فقط)</span>
+</div>
+</div>
+</div>
+<!-- Visiting Hours & Rules -->
+<div class="bg-surface-card p-space-md md:p-space-lg rounded-2xl shadow-sm flex flex-col justify-between">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs mb-space-sm">
+<span class="material-symbols-outlined text-primary">groups_2</span>
+<span>تعليمات ومواعيد زيارة المرضى</span>
+</h3>
+<div class="bg-state-info-subtle p-space-sm rounded-xl mb-space-sm">
+<span class="block font-headline-sm text-headline-sm text-state-info mb-space-3xs">أوقات الزيارة اليومية</span>
+<span class="font-body-md text-body-md text-text-body">يومياً من الساعة 04:00 مساءً حتى 06:00 مساءً</span>
+</div>
+<ul class="flex flex-col gap-space-2xs text-body-sm font-body-sm text-text-body">
+<li class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-body-md">check_circle</span>
+<span>الحد الأقصى للزوار: زائران اثنان لكل مريض في وقت واحد.</span>
+</li>
+<li class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-body-md">check_circle</span>
+<span>يمنع اصطحاب الأطفال دون سن 12 عاماً إلى غرف العناية المركزة.</span>
+</li>
+<li class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-body-md">check_circle</span>
+<span>يرجى الالتزام بالهدوء التام وارتداء الكمامة في الأقسام الجراحية.</span>
+</li>
+</ul>
+</div>
+<div class="mt-space-md p-space-2xs bg-surface-container-low rounded-lg text-label-sm font-label-sm text-text-muted flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-headline-sm text-primary">info</span>
+<span>للحالات الاستثنائية للزيارة، يرجى التنسيق مع مكتب الخدمة الاجتماعية.</span>
+</div>
+</div>
+</section>
+<!-- Location & Interactive Map Section -->
+<section class="bg-surface-card p-space-md md:p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-md" id="location">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary">explore</span>
+<span>الموقع الجغرافي وطرق الوصول</span>
+</h2>
+<p class="font-body-md text-body-md text-text-muted">قطاع غزة، مدينة غزة - حي الرمال الجنوبي، شارع الوحدة</p>
+</div>
+<div class="flex items-center gap-space-2xs">
+<a class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-lg bg-surface-subtle text-text-heading font-label-md text-label-md hover:bg-surface-container-low transition-colors" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-headline-sm">map</span>
+<span>فتح في خرائط Google</span>
+</a>
+<button class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-lg bg-primary text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors" type="button">
+<span class="material-symbols-outlined text-headline-sm">directions_car</span>
+<span>بدء الملاحة المباشرة</span>
+</button>
+</div>
+</div>
+<!-- Map Simulation Container -->
+<div class="w-full h-80 rounded-xl overflow-hidden relative shadow-sm" data-alt="Satellite and architectural street road map of Gaza City highlighting Al Shifa Hospital Complex with navigation markers and ambulance access lines" data-location="Al-Shifa Medical Complex, Gaza, Palestine" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDL6Ysk13gud_8VbS2F8RJcj4nnJTVz_KE9-LaihDK8pw96FTnk9SY0Fe9J-boE9Van3vqdB3e4gi3JdOOVxjoHYEpzWJjiCeFPvPHIm-buzo2JvYJs6Zyq-SCHhFmEy7_LxhDShSxiuS3EBOJcM89Wr-FOFQGMW4QiZOVgoZRb4VnRVrJrdcVFsILDblQ0XlyMFKM1qVm3EgDwnsmNB5cWedBHQaJrXkinhX0SH0XXdDQBlMo4BjLA')">
+<div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
+<!-- Floating Map Pin Label -->
+<div class="absolute bottom-space-md right-space-md bg-surface-card/95 backdrop-blur p-space-sm rounded-xl shadow-lg flex items-center gap-space-sm max-w-sm">
+<div class="w-10 h-10 rounded-full bg-state-danger text-on-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm">local_hospital</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-heading">مجمع الشفاء الطبي</span>
+<span class="font-body-sm text-body-sm text-text-muted">بوابة الطوارئ وموقف السيارات متاحان عبر شارع الوحدة</span>
+</div>
+</div>
+</div>
+<!-- Access Instructions -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md text-body-sm font-body-sm">
+<div class="p-space-sm rounded-xl bg-surface-subtle flex items-start gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-headline-sm flex-shrink-0">local_parking</span>
+<div>
+<strong class="font-headline-sm text-text-heading block mb-space-3xs">مواقف السيارات:</strong>
+<p class="text-text-muted">يتوفر موقف سيارات مجاني لمركبات المرضى والزوار بجوار مبنى الجراحات التخصصية بسعة 120 مركبة.</p>
+</div>
+</div>
+<div class="p-space-sm rounded-xl bg-state-danger-subtle flex items-start gap-space-2xs">
+<span class="material-symbols-outlined text-state-danger text-headline-sm flex-shrink-0">ambulance</span>
+<div>
+<strong class="font-headline-sm text-state-danger block mb-space-3xs">مسار الإسعاف الحصري:</strong>
+<p class="text-text-body">مدخل الإسعاف مخصص ومفتوح دائماً ويمنع الوقوف أو الانتظار في مسار الطوارئ المائل المباشر.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Facility Not Found / Fallback Handling Drawer or Modal Trigger (Interactive) -->
+<section class="p-space-md rounded-2xl bg-surface-card shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-state-info-subtle text-state-info flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-headline-lg">help_outline</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-text-heading">هل تبحث عن قسم أو منشأة أخرى؟</h4>
+<p class="font-body-sm text-body-sm text-text-muted">في حال عدم توفر الخدمة المطلوبة في هذا المجمع، يمكنك البحث في شبكة المراكز والمستشفيات الشريكة</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-space-2xs px-space-md py-space-2xs rounded-lg bg-surface-container text-text-primary font-headline-sm text-label-md hover:bg-surface-container-high transition-colors flex-shrink-0" id="open-fallback-modal" type="button">
+<span class="material-symbols-outlined text-headline-sm">swap_horiz</span>
+<span>استعراض البدائل الطبية القريبة</span>
+</button>
+</section>
+</div>
+</div>
+<!-- Fallback / Alternative Hospitals Modal (Interactive Overlay) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="fallback-modal">
+<div class="bg-surface-card rounded-2xl max-w-xl w-full p-space-lg shadow-xl flex flex-col gap-space-md animate-scaleIn">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-headline-lg">domain_verification</span>
+<h3 class="font-headline-lg text-headline-lg text-text-heading">أقرب المستشفيات والمراكز التخصصية</h3>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:bg-surface-container-high transition-colors" id="close-fallback-modal" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-text-muted">
+        إذا لم تجد التخصص أو السرير المناسب، هذه المستشفيات البديلة تبعد أقل من 15 دقيقة وبكامل طاقتها الاستيعابية:
+      </p>
+<div class="flex flex-col gap-space-2xs">
+<div class="p-space-sm rounded-xl bg-surface-subtle flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">local_hospital</span>
+</div>
+<div>
+<span class="font-headline-sm text-label-md text-text-heading block">مستشفى القدس التخصصي</span>
+<span class="font-body-sm text-label-sm text-text-muted">حي تل الهوى - 3.2 كم | طوارئ نشطة</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-state-success bg-state-success-subtle px-space-xs py-space-3xs rounded">جاهز للاستقبال</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">local_hospital</span>
+</div>
+<div>
+<span class="font-headline-sm text-label-md text-text-heading block">المستشفى الإندونيسي</span>
+<span class="font-body-sm text-label-sm text-text-muted">شمال غزة - 7.5 كم | قسم جراحة عامة</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-state-success bg-state-success-subtle px-space-xs py-space-3xs rounded">متاح</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-subtle flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">local_hospital</span>
+</div>
+<div>
+<span class="font-headline-sm text-label-md text-text-heading block">مجمع ناصر الطبي</span>
+<span class="font-body-sm text-label-sm text-text-muted">خان يونس - طوارئ وعناية حثيثة</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted bg-surface-container px-space-xs py-space-3xs rounded">تنسيق مسبق</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-2xs mt-space-xs">
+<a class="px-space-md py-space-2xs rounded-lg bg-primary text-on-primary font-headline-sm text-label-md hover:bg-text-heading transition-colors" href="facility-search.html">
+          انتقال لدليل المستشفيات الكامل
+        </a>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Micro-interactions Script -->
+<script>
+    (function() {
+      // Favorite Button Micro-interaction
+      const favBtn = document.getElementById('fav-btn');
+      if (favBtn) {
+        favBtn.addEventListener('click', function() {
+          const icon = this.querySelector('.material-symbols-outlined');
+          if (icon.textContent === 'favorite') {
+            icon.textContent = 'favorite_border';
+            this.classList.remove('text-state-danger');
+            this.classList.add('text-text-muted');
+          } else {
+            icon.textContent = 'favorite';
+            this.classList.add('text-state-danger');
+            this.classList.remove('text-text-muted');
+          }
+        });
+      }
+
+      // Share Feedback
+      const shareBtn = document.getElementById('share-btn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function() {
+          if (navigator.share) {
+            navigator.share({
+              title: 'مجمع الشفاء الطبي - منصة شفاء',
+              url: window.location.href
+            }).catch(() => {});
+          } else {
+            const originalIcon = this.innerHTML;
+            this.innerHTML = '<span class="material-symbols-outlined text-state-success text-headline-sm">check</span>';
+            setTimeout(() => {
+              this.innerHTML = originalIcon;
+            }, 1800);
+          }
+        });
+      }
+
+      // Active Tab Highlight on Scroll
+      const navLinks = document.querySelectorAll('#facility-nav-rail a');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section[id]');
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 140;
+          if (window.pageYOffset >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('bg-state-info-subtle', 'text-text-primary');
+          link.classList.add('text-text-muted');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('bg-state-info-subtle', 'text-text-primary');
+            link.classList.remove('text-text-muted');
+          }
+        });
+      });
+
+      // Fallback Modal Control
+      const openModalBtn = document.getElementById('open-fallback-modal');
+      const closeModalBtn = document.getElementById('close-fallback-modal');
+      const modal = document.getElementById('fallback-modal');
+
+      if (openModalBtn && modal && closeModalBtn) {
+        openModalBtn.addEventListener('click', () => {
+          modal.classList.remove('hidden');
+        });
+        closeModalBtn.addEventListener('click', () => {
+          modal.classList.add('hidden');
+        });
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+          }
+        });
+      }
+    })();
+  </script>
+</div></main><script src="script/script.js"></script></body></html>
