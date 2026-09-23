@@ -142,3 +142,42 @@
 @media (prefers-reduced-motion: reduce) {
   .shifa-auth-submit.is-busy { animation: none; }
 }
+
+/* Landing services: legacy.css placed exactly five cards on a 6-column
+   grid. With nine cards the extra ones fell into leftover single columns,
+   so on wide screens every card spans two columns (three per row). */
+@media (min-width: 1001px) {
+  .shifa-landing .services-grid > .service-card {
+    grid-column: span 2;
+  }
+}
+
+/* Landing type: same fonts and colours family, a touch heavier and darker
+   so the header links and card text do not look thin on screen. */
+.shifa-landing .nav-links a {
+  font-weight: 700;
+  color: #3f5a61;
+}
+.shifa-landing .nav-links a::after {
+  height: 3px;
+  border-radius: 3px;
+}
+.shifa-landing .service-card h3 {
+  font-weight: 800;
+}
+.shifa-landing .service-card p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #56696f;
+}
+.shifa-landing .service-link {
+  font-weight: 800;
+}
+.shifa-landing .feature h4 {
+  font-weight: 800;
+}
+.shifa-landing .feature p {
+  font-size: 13px;
+  font-weight: 500;
+  color: #56696f;
+}
