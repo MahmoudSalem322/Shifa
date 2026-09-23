@@ -62,6 +62,21 @@ function Brand() {
   );
 }
 
+/* Submit button with a spinner, a steady width, and a note when the
+   server is slow to wake up. */
+function SubmitButton({ busy, busyLabel, slow, children, type = 'submit', onClick }) {
+  return (
+    <>
+      <button type={type} className={'btn shifa-auth-submit' + (busy ? ' is-busy' : '')} disabled={busy} aria-busy={busy || undefined} onClick={onClick}>
+        {busy ? <><span className="shifa-spinner" aria-hidden="true" />{busyLabel}</> : children}
+      </button>
+      {busy && slow ? (
+        <p className="shifa-auth-slow" role="status">الخادم يستيقظ بعد فترة خمول، قد يستغرق ذلك حتى دقيقة. لا تغلق الصفحة.</p>
+      ) : null}
+    </>
+  );
+}
+
 function Message({ message }) {
   if (!message) return <div className="message" />;
   return <div className={'message ' + message.type} role={message.type === 'error' ? 'alert' : 'status'}>{message.text}</div>;
@@ -72,6 +87,14 @@ export default function LoginPage() {
   const [view, setView] = useState('login');
   const [message, setMessage] = useState(null);
   const [busy, setBusy] = useState(false);
+  /* Render's free tier sleeps; after a few seconds, explain the wait. */
+  const [slow, setSlow] = useState(false);
+  const [entering, setEntering] = useState(false);
+  useEffect(() => {
+    if (!busy) { setSlow(false); return undefined; }
+    const timer = setTimeout(() => setSlow(true), 4000);
+    return () => clearTimeout(timer);
+  }, [busy]);
   const [invalid, setInvalid] = useState({});
 
   const [login, setLogin] = useState({ emailOrPhone: '', password: '', remember: false });
@@ -122,7 +145,7 @@ export default function LoginPage() {
     if (!login.password) return error('كلمة المرور: قم بادخاله');
 
     setBusy(true);
-    success('جارٍ تسجيل الدخول…');
+    setMessage(null);
     try {
       const response = await api.auth.login({ emailOrPhone, password: login.password, rememberMe: login.remember });
       auth.setSession(response);
@@ -130,7 +153,10 @@ export default function LoginPage() {
         error('لم يتم تأكيد الحساب بعد. تحقّق من بريدك الإلكتروني.');
         return;
       }
+      /* Keep the loading state up until the dashboard takes over. */
+      setEntering(true);
       enterApp();
+      return;
     } catch (err) {
       applyServerError(err, { EmailOrPhone: 'loginEmail', Password: 'loginPassword', Credentials: 'loginPassword' });
     } finally {
@@ -266,7 +292,7 @@ export default function LoginPage() {
   const cls = (id) => 'input' + (invalid[id] ? ' field-invalid' : '');
 
   return (
-    <div className="shifa-auth-page">
+    <div className="shifa-auth-page shifa-page-fade">
       <div className="page">
         <Link href="/" className="home-link">← العودة للرئيسية</Link>
 
@@ -278,7 +304,8 @@ export default function LoginPage() {
                 <h1 className="title">تسجيل الدخول</h1>
                 <p className="subtitle">سجّل الدخول للوصول إلى حسابك في شفاء</p>
                 <Message message={message} />
-                <form onSubmit={submitLogin} noValidate>
+                <form onSubmit={submitLogin} noValidate aria-busy={busy || undefined}>
+                  <fieldset className="shifa-auth-fieldset" disabled={busy || entering}>
                   <div className="form-group">
                     <label htmlFor="loginEmail">البريد الإلكتروني أو رقم الهاتف</label>
                     <input
@@ -299,7 +326,8 @@ export default function LoginPage() {
                     </label>
                     <span className="forgot-link" role="button" tabIndex={0} onClick={() => show('forgot')}>نسيت كلمة المرور؟</span>
                   </div>
-                  <button type="submit" className="btn" disabled={busy}>{busy ? 'جارٍ تسجيل الدخول…' : 'تسجيل الدخول'}</button>
+                  <SubmitButton busy={busy || entering} busyLabel={entering ? 'جارٍ فتح حسابك…' : 'جارٍ تسجيل الدخول…'} slow={slow}>تسجيل الدخول</SubmitButton>
+                  </fieldset>
                 </form>
                 <div className="switch-auth">
                   ليس لديك حساب؟ <span role="button" tabIndex={0} onClick={() => show('register')}>إنشاء حساب</span>
@@ -312,7 +340,8 @@ export default function LoginPage() {
                 <Brand />
                 <h1 className="title">إنشاء حساب</h1>
                 <p className="subtitle">أنشئ حسابك وابدأ باستخدام خدمات شفاء</p>
-                <form onSubmit={submitRegister} noValidate>
+                <form onSubmit={submitRegister} noValidate aria-busy={busy || undefined}>
+                  <fieldset className="shifa-auth-fieldset" disabled={busy || entering}>
                   <div className="form-group">
                     <label htmlFor="registerName">الاسم الكامل</label>
                     <input type="text" id="registerName" className={cls('registerName')} placeholder="أدخل اسمك الكامل"
@@ -348,7 +377,8 @@ export default function LoginPage() {
                       value={register.confirmPassword} onChange={(confirmPassword) => setRegister({ ...register, confirmPassword })} />
                   </div>
                   <Message message={message} />
-                  <button type="submit" className="btn" disabled={busy}>{busy ? 'جارٍ إنشاء الحساب…' : 'إنشاء الحساب'}</button>
+                  <SubmitButton busy={busy} busyLabel="جارٍ إنشاء الحساب…" slow={slow}>إنشاء الحساب</SubmitButton>
+                  </fieldset>
                 </form>
                 <div className="switch-auth">
                   لديك حساب بالفعل؟ <span role="button" tabIndex={0} onClick={() => show('login')}>تسجيل الدخول</span>
@@ -371,7 +401,7 @@ export default function LoginPage() {
                       <input type="email" id="forgotEmail" className={cls('forgotEmail')} placeholder="name@gmail.com"
                         value={forgot.email} onChange={(e) => setForgot({ ...forgot, email: e.target.value })} />
                     </div>
-                    <button type="button" className="btn" disabled={busy} onClick={sendOtp}>إرسال رمز التحقق</button>
+                    <SubmitButton type="button" busy={busy} busyLabel="جارٍ الإرسال…" slow={slow} onClick={sendOtp}>إرسال رمز التحقق</SubmitButton>
                   </div>
                 ) : (
                   <div id="otpStep" className="otp-box active">
@@ -381,7 +411,7 @@ export default function LoginPage() {
                         placeholder="000000" value={forgot.otp}
                         onChange={(e) => setForgot({ ...forgot, otp: e.target.value.replace(/[^0-9]/g, '') })} />
                     </div>
-                    <button type="button" className="btn" disabled={busy} onClick={verifyOtp}>تحقق من الرمز</button>
+                    <SubmitButton type="button" busy={busy} busyLabel="جارٍ التحقق…" slow={slow} onClick={verifyOtp}>تحقق من الرمز</SubmitButton>
                     <div className="resend" role="button" tabIndex={0} onClick={resendOtp}>إعادة إرسال الرمز</div>
                   </div>
                 )}
@@ -398,7 +428,8 @@ export default function LoginPage() {
                 <h1 className="title">إنشاء كلمة مرور جديدة</h1>
                 <p className="subtitle">أدخل كلمة مرور جديدة وآمنة لحسابك</p>
                 <Message message={message} />
-                <form onSubmit={submitReset} noValidate>
+                <form onSubmit={submitReset} noValidate aria-busy={busy || undefined}>
+                  <fieldset className="shifa-auth-fieldset" disabled={busy || entering}>
                   <div className="form-group">
                     <label htmlFor="newPassword">كلمة المرور الجديدة</label>
                     <PasswordInput id="newPassword" placeholder="أدخل كلمة المرور الجديدة" invalid={invalid.newPassword}
@@ -409,7 +440,8 @@ export default function LoginPage() {
                     <PasswordInput id="confirmNewPassword" placeholder="أعد كتابة كلمة المرور الجديدة" invalid={invalid.confirmNewPassword}
                       value={reset.confirmNewPassword} onChange={(confirmNewPassword) => setReset({ ...reset, confirmNewPassword })} />
                   </div>
-                  <button type="submit" className="btn" disabled={busy}>حفظ كلمة المرور الجديدة</button>
+                  <SubmitButton busy={busy} busyLabel="جارٍ الحفظ…" slow={slow}>حفظ كلمة المرور الجديدة</SubmitButton>
+                  </fieldset>
                 </form>
               </section>
             )}

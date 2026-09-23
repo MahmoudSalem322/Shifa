@@ -64,7 +64,7 @@ export default function LandingPage() {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <div className="shifa-landing">
+    <div className="shifa-landing shifa-page-fade">
       <header className={'navbar' + (scrolled ? ' scrolled' : '')} id="navbar">
         <div className="container nav-container">
           <a href="#home" className="logo">
