@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { api } from '@/lib/api';
 import { INTENTS, specialtyOf } from '@/lib/navigator';
-import { facilityTypeLabel, geo, statusLabel, stockTone } from '@/lib/vocab';
+import { facilityTypeLabel, geo, statusLabel, statusTone, stockTone, TONE_BADGE } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
 import { DoctorCard } from '@/components/doctor-card';
 import { Badge, Button, EmergencyBanner, Icon, Spinner } from '@/components/ui';
@@ -182,8 +182,8 @@ function AssistantBubble({ message, onRetry, busy }) {
         ) : null}
         {params.intent && params.intent !== 'general' ? (
           <div className="flex flex-wrap gap-space-2xs" aria-label="معايير البحث المستخرجة">
-            {chips.map((chip) => (
-              <Badge key={chip.text} className="bg-surface-container-low text-text-body" icon={chip.icon}>{chip.text}</Badge>
+            {chips.map((chip, index) => (
+              <Badge key={index + chip.text} className="bg-surface-container-low text-text-body" icon={chip.icon}>{chip.text}</Badge>
             ))}
           </div>
         ) : null}
@@ -194,8 +194,8 @@ function AssistantBubble({ message, onRetry, busy }) {
 
       {data.emergency ? <EmergencyBanner /> : null}
 
-      {(data.notes || []).map((note) => (
-        <p key={note} className="p-space-xs rounded-lg bg-state-warning-subtle text-state-warning font-body-sm text-body-sm flex gap-2">
+      {(data.notes || []).map((note, index) => (
+        <p key={index} className="p-space-xs rounded-lg bg-state-warning-subtle text-state-warning font-body-sm text-body-sm flex gap-2">
           <Icon name="warning" className="text-[18px]" /> {note}
         </p>
       ))}
@@ -211,14 +211,14 @@ function AssistantBubble({ message, onRetry, busy }) {
       {results.facilities && results.facilities.length ? (
         <ResultGroup title={data.emergency ? 'أقسام طوارئ' : 'مستشفيات ومراكز صحية'} icon="local_hospital" href="/facilities" more="كل المنشآت">
           {results.facilities.map((facility) => (
-            <ResultRow key={facility.id} href={'/facilities/' + facility.id} icon="local_hospital" title={facility.name}
+            <ResultRow key={facility.id} href={'/facilities/' + encodeURIComponent(facility.id)} icon="local_hospital" title={facility.name}
               lines={[
                 [facilityTypeLabel(facility.type), facility.address || geo.label(facility.area)].filter(Boolean).join(' · '),
                 facility.services.length ? 'الخدمات: ' + facility.services.slice(0, 4).map((s) => s.name).join('، ') : ''
               ]}
               badges={[
                 facility.emergency ? { text: 'طوارئ', cls: 'bg-error-container text-state-danger', icon: 'emergency' } : null,
-                facility.status ? { text: statusLabel(facility.status), cls: /closed|unavailable/i.test(facility.status) ? 'bg-surface-container-high text-text-muted' : 'bg-state-success-subtle text-state-success' } : null
+                facility.status ? { text: statusLabel(facility.status), cls: TONE_BADGE[statusTone(facility.status)] } : null
               ]}
               phone={facility.phone} />
           ))}
@@ -229,14 +229,14 @@ function AssistantBubble({ message, onRetry, busy }) {
         <ResultGroup title="أماكن توفر الدواء" icon="medication" href="/medicines" more="البحث عن دواء">
           {results.medicines.map((medicine) => (
             <div key={medicine.id} className="flex flex-col gap-space-2xs p-space-sm rounded-xl bg-surface-card shadow-sm">
-              <Link href={'/medicines/' + medicine.id} className="font-headline-sm text-headline-sm text-text-heading hover:text-primary" dir="auto">{medicine.name}</Link>
+              <Link href={'/medicines/' + encodeURIComponent(medicine.id)} className="font-headline-sm text-headline-sm text-text-heading hover:text-primary" dir="auto">{medicine.name}</Link>
               {medicine.stocks.length ? medicine.stocks.slice(0, 4).map((stock, index) => {
                 const tone = stockTone(stock);
                 return (
                   <div key={index} className="flex items-center justify-between gap-2 p-space-xs rounded-lg bg-surface-subtle">
                     <span className="font-body-sm text-body-sm text-text-body">
                       {stock.pharmacyId != null
-                        ? <Link href={'/pharmacies/' + stock.pharmacyId} className="hover:text-primary">{stock.pharmacyName || 'صيدلية'}</Link>
+                        ? <Link href={'/pharmacies/' + encodeURIComponent(stock.pharmacyId)} className="hover:text-primary">{stock.pharmacyName || 'صيدلية'}</Link>
                         : stock.pharmacyName || 'صيدلية'}
                       {stock.address || stock.area ? <span className="text-text-muted"> · {stock.address || geo.label(stock.area)}</span> : null}
                     </span>
@@ -244,7 +244,7 @@ function AssistantBubble({ message, onRetry, busy }) {
                   </div>
                 );
               }) : <span className="font-body-sm text-body-sm text-text-muted">لا تتوفر بيانات مخزون لهذا الدواء حالياً.</span>}
-              <Link href={'/drug-requests/new?medicine=' + encodeURIComponent(medicine.id)} className="self-start font-label-md text-label-md text-text-primary hover:underline">
+              <Link href={'/drug-requests/new?medicine=' + encodeURIComponent(medicine.name)} className="self-start font-label-md text-label-md text-text-primary hover:underline">
                 لم تجده؟ أرسل طلب دواء
               </Link>
             </div>
@@ -255,10 +255,10 @@ function AssistantBubble({ message, onRetry, busy }) {
       {results.pharmacies && results.pharmacies.length ? (
         <ResultGroup title="صيدليات" icon="local_pharmacy" href="/pharmacies" more="دليل الصيدليات">
           {results.pharmacies.map((pharmacy) => (
-            <ResultRow key={pharmacy.id} href={'/pharmacies/' + pharmacy.id} icon="local_pharmacy" title={pharmacy.name}
+            <ResultRow key={pharmacy.id} href={'/pharmacies/' + encodeURIComponent(pharmacy.id)} icon="local_pharmacy" title={pharmacy.name}
               lines={[pharmacy.address || geo.label(pharmacy.area), pharmacy.workingHours ? 'ساعات العمل: ' + pharmacy.workingHours : '']}
               badges={[
-                pharmacy.status ? { text: statusLabel(pharmacy.status), cls: /closed/i.test(pharmacy.status) ? 'bg-surface-container-high text-text-muted' : 'bg-state-success-subtle text-state-success' } : null,
+                pharmacy.status ? { text: statusLabel(pharmacy.status), cls: TONE_BADGE[statusTone(pharmacy.status)] } : null,
                 pharmacy.hasColdChain ? { text: 'تبريد', cls: 'bg-state-info-subtle text-state-info', icon: 'ac_unit' } : null
               ]}
               phone={pharmacy.phone} />
@@ -295,9 +295,9 @@ function ResultRow({ href, icon, title, lines, badges, phone }) {
         <span className="w-11 h-11 rounded-xl bg-primary/10 text-text-primary flex items-center justify-center shrink-0"><Icon name={icon} /></span>
         <div className="flex flex-col min-w-0 gap-0.5">
           <Link href={href} className="font-label-lg text-label-lg text-text-heading hover:text-primary truncate">{title}</Link>
-          {lines.filter(Boolean).map((line) => <span key={line} className="font-body-sm text-body-sm text-text-muted">{line}</span>)}
+          {lines.filter(Boolean).map((line, index) => <span key={index} className="font-body-sm text-body-sm text-text-muted">{line}</span>)}
           <div className="flex flex-wrap gap-1 mt-0.5">
-            {badges.filter(Boolean).map((badge) => <Badge key={badge.text} className={badge.cls} icon={badge.icon}>{badge.text}</Badge>)}
+            {badges.filter(Boolean).map((badge, index) => <Badge key={index} className={badge.cls} icon={badge.icon}>{badge.text}</Badge>)}
           </div>
         </div>
       </div>

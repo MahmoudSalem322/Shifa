@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { api, toItem } from '@/lib/api';
 import { useAsync } from '@/lib/hooks';
-import { geo, normalizePharmacy, normalizeStocks, statusLabel, stockTone } from '@/lib/vocab';
+import { geo, normalizePharmacy, normalizeStocks, statusLabel, statusTone, stockTone, TONE_SOLID } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
 import { AsyncBlock, Badge, Card, CardTitle, EmptyState, Icon, InfoRow } from '@/components/ui';
 
@@ -38,7 +38,7 @@ export default function PharmacyDetailsPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <h1 className="font-headline-xl text-headline-xl">{p.name}</h1>
                       {p.governmentApproved ? <Badge className="bg-white/20 text-white" icon="verified">معتمدة</Badge> : null}
-                      {p.status ? <Badge className={p.status === 'Closed' ? 'bg-state-danger text-on-state' : 'bg-state-success text-on-state'}>{statusLabel(p.status)}</Badge> : null}
+                      {p.status ? <Badge className={TONE_SOLID[statusTone(p.status)] || 'bg-surface-card/20 text-white'}>{statusLabel(p.status)}</Badge> : null}
                     </div>
                     {p.address ? <span className="font-body-md text-body-md text-white/85 flex items-center gap-1"><Icon name="location_on" className="text-[18px]" />{p.address}</span> : null}
                   </div>

@@ -212,7 +212,7 @@ function ConfirmMatchModal({ request, candidate, governorate, onClose, onDone })
 export function MatchRow({ match }) {
   const status = matchStatus(match.status);
   return (
-    <Link href={'/matches/' + match.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low transition-colors">
+    <Link href={'/matches/' + encodeURIComponent(match.id)} className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low transition-colors">
       <div className="flex items-start gap-space-sm min-w-0">
         <span className="w-11 h-11 rounded-xl bg-state-info-subtle text-state-info flex items-center justify-center shrink-0">
           <Icon name="join" />

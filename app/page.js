@@ -172,7 +172,7 @@ export default function LandingPage() {
                   <div className="feature"><div className="feature-icon">⌕</div><div><h4>البحث عن الأدوية</h4><p>تعرف على الصيدليات التي يتوفر فيها الدواء والكمية المتاحة والمسافة للوصول إليها.</p></div></div>
                   <div className="feature"><div className="feature-icon">⏱</div><div><h4>توفير الوقت والجهد</h4><p>كل ما تحتاجه من خدمات صحية في تجربة واحدة منظمة تساعدك على الوصول للخدمة المناسبة.</p></div></div>
                 </div>
-                <div className="donation-box" role="button" tabIndex={0} onClick={() => go('/donations/new')} onKeyDown={(e) => { if (e.key === 'Enter') go('/donations/new'); }}>
+                <div className="donation-box" role="button" tabIndex={0} onClick={() => go('/donations/new')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go('/donations/new'); } }}>
                   <div className="donation-info">
                     <div className="donation-icon">🤝</div>
                     <div><h4>لديك دواء فائض؟</h4><p>يمكن للمنصة تنظيم عملية التبرع بالأدوية الفائضة وربطها بالأشخاص والجهات التي تحتاج إليها.</p></div>
@@ -199,7 +199,7 @@ export default function LandingPage() {
                   role="button"
                   tabIndex={0}
                   onClick={() => go(service.href)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') go(service.href); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(service.href); } }}
                 >
                   <div className="service-icon">{service.icon}</div>
                   <h3>{service.title}</h3>
@@ -228,6 +228,7 @@ export default function LandingPage() {
                 <h3>ابحث عن خدمة صحية</h3>
                 <p>اختر نوع الخدمة التي تبحث عنها</p>
                 <input
+                  aria-label="ابحث عن مستشفى أو صيدلية"
                   type="text"
                   className="map-search"
                   value={mapQuery}

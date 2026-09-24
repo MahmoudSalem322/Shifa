@@ -3409,3 +3409,7 @@ html.dark .shifa-section-heading button {
         left: 15px;
     }
 }
+
+#shifa-notification-panel:focus {
+    outline: none;
+}

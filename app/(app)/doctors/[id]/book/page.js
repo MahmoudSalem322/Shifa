@@ -7,7 +7,8 @@ import { api, fieldErrors, toItem } from '@/lib/api';
 import { useAsync, useSession } from '@/lib/hooks';
 import { notifications } from '@/lib/notifications';
 import { parseWorkDays } from '@/lib/schedule';
-import { DOCTOR_FALLBACK_AVATAR, formatDate, isoDate, normalizeDoctor, timeLabel, validate, WEEKDAYS_AR } from '@/lib/vocab';
+import { DOCTOR_FALLBACK_AVATAR, formatDate, isoDate, normalizeDoctor, parseIsoDate, timeLabel, validate, WEEKDAYS_AR } from '@/lib/vocab';
+import { clinicToday } from '@/lib/clock';
 import { PageBody, PageHeader, RoleGate } from '@/components/app-shell';
 import { AsyncBlock, Button, ButtonLink, Card, CardTitle, Field, Icon, InfoRow, inputClass, Modal, Skeleton } from '@/components/ui';
 
@@ -19,10 +20,10 @@ import { AsyncBlock, Button, ButtonLink, Card, CardTitle, Field, Icon, InfoRow, 
 
 const HORIZON_DAYS = 21;
 
+/* Starts from today in Gaza, whatever the device's time zone. */
 function upcomingDays() {
   const days = [];
-  const start = new Date();
-  start.setHours(0, 0, 0, 0);
+  const start = parseIsoDate(clinicToday());
   for (let i = 0; i < HORIZON_DAYS; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
@@ -203,14 +204,14 @@ export default function BookAppointmentPage() {
                     <CardTitle icon="schedule">
                       الأوقات المتاحة {date ? <span className="font-body-md text-body-md text-text-muted">— {formatDate(date, { weekday: 'long', day: 'numeric', month: 'long' })}</span> : null}
                     </CardTitle>
-                    {slotsState.loading && !slots ? <Skeleton count={1} /> : null}
+                    {slotsState.loading ? <Skeleton count={1} /> : null}
                     {slotsState.error ? (
                       <div className="p-space-sm rounded-xl bg-state-danger-subtle text-state-danger font-label-md text-label-md flex items-center gap-2">
                         <Icon name="error" /> {slotsState.error.message}
                         <button type="button" className="underline mr-auto" onClick={slotsState.reload}>إعادة المحاولة</button>
                       </div>
                     ) : null}
-                    {slots ? (
+                    {slots && !slotsState.loading && slots.date === date ? (
                       !slots.knownHours ? (
                         <p className="font-body-md text-body-md text-text-muted">لم يحدد الطبيب ساعات عمل يمكن قراءتها ({doctor.workHours || 'غير متوفرة'}). تواصل مع العيادة مباشرة.</p>
                       ) : !slots.worksThatDay ? (

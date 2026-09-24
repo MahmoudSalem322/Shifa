@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api, auth } from '@/lib/api';
 import { notifications, TONES } from '@/lib/notifications';
@@ -64,14 +64,19 @@ export function NotificationProvider({ children }) {
     }
   };
 
+  const panelRef = useRef(null);
   useEffect(() => {
     if (!isOpen) return undefined;
+    const previous = document.activeElement;
     const onKey = (event) => { if (event.key === 'Escape') setOpen(false); };
     document.addEventListener('keydown', onKey);
     document.body.classList.add('shifa-notifications-open');
+    if (panelRef.current) panelRef.current.focus({ preventScroll: true });
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.classList.remove('shifa-notifications-open');
+      /* Back to the bell (or wherever the user was). */
+      if (previous && typeof previous.focus === 'function') previous.focus({ preventScroll: true });
     };
   }, [isOpen]);
 
@@ -84,11 +89,14 @@ export function NotificationProvider({ children }) {
       <div id="shifa-notification-overlay" className={isOpen ? 'is-open' : ''} onClick={() => setOpen(false)} />
       <div
         id="shifa-notification-panel"
+        ref={panelRef}
+        tabIndex={-1}
         className={isOpen ? 'is-open' : ''}
         role="dialog"
         aria-modal="true"
         aria-label="مركز الإشعارات"
         aria-hidden={!isOpen}
+        inert={!isOpen}
       >
         <div className="shifa-notification-head">
           <div>

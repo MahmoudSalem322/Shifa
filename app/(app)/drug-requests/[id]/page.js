@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { api, toItem, toList } from '@/lib/api';
 import { useAsync } from '@/lib/hooks';
@@ -59,6 +59,12 @@ export default function DrugRequestDetailsPage() {
   const matches = (state.data && state.data.matches) || [];
   const activeMatches = matches.filter((m) => m.status === 'reserved');
 
+  /* Offer "view prescription" when the record says a file is attached, or
+     when it says nothing either way (the API documents no schema). */
+  const raw = (state.data && state.data.raw) || {};
+  const prescriptionKnown = Object.keys(raw).some((key) => /^(prescription(path|url|filename)|hasprescription)$/i.test(key));
+  const showPrescription = !!request && (request.hasPrescription || !prescriptionKnown);
+
   const viewPrescription = async () => {
     setBusy('file');
     /* Open the tab synchronously so popup blockers allow it. */
@@ -66,6 +72,8 @@ export default function DrugRequestDetailsPage() {
     try {
       const url = await api.drugRequests.prescriptionBlobUrl(id);
       if (tab) tab.location.href = url; else window.location.href = url;
+      /* The new tab has loaded it by then; free the memory. */
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
     } catch (error) {
       if (tab) tab.close();
       toast(error.status === 404 ? 'لا توجد وصفة مرفقة بهذا الطلب.' : error.message);
@@ -89,6 +97,8 @@ export default function DrugRequestDetailsPage() {
     } catch (error) {
       toast(error.message);
       setBusy('');
+      /* Some matches may already be released; show the real state. */
+      state.reload();
     }
   };
 
@@ -159,9 +169,11 @@ export default function DrugRequestDetailsPage() {
                 ) : null}
 
                 <div className="flex flex-wrap gap-space-xs">
-                  <Button tone="soft" icon="description" busy={busy === 'file'} busyLabel="جارٍ فتح الوصفة…" onClick={viewPrescription}>
-                    عرض الوصفة المرفقة
-                  </Button>
+                  {showPrescription ? (
+                    <Button tone="soft" icon="description" busy={busy === 'file'} busyLabel="جارٍ فتح الوصفة…" onClick={viewPrescription}>
+                      عرض الوصفة المرفقة
+                    </Button>
+                  ) : null}
                   {isOpen(request.status) ? (
                     <>
                       {activeMatches.length ? null : <Button tone="soft" icon="edit" onClick={() => setEditing(true)}>تعديل الطلب</Button>}
@@ -191,7 +203,7 @@ export default function DrugRequestDetailsPage() {
                     أُنشئ هذا الطلب من وصفة قرأها قارئ الوصفات الذكي بتاريخ {formatDateTime(state.data.linked.createdAt)}.
                   </p>
                   <div className="flex flex-col gap-space-2xs">
-                    {state.data.linked.medications.map((m, index) => (
+                    {(state.data.linked.medications || []).map((m, index) => (
                       <div key={index} className="flex items-center justify-between gap-2 p-space-xs rounded-lg bg-surface-subtle">
                         <span className="font-label-lg text-label-lg text-text-heading">{m.name} {m.strength ? <span className="text-text-muted font-body-sm">({m.strength})</span> : null}</span>
                         <span className="font-body-sm text-body-sm text-text-muted">{[m.dosage, m.frequency, m.duration].filter(Boolean).join(' · ')}</span>
@@ -222,6 +234,14 @@ function EditRequestModal({ open, request, onClose, onSaved }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+
+  /* Each opening starts from the request as it is now. */
+  useEffect(() => {
+    if (!open) return;
+    setForm({ medicineName: request.medicineName, quantity: String(request.quantity || 1), notes: request.notes });
+    setFile(null);
+    setError('');
+  }, [open, request]);
 
   const save = async (event) => {
     event.preventDefault();

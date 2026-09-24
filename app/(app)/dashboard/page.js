@@ -11,6 +11,7 @@ import { applyMatchStatus } from '@/lib/matching';
 import { PageBody, PageHeader, useLogout } from '@/components/app-shell';
 import { DoctorPanel, FacilityPanel, PharmacyPanel } from '@/components/dashboard-panels';
 import { useToast } from '@/components/toast';
+import { donationStatus } from '@/components/donations';
 import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Field, Icon, inputClass } from '@/components/ui';
 
 /* Port of dashboard.html + script/dashboard.js — one page for every role.
@@ -53,7 +54,7 @@ function AccountCard({ session }) {
       if (age !== undefined && (!Number.isInteger(age) || age < 0 || age > 150)) return toast('العمر غير صحيح.');
       setBusy(true);
       try {
-        await api.patients.updateMe({ ...(patient.data || {}), fullName, age, gender: form.gender });
+        await api.patients.updateMe({ ...(patient.data || {}), fullName, phone: form.phone || undefined, age, gender: form.gender });
         auth.mergeSession({ fullName, phone: form.phone });
         toast('تم حفظ بيانات الحساب.');
       } catch (error) {
@@ -202,9 +203,7 @@ function PatientPanels() {
                   <span className="font-headline-sm text-headline-sm text-text-heading truncate" dir="auto">{d.medicineName}</span>
                   <span className="font-body-sm text-body-sm text-text-muted">{d.quantity} {d.unit}</span>
                 </div>
-                <Badge className={d.status === 'approved' ? 'bg-state-success-subtle text-state-success' : d.status === 'rejected' ? 'bg-error-container text-state-danger' : 'bg-state-warning-subtle text-state-warning'}>
-                  {d.status === 'approved' ? 'مقبول' : d.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة'}
-                </Badge>
+                <Badge className={donationStatus(d.status).cls} icon={donationStatus(d.status).icon}>{donationStatus(d.status).label}</Badge>
               </Link>
             ))}
           </div>

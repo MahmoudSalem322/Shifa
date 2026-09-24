@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { api, auth, onUnauthorized } from '@/lib/api';
 import { useSession } from '@/lib/hooks';
 import { REVIEWER_ROLES, roles } from '@/lib/vocab';
 import { NotificationBell, NotificationProvider } from './notification-panel';
-import { Icon, Spinner } from './ui';
+import { Icon, Spinner, useOverlay } from './ui';
 import { DarkModeToggle } from './dark-mode';
 
 /* Sidebar entries. `roles` limits an entry to those account types. */
@@ -112,19 +112,22 @@ export function AppShell({ children }) {
   const pathname = usePathname();
   const logout = useLogout();
   const [menuOpen, setMenuOpen] = useState(false);
+  const drawerRef = useRef(null);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  useOverlay(menuOpen, closeMenu, drawerRef);
 
   /* Every endpoint on the API needs a token, including browse and search,
      so the whole app sits behind login. */
   useEffect(() => {
     if (session === null) {
-      auth.rememberReturnTo(pathname);
+      auth.rememberReturnTo(pathname + window.location.search);
       router.replace('/login');
     }
   }, [session, pathname, router]);
 
   useEffect(() => {
     onUnauthorized(() => {
-      auth.rememberReturnTo(window.location.pathname);
+      auth.rememberReturnTo(window.location.pathname + window.location.search);
       router.replace('/login');
     });
     return () => onUnauthorized(null);
@@ -142,15 +145,15 @@ export function AppShell({ children }) {
     <ShellContext.Provider value={{ openMenu: () => setMenuOpen(true) }}>
       <NotificationProvider>
         <div className="shifa-app-shell bg-canvas-bg font-body-md text-body min-h-screen flex">
-          <aside className="hidden lg:flex w-72 bg-surface-card border-l border-border-soft flex-col shrink-0 sticky top-0 h-screen z-40 p-space-md shadow-[2px_0_12px_rgba(0,0,0,0.03)]">
+          <aside className="hidden lg:flex w-72 bg-surface-card border-l border-border-soft flex-col shrink-0 sticky top-0 h-screen z-40 p-space-md shadow-[-2px_0_12px_rgba(0,0,0,0.03)]">
             <Sidebar role={session.role} onLogout={logout} />
           </aside>
 
           {menuOpen ? (
             <div className="lg:hidden fixed inset-0 z-50">
-              <div className="absolute inset-0 bg-inverse-surface/40" onClick={() => setMenuOpen(false)} />
-              <aside className="absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-surface-card p-space-md shadow-2xl">
-                <Sidebar role={session.role} onNavigate={() => setMenuOpen(false)} onLogout={logout} />
+              <div className="absolute inset-0 bg-inverse-surface/40" onClick={closeMenu} />
+              <aside ref={drawerRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="القائمة" className="outline-none absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-surface-card p-space-md shadow-2xl overflow-y-auto">
+                <Sidebar role={session.role} onNavigate={closeMenu} onLogout={logout} />
               </aside>
             </div>
           ) : null}
@@ -168,6 +171,11 @@ export function PageHeader({ title, subtitle, actions }) {
   const session = useSession();
   const router = useRouter();
   const profileHref = session && session.role === 'Doctor' ? '/my-profile' : '/dashboard';
+
+  /* App pages are client components, so the tab title is set here. */
+  useEffect(() => {
+    if (typeof title === 'string' && title) document.title = title + ' | شفاء';
+  }, [title]);
 
   return (
     <header className="relative w-full bg-surface-container-lowest border-b border-border-soft overflow-hidden">

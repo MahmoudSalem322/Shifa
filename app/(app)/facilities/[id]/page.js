@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { api, toItem, toList } from '@/lib/api';
 import { useAsync } from '@/lib/hooks';
-import { facilityTypeLabel, geo, normalizeDoctor, normalizeFacility, statusLabel } from '@/lib/vocab';
+import { facilityTypeLabel, geo, normalizeDoctor, normalizeFacility, statusLabel, statusTone } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
 import { DoctorCard } from '@/components/doctor-card';
 import { AsyncBlock, Card, CardTitle, Icon, InfoRow } from '@/components/ui';
@@ -70,7 +70,7 @@ export default function FacilityDetailsPage() {
                       <div key={s.name} className="p-space-sm rounded-xl bg-surface-subtle flex flex-col items-center text-center gap-space-2xs">
                         <Icon name="health_and_safety" className="text-[30px] text-primary" />
                         <span className="font-label-lg text-label-lg text-text-heading">{s.name}</span>
-                        {s.status ? <span className={'font-label-sm text-label-sm ' + (s.status === 'Closed' ? 'text-state-danger' : 'text-state-success')}>{statusLabel(s.status)}</span> : null}
+                        {s.status ? <span className={'font-label-sm text-label-sm ' + ({ success: 'text-state-success', warning: 'text-state-warning', danger: 'text-state-danger' }[statusTone(s.status)] || 'text-text-muted')}>{statusLabel(s.status)}</span> : null}
                       </div>
                     ))}
                   </div>

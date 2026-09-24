@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api, auth, fieldErrors } from '@/lib/api';
+import { useButtonRoleKeys } from '@/lib/hooks';
 import { roles, validate } from '@/lib/vocab';
 import { DarkModeToggle } from '@/components/dark-mode';
 
@@ -91,6 +92,7 @@ export default function LoginPage() {
   /* Render's free tier sleeps; after a few seconds, explain the wait. */
   const [slow, setSlow] = useState(false);
   const [entering, setEntering] = useState(false);
+  useButtonRoleKeys();
   useEffect(() => {
     if (!busy) { setSlow(false); return undefined; }
     const timer = setTimeout(() => setSlow(true), 4000);
@@ -191,6 +193,8 @@ export default function LoginPage() {
       if (auth.isAuthed()) {
         auth.mergeSession({ fullName: r.fullName, email: r.email, phone: r.phone, role: roles.normalize(r.role) });
         success('تم إنشاء حسابك بنجاح 🌿');
+        /* Keep the form locked until the redirect, so it cannot be sent twice. */
+        setEntering(true);
         setTimeout(enterApp, 700);
         return;
       }
@@ -229,8 +233,10 @@ export default function LoginPage() {
   };
 
   const resendOtp = async () => {
+    if (busy) return;
     const email = pendingEmail || forgot.email.trim();
     if (!validate.gmail(email)) return error('يجب إدخال بريد Gmail صحيح (مثال: name@gmail.com).');
+    setBusy(true);
     success('جارٍ إعادة إرسال الرمز…');
     try {
       await api.auth.resendOtp(email);
@@ -238,6 +244,8 @@ export default function LoginPage() {
       success('تم إرسال رمز جديد إلى بريدك الإلكتروني.');
     } catch (err) {
       applyServerError(err, { Email: 'forgotEmail' });
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -379,7 +387,7 @@ export default function LoginPage() {
                       value={register.confirmPassword} onChange={(confirmPassword) => setRegister({ ...register, confirmPassword })} />
                   </div>
                   <Message message={message} />
-                  <SubmitButton busy={busy} busyLabel="جارٍ إنشاء الحساب…" slow={slow}>إنشاء الحساب</SubmitButton>
+                  <SubmitButton busy={busy || entering} busyLabel={entering ? 'جارٍ فتح حسابك…' : 'جارٍ إنشاء الحساب…'} slow={slow}>إنشاء الحساب</SubmitButton>
                   </fieldset>
                 </form>
                 <div className="switch-auth">

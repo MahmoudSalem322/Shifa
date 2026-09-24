@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { auth, defaultMessage } from '@/lib/api';
 
@@ -64,7 +64,7 @@ export function AuthWall({ message = 'سجّل الدخول لعرض هذا ال
       <button
         type="button"
         className="shifa-state__action"
-        onClick={() => { auth.rememberReturnTo(pathname); router.push('/login'); }}
+        onClick={() => { auth.rememberReturnTo(pathname + window.location.search); router.push('/login'); }}
       >
         تسجيل الدخول
       </button>
@@ -186,22 +186,46 @@ export function Field({ label, htmlFor, required, error, hint, className = '', c
   );
 }
 
-export function Modal({ open, onClose, title, eyebrow, children, wide = false }) {
+/* Shared behaviour of modals and the mobile drawer: Escape closes, the
+   page behind stops scrolling, focus moves into the panel and goes back
+   to where it was on close. */
+export function useOverlay(open, onClose, panelRef) {
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (event) => { if (event.key === 'Escape') onClose(); };
+    const previous = document.activeElement;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (event) => { if (event.key === 'Escape') closeRef.current(); };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
+    const panel = panelRef && panelRef.current;
+    if (panel) {
+      const target = panel.querySelector('input:not([type=hidden]):not([disabled]), select, textarea') || panel;
+      target.focus({ preventScroll: true });
+    }
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+      if (previous && typeof previous.focus === 'function') previous.focus({ preventScroll: true });
+    };
+  }, [open, panelRef]);
+}
+
+export function Modal({ open, onClose, title, eyebrow, children, wide = false }) {
+  const panelRef = useRef(null);
+  useOverlay(open, onClose, panelRef);
 
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-space-sm bg-inverse-surface/50 backdrop-blur-sm" onClick={onClose}>
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={'bg-surface-card rounded-2xl shadow-2xl w-full p-space-md lg:p-space-lg relative max-h-[90vh] overflow-y-auto ' + (wide ? 'max-w-2xl' : 'max-w-lg')}
+        tabIndex={-1}
+        className={'outline-none bg-surface-card rounded-2xl shadow-2xl w-full p-space-md lg:p-space-lg relative max-h-[90vh] overflow-y-auto ' + (wide ? 'max-w-2xl' : 'max-w-lg')}
         onClick={(event) => event.stopPropagation()}
       >
         <button

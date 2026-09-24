@@ -97,7 +97,7 @@ export default function NewDonationPage() {
   };
 
   if (created) {
-    const status = DONATION_STATUS[created.status];
+    const status = DONATION_STATUS[created.status] || DONATION_STATUS.pending;
     return (
       <>
         <PageHeader title="التبرع بدواء" subtitle="تم استلام التبرع" />

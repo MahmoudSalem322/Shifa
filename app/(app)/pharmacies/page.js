@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { api, toList } from '@/lib/api';
 import { useAsync, useDebounced } from '@/lib/hooks';
-import { geo, normalizePharmacy, statusLabel } from '@/lib/vocab';
+import { geo, normalizePharmacy, statusLabel, statusTone, TONE_BADGE } from '@/lib/vocab';
 import { PageHeader } from '@/components/app-shell';
 import { AsyncBlock, Icon } from '@/components/ui';
 
@@ -37,7 +37,7 @@ function PharmacyCard({ pharmacy }) {
         {pharmacy.address ? <div className="flex items-start gap-space-2xs text-text-muted font-body-sm text-body-sm"><Icon name="location_on" className="text-base text-text-primary mt-0.5" />{pharmacy.address}</div> : null}
         <div className="flex flex-wrap items-center gap-space-2xs">
           {pharmacy.status ? (
-            <span className={'px-space-2xs py-0.5 rounded-md font-label-sm text-label-sm ' + (pharmacy.status === 'Closed' ? 'bg-error-container text-state-danger' : 'bg-state-success-subtle text-state-success')}>{statusLabel(pharmacy.status)}</span>
+            <span className={'px-space-2xs py-0.5 rounded-md font-label-sm text-label-sm ' + TONE_BADGE[statusTone(pharmacy.status)]}>{statusLabel(pharmacy.status)}</span>
           ) : null}
           {pharmacy.workingHours ? <span className="px-space-2xs py-0.5 rounded-md bg-surface-container-high text-text-primary font-label-sm text-label-sm">{pharmacy.workingHours}</span> : null}
           {pharmacy.acceptsInsurance ? <span className="px-space-2xs py-0.5 rounded-md bg-state-info-subtle text-state-info font-label-sm text-label-sm">يقبل التأمين</span> : null}

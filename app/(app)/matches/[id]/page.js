@@ -62,12 +62,12 @@ export default function MatchDetailsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
                   <InfoRow icon="prescriptions" label="طلب الدواء">
                     {match.isRequester
-                      ? <Link href={'/drug-requests/' + match.drugRequestId} className="text-text-primary hover:underline">#{match.drugRequestId} · {match.requestMedicineName}</Link>
+                      ? <Link href={'/drug-requests/' + encodeURIComponent(match.drugRequestId)} className="text-text-primary hover:underline">#{match.drugRequestId} · {match.requestMedicineName}</Link>
                       : <span>#{match.drugRequestId} · {match.requestMedicineName}</span>}
                   </InfoRow>
                   <InfoRow icon="volunteer_activism" label="التبرع">
                     {match.isDonor || match.isReviewer
-                      ? <Link href={'/donations/' + match.donationId} className="text-text-primary hover:underline">{match.donationMedicineName}</Link>
+                      ? <Link href={'/donations/' + encodeURIComponent(match.donationId)} className="text-text-primary hover:underline">{match.donationMedicineName}</Link>
                       : match.donationMedicineName}
                   </InfoRow>
                   <InfoRow icon="numbers" label="الكمية">{match.quantity + ' من ' + match.requiredQuantity + ' مطلوبة · ' + (match.unit || '')}</InfoRow>

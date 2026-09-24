@@ -30,6 +30,11 @@ const CONFIDENCE = {
   low: { label: 'قراءة غير مؤكدة', cls: 'bg-error-container text-state-danger' }
 };
 
+/* Rows get a local key so deleting one does not move another row's
+   state (errors, focus) onto its neighbour. */
+let rowKey = 0;
+const keyed = (row) => ({ ...row, _key: ++rowKey });
+
 const EMPTY_ROW = { name: '', strength: '', dosage: '', frequency: '', duration: '', quantity: 1, quantityUnit: '', notes: '', confidence: 'high', edited: true };
 
 function StepHeader({ step }) {
@@ -82,7 +87,7 @@ export default function PrescriptionReaderPage() {
       const response = await api.prescriptions.read(form);
       const prescription = response.prescription;
       setRecord(prescription);
-      setRows(prescription.medications.map((m) => ({ ...m, quantity: m.quantity || 1, edited: false })));
+      setRows(prescription.medications.map((m) => keyed({ ...m, quantity: m.quantity || 1, edited: false })));
       notifications.add({
         type: 'prescription',
         title: 'تمت قراءة الوصفة',
@@ -102,7 +107,7 @@ export default function PrescriptionReaderPage() {
   const startManual = () => {
     setReadError(null);
     setRecord(null);
-    setRows([{ ...EMPTY_ROW }]);
+    setRows([keyed(EMPTY_ROW)]);
   };
 
   /* ---- review / edit --------------------------------------------- */
@@ -110,6 +115,19 @@ export default function PrescriptionReaderPage() {
   const updateRow = (index, key, value) => {
     setRows((list) => list.map((row, i) => (i === index ? { ...row, [key]: value, edited: true } : row)));
     setRowErrors((errors) => ({ ...errors, [index]: undefined }));
+  };
+
+  const removeRow = (index) => {
+    setRows((list) => list.filter((_, i) => i !== index));
+    setRowErrors((errors) => {
+      const next = {};
+      Object.entries(errors).forEach(([key, value]) => {
+        const i = Number(key);
+        if (i < index) next[i] = value;
+        else if (i > index) next[i - 1] = value;
+      });
+      return next;
+    });
   };
 
   const validateRows = () => {
@@ -127,13 +145,13 @@ export default function PrescriptionReaderPage() {
     if (!rows.length) return toast('أضف دواءً واحداً على الأقل.');
     if (!validateRows()) return toast('راجع الحقول المظللة قبل التأكيد.');
     setConfirming(true);
-    const medications = rows.map((row) => ({ ...row, quantity: Number(row.quantity) }));
+    const medications = rows.map(({ _key, ...row }) => ({ ...row, quantity: Number(row.quantity) }));
     try {
       const response = record
         ? await api.prescriptions.confirm(record.id, medications)
         : await api.prescriptions.createManual(medications, file ? file.name : '');
       setRecord(response.prescription);
-      setRows(response.prescription.medications);
+      setRows(response.prescription.medications.map(keyed));
       setSelected(Object.fromEntries(response.prescription.medications.map((_, i) => [i, true])));
       toast('تم تأكيد بيانات الوصفة وحفظها.');
       history.reload();
@@ -268,7 +286,7 @@ export default function PrescriptionReaderPage() {
                 </div>
               ) : null}
 
-              {record && record.extracted && record.extracted.warnings.length ? (
+              {record && record.extracted && (record.extracted.warnings || []).length ? (
                 <ul className="flex flex-col gap-1 p-space-sm rounded-xl bg-state-warning-subtle text-state-warning font-body-sm text-body-sm">
                   {record.extracted.warnings.map((w, i) => <li key={i} className="flex items-start gap-1"><Icon name="info" className="text-[16px] mt-0.5" />{w}</li>)}
                 </ul>
@@ -276,14 +294,14 @@ export default function PrescriptionReaderPage() {
 
               <div className="flex flex-col gap-space-sm">
                 {rows.map((row, index) => (
-                  <div key={index} className={'p-space-sm rounded-xl border ' + (rowErrors[index] ? 'border-state-danger/50 bg-state-danger-subtle/40' : 'border-border-soft bg-surface-subtle')}>
+                  <div key={row._key || index} className={'p-space-sm rounded-xl border ' + (rowErrors[index] ? 'border-state-danger/50 bg-state-danger-subtle/40' : 'border-border-soft bg-surface-subtle')}>
                     <div className="flex items-center justify-between gap-2 mb-space-xs">
                       <span className="font-label-md text-label-md text-text-heading flex items-center gap-2">
                         دواء {index + 1}
                         {!row.edited && CONFIDENCE[row.confidence] ? <Badge className={CONFIDENCE[row.confidence].cls}>{CONFIDENCE[row.confidence].label}</Badge> : null}
                         {row.edited ? <Badge className="bg-surface-container-high text-text-primary" icon="edit">معدّل</Badge> : null}
                       </span>
-                      <button type="button" aria-label={'حذف دواء ' + (index + 1)} onClick={() => setRows(rows.filter((_, i) => i !== index))}
+                      <button type="button" aria-label={'حذف دواء ' + (index + 1)} onClick={() => removeRow(index)}
                         className="w-8 h-8 rounded-lg text-state-danger hover:bg-state-danger-subtle flex items-center justify-center">
                         <Icon name="delete" className="text-[20px]" />
                       </button>
@@ -331,7 +349,7 @@ export default function PrescriptionReaderPage() {
               </div>
 
               <div className="flex flex-wrap gap-space-xs">
-                <Button tone="soft" icon="add" onClick={() => setRows([...rows, { ...EMPTY_ROW }])}>إضافة دواء</Button>
+                <Button tone="soft" icon="add" onClick={() => setRows([...rows, keyed(EMPTY_ROW)])}>إضافة دواء</Button>
                 <Button icon="fact_check" busy={confirming} busyLabel="جارٍ الحفظ…" onClick={confirm} disabled={!rows.length}>تأكيد بيانات الوصفة</Button>
               </div>
             </Card>
@@ -343,7 +361,7 @@ export default function PrescriptionReaderPage() {
               <CardTitle
                 icon="send"
                 actions={<>
-                  <Badge className={PRESCRIPTION_STATUS[record.status].cls + ' text-label-md py-1 px-3'} icon={PRESCRIPTION_STATUS[record.status].icon}>{PRESCRIPTION_STATUS[record.status].label}</Badge>
+                  <Badge className={(PRESCRIPTION_STATUS[record.status] || PRESCRIPTION_STATUS.extracted).cls + ' text-label-md py-1 px-3'} icon={(PRESCRIPTION_STATUS[record.status] || PRESCRIPTION_STATUS.extracted).icon}>{(PRESCRIPTION_STATUS[record.status] || PRESCRIPTION_STATUS.extracted).label}</Badge>
                   <Button tone="ghost" icon="document_scanner" onClick={reset}>قراءة وصفة أخرى</Button>
                 </>}
               >
@@ -412,7 +430,7 @@ export default function PrescriptionReaderPage() {
                           <Button tone="soft" className="!py-1.5" onClick={() => {
                             setFile(null);
                             setRecord(p);
-                            setRows(p.medications.map((m) => ({ ...m, edited: p.status !== 'extracted' })));
+                            setRows((p.medications || []).map((m) => keyed({ ...m, edited: p.status !== 'extracted' })));
                             setSelected(Object.fromEntries(p.medications.map((_, i) => [i, true])));
                             setResults({});
                             window.scrollTo({ top: 0, behavior: 'smooth' });
