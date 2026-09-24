@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { api, auth, toItem, toList } from '@/lib/api';
 import { useAsync } from '@/lib/hooks';
 import {
-  normalizeDoctor, normalizeFacility, normalizeMedicine, normalizePharmacy, normalizeStocks, statusLabel, validate
+  FACILITY_STATUSES, facilityTypeLabel, normalizeDoctor, normalizeFacility, normalizeMedicine, normalizePharmacy, normalizeStocks,
+  PHARMACY_STATUSES, SERVICE_STATUSES, serviceStatus, statusLabel, TONE_BADGE, TONE_SOLID, validate
 } from '@/lib/vocab';
 import { useToast } from './toast';
 import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, EmptyState, Field, Icon, inputClass, Modal } from './ui';
@@ -166,27 +167,30 @@ function DonationReviewCard() {
 /* Pharmacy                                                           */
 /* ------------------------------------------------------------------ */
 
-function StatusSwitch({ value, onChange }) {
+/* Segmented control over an organisation's operating states. */
+function StatusSwitch({ value, options, onChange, label = 'حالة العمل' }) {
   const [busy, setBusy] = useState(false);
   return (
-    <div className="inline-flex rounded-lg bg-surface-container-low p-1" role="radiogroup" aria-label="حالة العمل">
-      {['Open', 'Closed'].map((status) => (
+    <div className="inline-flex flex-wrap rounded-lg bg-surface-container-low p-1" role="radiogroup" aria-label={label}>
+      {options.map((option) => (
         <button
-          key={status}
+          key={option.value}
           type="button"
           role="radio"
-          aria-checked={value === status}
+          aria-checked={value === option.value}
           disabled={busy}
-          onClick={async () => { if (value === status) return; setBusy(true); try { await onChange(status); } finally { setBusy(false); } }}
-          className={'px-space-sm py-1.5 rounded-md font-label-md text-label-md transition-colors ' +
-            (value === status ? (status === 'Open' ? 'bg-state-success text-on-state' : 'bg-state-danger text-on-state') : 'text-text-body')}
+          onClick={async () => { if (value === option.value) return; setBusy(true); try { await onChange(option.value); } finally { setBusy(false); } }}
+          className={'px-space-sm py-1.5 rounded-md font-label-md text-label-md transition-colors disabled:opacity-60 ' +
+            (value === option.value ? TONE_SOLID[option.tone] : 'text-text-body hover:bg-surface-container-high')}
         >
-          {statusLabel(status)}
+          {option.label}
         </button>
       ))}
     </div>
   );
 }
+
+const knownStatus = (list, value, fallback) => (list.some((s) => s.value === value) ? value : fallback);
 
 export function PharmacyPanel() {
   const toast = useToast();
@@ -205,7 +209,7 @@ export function PharmacyPanel() {
     const p = state.data.pharmacy;
     setForm({ name: p.name === 'صيدلية' ? '' : p.name, phone: p.phone, address: p.address, workingHours: p.workingHours,
       isGovernmentApproved: p.governmentApproved, acceptsInsurance: p.acceptsInsurance, hasColdChain: p.hasColdChain });
-    if (p.status === 'Open' || p.status === 'Closed') setStatus(p.status);
+    setStatus(knownStatus(PHARMACY_STATUSES, p.status, 'Open'));
   }, [state.data]);
 
   const save = async () => {
@@ -239,7 +243,7 @@ export function PharmacyPanel() {
     <>
       <Card id="pharmacy-panel">
         <CardTitle icon="local_pharmacy" actions={<>
-          <StatusSwitch value={status} onChange={changeStatus} />
+          <StatusSwitch value={status} options={PHARMACY_STATUSES} onChange={changeStatus} />
           <Button icon="save" busy={busy} busyLabel="جارٍ الحفظ…" onClick={save} disabled={!form}>حفظ</Button>
         </>}>
           بيانات الصيدلية
@@ -321,7 +325,7 @@ function StockRow({ stock }) {
           <option value="LowStock">كمية محدودة</option>
           <option value="OutOfStock">نفد</option>
         </select>
-        <Button className="!py-1.5" busy={busy} busyLabel="…" onClick={update}>تحديث</Button>
+        <Button className="!py-1.5" busy={busy} busyLabel="…" disabled={stock.medicineId == null || stock.medicineId === ''} onClick={update}>تحديث</Button>
       </div>
     </div>
   );
@@ -335,6 +339,13 @@ function AddStockModal({ open, onClose, onAdded }) {
   const [query, setQuery] = useState('');
   const [form, setForm] = useState({ medicineId: '', quantity: '1', price: '', unit: 'علبة', batchNumber: '', expiryDate: '' });
   const [busy, setBusy] = useState(false);
+
+  /* Start clean each time it opens, so the last medicine is not added twice by mistake. */
+  useEffect(() => {
+    if (!open) return;
+    setQuery('');
+    setForm({ medicineId: '', quantity: '1', price: '', unit: 'علبة', batchNumber: '', expiryDate: '' });
+  }, [open]);
 
   const list = (catalogue.data || []).filter((m) => !query || (m.name + ' ' + m.scientificName).toLowerCase().includes(query.toLowerCase())).slice(0, 50);
 
@@ -416,9 +427,10 @@ export function FacilityPanel() {
   useEffect(() => {
     if (!state.data) return;
     const f = state.data.facility;
-    setForm({ name: f.name === 'منشأة صحية' ? '' : f.name, type: f.type === 'Clinic' ? 'Clinic' : 'Hospital', address: f.address,
+    /* Keep whatever type the record has (gov, phc, field…), not only the two listed. */
+    setForm({ name: f.name === 'منشأة صحية' ? '' : f.name, type: f.type || 'Hospital', address: f.address,
       phone: f.phone, workingHours: f.workingHours, emergencyStatus: f.emergency });
-    if (f.status === 'Open' || f.status === 'Closed') setStatus(f.status);
+    setStatus(knownStatus(FACILITY_STATUSES, f.status, 'Open'));
   }, [state.data]);
 
   const save = async () => {
@@ -470,7 +482,7 @@ export function FacilityPanel() {
     <>
       <Card id="facility-panel">
         <CardTitle icon="domain" actions={<>
-          <StatusSwitch value={status} onChange={changeStatus} />
+          <StatusSwitch value={status} options={FACILITY_STATUSES} onChange={changeStatus} label="حالة المنشأة" />
           <Button icon="save" busy={busy} busyLabel="جارٍ الحفظ…" onClick={save} disabled={!form}>حفظ</Button>
         </>}>
           بيانات المنشأة
@@ -483,6 +495,7 @@ export function FacilityPanel() {
                 <select id="fac-type" className={selectClass} value={form.type} onChange={set('type')}>
                   <option value="Hospital">مستشفى</option>
                   <option value="Clinic">عيادة</option>
+                  {form.type && !['Hospital', 'Clinic'].includes(form.type) ? <option value={form.type}>{facilityTypeLabel(form.type)}</option> : null}
                 </select>
               </Field>
               <Field label="العنوان" htmlFor="fac-address" required className="md:col-span-2"><input id="fac-address" className={inputClass} value={form.address} onChange={set('address')} /></Field>
@@ -516,31 +529,26 @@ export function FacilityPanel() {
 
 function ServiceRow({ service }) {
   const toast = useToast();
-  const [status, setStatus] = useState(service.status === 'Closed' ? 'Closed' : 'Open');
-  const [busy, setBusy] = useState(false);
+  const [status, setStatus] = useState(serviceStatus(service.status));
 
   const update = async (next) => {
-    setBusy(true);
     try {
       await api.facilities.updateService(service.id, next);
       setStatus(next);
       toast('تم تحديث حالة الخدمة.');
     } catch (error) {
       toast(error.message);
-    } finally {
-      setBusy(false);
     }
   };
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle">
       <span className="font-headline-sm text-headline-sm text-text-heading">{service.name}</span>
-      <div className="flex items-center gap-space-2xs">
-        <Badge className={status === 'Open' ? 'bg-state-success-subtle text-state-success' : 'bg-error-container text-state-danger'}>{status === 'Open' ? 'متاحة' : 'متوقفة'}</Badge>
-        <Button tone="soft" className="!py-1.5" busy={busy} busyLabel="…" disabled={service.id == null} onClick={() => update(status === 'Open' ? 'Closed' : 'Open')}>
-          {status === 'Open' ? 'إيقاف' : 'تفعيل'}
-        </Button>
-      </div>
+      {service.id == null ? (
+        <Badge className={TONE_BADGE.neutral}>{statusLabel(status)}</Badge>
+      ) : (
+        <StatusSwitch value={status} options={SERVICE_STATUSES} onChange={update} label={'حالة ' + service.name} />
+      )}
     </div>
   );
 }

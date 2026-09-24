@@ -14,7 +14,9 @@ import { DarkModeToggle } from './dark-mode';
 const NAV = [
   { group: 'الرئيسية' },
   { href: '/dashboard', icon: 'dashboard', label: 'لوحة التحكم' },
+  { href: '/account', icon: 'manage_accounts', label: 'حسابي' },
   { href: '/my-profile', icon: 'badge', label: 'ملفي المهني', roles: ['Doctor'] },
+  { href: '/doctor-appointments', icon: 'event_note', label: 'مواعيد العيادة', roles: ['Doctor'] },
 
   { group: 'الرعاية الطبية' },
   { href: '/health-navigator', icon: 'assistant', label: 'المساعد الصحي الذكي' },
@@ -170,11 +172,18 @@ export function PageHeader({ title, subtitle, actions }) {
   const { openMenu } = useContext(ShellContext);
   const session = useSession();
   const router = useRouter();
-  const profileHref = session && session.role === 'Doctor' ? '/my-profile' : '/dashboard';
+  const profileHref = '/account';
 
-  /* App pages are client components, so the tab title is set here. */
+  /* App pages are client components, so the tab title is set here. Next
+     writes the layout's default title after navigation, so keep ours. */
   useEffect(() => {
-    if (typeof title === 'string' && title) document.title = title + ' | شفاء';
+    if (typeof title !== 'string' || !title) return undefined;
+    const wanted = title + ' | شفاء';
+    const apply = () => { if (document.title !== wanted) document.title = wanted; };
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(document.head, { subtree: true, childList: true, characterData: true });
+    return () => observer.disconnect();
   }, [title]);
 
   return (
@@ -203,7 +212,7 @@ export function PageHeader({ title, subtitle, actions }) {
           </span>
           <button
             type="button"
-            aria-label="الملف الشخصي"
+            aria-label="حسابي"
             onClick={() => router.push(profileHref)}
             className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm hover:brightness-110 transition-all"
           >

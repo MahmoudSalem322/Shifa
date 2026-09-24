@@ -1,18 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { api, auth, toItem, toList } from '@/lib/api';
+import { useState } from 'react';
+import { api, toList } from '@/lib/api';
 import { useAsync, useSession } from '@/lib/hooks';
 import {
-  drugRequestStatus, formatDate, normalizeDrugRequest, roles, timeLabel, validate
+  drugRequestStatus, formatDate, normalizeDrugRequest, roles, timeLabel
 } from '@/lib/vocab';
+import { clinicToday } from '@/lib/clock';
 import { applyMatchStatus } from '@/lib/matching';
 import { PageBody, PageHeader, useLogout } from '@/components/app-shell';
 import { DoctorPanel, FacilityPanel, PharmacyPanel } from '@/components/dashboard-panels';
-import { useToast } from '@/components/toast';
 import { donationStatus } from '@/components/donations';
-import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Field, Icon, inputClass } from '@/components/ui';
+import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Icon } from '@/components/ui';
 
 /* Port of dashboard.html + script/dashboard.js — one page for every role.
      Patient / Donor : quick actions, appointments, drug requests, donations
@@ -22,91 +22,45 @@ import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Field, Icon, in
 
 const ROLE_PROFILE_API = { Doctor: 'doctors', Pharmacy: 'pharmacies', Hospital: 'facilities', Patient: 'patients' };
 
-function AccountCard({ session }) {
-  const toast = useToast();
-  const role = session.role;
+/* Who is signed in, with a way to the account settings page. */
+function AccountSummary({ session }) {
   const user = session.user;
-  const [form, setForm] = useState({ fullName: user.fullName || '', phone: user.phone || '', age: '', gender: '' });
-  const [busy, setBusy] = useState(false);
-
-  /* Patients have a profile endpoint with age and gender. */
-  const patient = useAsync(async () => (role === 'Patient' ? toItem(await api.patients.me()) : null), [role]);
-  useEffect(() => {
-    const p = patient.data;
-    if (!p) return;
-    setForm((f) => ({
-      ...f,
-      fullName: p.fullName || p.name || f.fullName,
-      phone: p.phone || f.phone,
-      age: p.age != null ? String(p.age) : '',
-      gender: p.gender || ''
-    }));
-  }, [patient.data]);
-
-  const save = async () => {
-    const fullName = form.fullName.trim();
-    if (fullName.length < 3) return toast('يرجى إدخال الاسم (3 أحرف على الأقل).');
-    if (form.phone && !validate.phone(form.phone)) return toast('رقم الهاتف يجب أن يتكون من 10 أرقام ويبدأ بـ 05.');
-
-    if (role === 'Patient') {
-      if (!form.gender) return toast('يرجى اختيار الجنس.');
-      const age = form.age === '' ? undefined : Number(form.age);
-      if (age !== undefined && (!Number.isInteger(age) || age < 0 || age > 150)) return toast('العمر غير صحيح.');
-      setBusy(true);
-      try {
-        await api.patients.updateMe({ ...(patient.data || {}), fullName, phone: form.phone || undefined, age, gender: form.gender });
-        auth.mergeSession({ fullName, phone: form.phone });
-        toast('تم حفظ بيانات الحساب.');
-      } catch (error) {
-        toast(error.message);
-      } finally {
-        setBusy(false);
-      }
-      return;
-    }
-
-    /* Doctor / Pharmacy / Hospital save through their own panel below;
-       Donor has no profile endpoint at all. */
-    auth.mergeSession({ fullName, phone: form.phone });
-    toast(ROLE_PROFILE_API[role]
-      ? 'تم التحديث. احفظ الملف المهني أدناه لإرسال التعديلات إلى الخادم.'
-      : 'تم الحفظ على هذا الجهاز — الخادم لا يوفّر تعديل بيانات هذا النوع من الحسابات.');
-  };
-
   return (
-    <Card id="account">
-      <CardTitle icon="account_circle" actions={<Button icon="save" busy={busy} busyLabel="جارٍ الحفظ…" onClick={save}>حفظ التعديلات</Button>}>
-        بيانات الحساب
-      </CardTitle>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
-        <Field label="الاسم الكامل" htmlFor="account-name">
-          <input id="account-name" className={inputClass} value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
-        </Field>
-        <Field label="رقم الهاتف" htmlFor="account-phone">
-          <input id="account-phone" className={inputClass + ' text-left'} dir="ltr" inputMode="numeric" maxLength={10} placeholder="05XXXXXXXX"
-            value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9]/g, '') })} />
-        </Field>
-        <Field label="البريد الإلكتروني" htmlFor="account-email" hint="لا يمكن تغيير البريد الإلكتروني">
-          <input id="account-email" readOnly dir="ltr" className={inputClass + ' bg-surface-subtle text-text-muted text-left'} value={user.email || ''} />
-        </Field>
-        <Field label="نوع الحساب" htmlFor="account-role">
-          <input id="account-role" readOnly className={inputClass + ' bg-surface-subtle text-text-muted'} value={roles.toArabic(role)} />
-        </Field>
-        {role === 'Patient' ? (
-          <>
-            <Field label="العمر" htmlFor="account-age">
-              <input id="account-age" type="number" min="0" max="150" className={inputClass} value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} />
-            </Field>
-            <Field label="الجنس" htmlFor="account-gender" required>
-              <select id="account-gender" className={inputClass + ' cursor-pointer'} value={form.gender} onChange={(e) => setForm({ ...form, gender: e.target.value })}>
-                <option value="">اختر</option>
-                <option value="ذكر">ذكر</option>
-                <option value="أنثى">أنثى</option>
-              </select>
-            </Field>
-          </>
-        ) : null}
+    <Card id="account" className="!flex-row items-center justify-between flex-wrap">
+      <div className="flex items-center gap-space-sm min-w-0">
+        <span className="w-12 h-12 rounded-full bg-primary/10 text-text-primary flex items-center justify-center shrink-0"><Icon name="account_circle" className="text-[28px]" /></span>
+        <div className="flex flex-col min-w-0">
+          <span className="font-headline-sm text-headline-sm text-text-heading truncate">{user.fullName || 'حسابي'}</span>
+          <span className="font-body-sm text-body-sm text-text-muted truncate" dir="auto">{[roles.toArabic(session.role), user.email].filter(Boolean).join(' · ')}</span>
+        </div>
       </div>
+      <ButtonLink href="/account" tone="soft" icon="manage_accounts">إدارة الحساب</ButtonLink>
+    </Card>
+  );
+}
+
+/* Today's bookings at a glance for doctors. */
+function DoctorToday() {
+  const state = useAsync(async () => {
+    const today = clinicToday();
+    return (await api.appointments.forDoctor()).appointments.filter((a) => a.date === today && a.status !== 'cancelled');
+  }, []);
+  const list = state.data || [];
+  return (
+    <Card id="doctor-today">
+      <CardTitle icon="today" count={list.length} actions={<ButtonLink href="/doctor-appointments" tone="soft">كل المواعيد</ButtonLink>}>
+        مواعيد اليوم
+      </CardTitle>
+      <AsyncBlock state={state} skeleton={2} empty={{ when: !list.length, icon: 'event_available', title: 'لا توجد مواعيد اليوم' }}>
+        <div className="flex flex-col gap-space-xs">
+          {list.slice(0, 6).map((a) => (
+            <Link key={a.id} href="/doctor-appointments" className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
+              <span className="font-headline-sm text-headline-sm text-text-heading truncate">{a.patientName}</span>
+              <span className="font-label-md text-label-md text-text-body shrink-0">{timeLabel(a.time)}</span>
+            </Link>
+          ))}
+        </div>
+      </AsyncBlock>
     </Card>
   );
 }
@@ -228,7 +182,8 @@ export default function DashboardPage() {
         actions={<button type="button" onClick={() => setRefreshKey((k) => k + 1)} aria-label="تحديث" className="w-11 h-11 rounded-full flex items-center justify-center text-text-body hover:bg-surface-subtle"><Icon name="refresh" /></button>}
       />
       <PageBody key={refreshKey}>
-        <AccountCard session={session} />
+        <AccountSummary session={session} />
+        {role === 'Doctor' ? <DoctorToday /> : null}
         {role === 'Doctor' ? <DoctorPanel /> : null}
         {role === 'Pharmacy' ? <PharmacyPanel /> : null}
         {role === 'Hospital' ? <FacilityPanel /> : null}

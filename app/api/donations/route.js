@@ -17,14 +17,14 @@ export const GET = handle(async (request) => {
 
   const items = await store.read(COLLECTION);
   const list = items
-    .filter((d) => (scope === 'all' ? true : d.donorId === user.id))
+    .filter((d) => (scope === 'all' ? d.status !== 'withdrawn' : d.donorId === user.id))
     /* 'approved' also covers donations since matched or delivered (Module 9). */
     .filter((d) => (status ? (status === 'approved' ? ACCEPTED.includes(d.status) : d.status === status) : true))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((d) => publicDonation(d, user));
 
   const counts = scope === 'all'
-    ? items.reduce((acc, d) => {
+    ? items.filter((d) => d.status !== 'withdrawn').reduce((acc, d) => {
       const key = ACCEPTED.includes(d.status) ? 'approved' : d.status;
       return { ...acc, [key]: (acc[key] || 0) + 1 };
     }, { pending: 0, approved: 0, rejected: 0 })

@@ -1,16 +1,31 @@
 import { backend, handle, HttpError, readJson, requireUser, text, validationError } from '@/lib/server/auth';
-import { COLLECTION, bookedTimes, fetchDoctor, isHolding, publicAppointment, slotsFor } from '@/lib/server/appointments';
+import {
+  COLLECTION, bookedTimes, doctorAccountOf, doctorAppointment, fetchDoctor, isHolding, ownDoctorId, publicAppointment, slotsFor
+} from '@/lib/server/appointments';
+import { notify } from '@/lib/server/notify';
 import { store } from '@/lib/server/store';
-import { parseIsoDate, timeLabel, validate, WEEKDAYS_AR } from '@/lib/vocab';
+import { formatDate, parseIsoDate, timeLabel, validate, WEEKDAYS_AR } from '@/lib/vocab';
 import { daysFromClinicToday } from '@/lib/clock';
 
 /* How far ahead a patient can book. */
 const MAX_DAYS_AHEAD = 90;
 
 /* GET /api/appointments — the caller's appointments, newest slot first.
-   Module 4 · "Create Get Appointments API". */
+   Module 4 · "Create Get Appointments API".
+   GET /api/appointments?as=doctor — the bookings made with the calling
+   doctor, with each patient's name, phone and notes. */
 export const GET = handle(async (request) => {
   const user = await requireUser(request);
+  const { searchParams } = new URL(request.url);
+  if (searchParams.get('as') === 'doctor') {
+    if (user.role !== 'Doctor') throw new HttpError(403, 'هذه القائمة متاحة للأطباء فقط.');
+    const doctorId = await ownDoctorId(user);
+    const booked = (await store.read(COLLECTION))
+      .filter((a) => String(a.doctorId) === doctorId && a.status !== 'reserving')
+      .map(doctorAppointment)
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+    return Response.json({ appointments: booked });
+  }
   const items = await store.read(COLLECTION);
   const mine = items
     .filter((a) => a.patientId === user.id && a.status !== 'reserving')
@@ -126,6 +141,15 @@ export const POST = handle(async (request) => {
       : a));
     return { items: next, result: next.find((a) => a.id === reservation.id) };
   });
+
+  const doctorAccount = await doctorAccountOf(confirmed.doctorId).catch(() => '');
+  await notify([{
+    userId: doctorAccount,
+    type: 'appointment_booked',
+    title: 'حجز جديد في عيادتك',
+    message: confirmed.patientName + ' · ' + formatDate(confirmed.date) + ' الساعة ' + timeLabel(confirmed.time),
+    href: '/doctor-appointments'
+  }]);
 
   return Response.json({ appointment: publicAppointment(confirmed), message: 'تم تأكيد حجز الموعد بنجاح.' }, { status: 201 });
 });

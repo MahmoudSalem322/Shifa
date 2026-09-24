@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { api, fieldErrors } from '@/lib/api';
 import { useSession } from '@/lib/hooks';
 import { notifications } from '@/lib/notifications';
@@ -11,7 +12,9 @@ import { Badge, Button, ButtonLink, Card, CardTitle, Field, Icon, inputClass } f
 
 /* Module 8 · Feature 1 — add a medicine donation.
    Medicine, quantity, expiry, location and donor details, validated here
-   and again by POST /api/donations. Every donation starts pending. */
+   and again by POST /api/donations. Every donation starts pending.
+   With ?edit=<id> the same form corrects a donation still pending review
+   (PATCH /api/donations/{id}). */
 
 const UNITS = ['علبة', 'شريط', 'قرص', 'كبسولة', 'زجاجة', 'أمبولة', 'قلم', 'بخاخ', 'أنبوب'];
 const MIN_SHELF_LIFE_DAYS = 30;
@@ -32,6 +35,27 @@ export default function NewDonationPage() {
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState('');
   const [created, setCreated] = useState(null);
+  const router = useRouter();
+  const [editingId, setEditingId] = useState('');
+  const [loadError, setLoadError] = useState('');
+
+  /* Edit mode: load the donation into the form. */
+  useEffect(() => {
+    const editId = new URLSearchParams(window.location.search).get('edit');
+    if (!editId) return;
+    setEditingId(editId);
+    api.donations.get(editId).then(({ donation }) => {
+      if (donation.status !== 'pending') {
+        setLoadError('لا يمكن تعديل هذا التبرع لأنه لم يعد قيد المراجعة.');
+        return;
+      }
+      setForm({
+        medicineName: donation.medicineName || '', quantity: String(donation.quantity || 1), unit: donation.unit || 'علبة',
+        expiryDate: donation.expiryDate || '', governorate: donation.governorate || '', address: donation.address || '',
+        donorName: donation.donorName || '', donorPhone: donation.donorPhone || '', notes: donation.notes || '', confirmSealed: true
+      });
+    }).catch((error) => setLoadError(error.message));
+  }, []);
 
   /* Donor information defaults to the signed-in account. */
   useEffect(() => {
@@ -78,6 +102,11 @@ export default function NewDonationPage() {
     if (!validateForm()) return;
     setBusy(true);
     try {
+      if (editingId) {
+        await api.donations.update(editingId, { ...form, quantity: Number(form.quantity) });
+        router.push('/donations/' + encodeURIComponent(editingId));
+        return;
+      }
       const response = await api.donations.create({ ...form, quantity: Number(form.quantity) });
       setCreated(response.donation);
       notifications.add({
@@ -127,14 +156,19 @@ export default function NewDonationPage() {
 
   return (
     <>
-      <PageHeader title="التبرع بدواء" subtitle="ساهم بدوائك الفائض لمن يحتاجه" />
+      <PageHeader title={editingId ? 'تعديل التبرع' : 'التبرع بدواء'} subtitle={editingId ? 'صحّح بيانات تبرعك قبل مراجعته' : 'ساهم بدوائك الفائض لمن يحتاجه'} />
       <PageBody narrow>
         <RoleGate allow={['Patient', 'Donor']} message="التبرع بالأدوية متاح لحسابات المتبرعين والمرضى">
           <nav className="flex items-center gap-1 font-body-sm text-body-sm text-text-muted" aria-label="مسار التنقل">
             <Link href="/donations" className="hover:text-text-primary">تبرعاتي</Link>
             <Icon name="chevron_left" className="text-[18px]" />
-            <span className="text-text-body">تبرع جديد</span>
+            <span className="text-text-body">{editingId ? 'تعديل التبرع' : 'تبرع جديد'}</span>
           </nav>
+          {loadError ? (
+            <p className="p-space-sm rounded-xl bg-state-danger-subtle text-state-danger font-label-md text-label-md flex items-center gap-2" role="alert">
+              <Icon name="error" /> {loadError}
+            </p>
+          ) : null}
 
           <form className="flex flex-col gap-space-lg" onSubmit={submit} noValidate>
             <Card>
@@ -203,7 +237,7 @@ export default function NewDonationPage() {
             ) : null}
 
             <div className="flex flex-wrap gap-space-xs">
-              <Button type="submit" icon="volunteer_activism" busy={busy} busyLabel="جارٍ إرسال التبرع…">إرسال التبرع</Button>
+              <Button type="submit" icon={editingId ? 'save' : 'volunteer_activism'} busy={busy} busyLabel={editingId ? 'جارٍ الحفظ…' : 'جارٍ إرسال التبرع…'} disabled={!!loadError}>{editingId ? 'حفظ التعديلات' : 'إرسال التبرع'}</Button>
               <ButtonLink href="/donations" tone="ghost">إلغاء</ButtonLink>
             </div>
           </form>

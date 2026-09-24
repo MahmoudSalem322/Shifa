@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAsync, useSession } from '@/lib/hooks';
@@ -9,9 +10,50 @@ import { PageBody, PageHeader } from '@/components/app-shell';
 import { donationStatus, ExpiryBadge } from '@/components/donations';
 import { RequestMatches } from '@/components/matches';
 import { ReviewActions } from '@/components/review-actions';
-import { AsyncBlock, Badge, Card, CardTitle, Icon, InfoRow } from '@/components/ui';
+import { useToast } from '@/components/toast';
+import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Field, Icon, InfoRow, inputClass, Modal } from '@/components/ui';
 
-const STATUS_WORDS = { pending: 'أُرسل التبرع', approved: 'تم القبول', rejected: 'تم الرفض', matched: 'حُجزت الكمية كاملة لطلبات أدوية', delivered: 'تم تسليم التبرع' };
+const STATUS_WORDS = { pending: 'أُرسل التبرع', approved: 'تم القبول', rejected: 'تم الرفض', matched: 'حُجزت الكمية كاملة لطلبات أدوية', delivered: 'تم تسليم التبرع', withdrawn: 'سحب المتبرع التبرع' };
+
+/* The donor can take back a donation nobody has reviewed yet. */
+function WithdrawDonation({ donation, onDone }) {
+  const toast = useToast();
+  const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const withdraw = async () => {
+    setBusy(true);
+    try {
+      await api.donations.withdraw(donation.id, reason.trim());
+      toast('تم سحب التبرع.');
+      setOpen(false);
+      onDone();
+    } catch (error) {
+      toast(error.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <>
+      <Button tone="danger" icon="undo" onClick={() => setOpen(true)}>سحب التبرع</Button>
+      <Modal open={open} onClose={() => setOpen(false)} title="سحب التبرع" eyebrow={donation.medicineName}>
+        <div className="flex flex-col gap-space-sm">
+          <p className="font-body-md text-body-md text-text-muted">سيُزال التبرع من قائمة المراجعة ولن يُعرض على الصيدليات والمراكز. لا يمكن التراجع عن السحب.</p>
+          <Field label="السبب (اختياري)" htmlFor="withdraw-reason">
+            <textarea id="withdraw-reason" rows={3} maxLength={500} className={inputClass} value={reason} onChange={(e) => setReason(e.target.value)} />
+          </Field>
+          <div className="flex gap-space-xs">
+            <Button tone="danger" icon="undo" busy={busy} busyLabel="جارٍ السحب…" onClick={withdraw} className="flex-1">تأكيد السحب</Button>
+            <Button tone="ghost" onClick={() => setOpen(false)}>تراجع</Button>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+}
 
 /* Module 8 · "Display Donation Details" — shared by donor and reviewer. */
 export default function DonationDetailsPage() {
@@ -81,6 +123,13 @@ export default function DonationDetailsPage() {
                 {reviewer && donation.status === 'pending' && !donation.isMine ? (
                   <ReviewActions donation={donation} onDone={() => state.reload()} />
                 ) : null}
+
+                {donation.isMine && donation.status === 'pending' ? (
+                  <div className="flex flex-wrap gap-space-xs">
+                    <ButtonLink href={'/donations/new?edit=' + encodeURIComponent(donation.id)} tone="soft" icon="edit">تعديل التبرع</ButtonLink>
+                    <WithdrawDonation donation={donation} onDone={() => state.reload()} />
+                  </div>
+                ) : null}
               </Card>
 
               {matches.length ? (
@@ -95,7 +144,7 @@ export default function DonationDetailsPage() {
                 <ol className="flex flex-col gap-space-sm border-r-2 border-border-soft pr-space-md">
                   {(donation.history || []).map((entry, index) => (
                     <li key={index} className="relative">
-                      <span className={'absolute -right-[calc(1.5rem+7px)] top-1 w-3 h-3 rounded-full ' + (entry.status === 'rejected' ? 'bg-state-danger' : entry.status === 'pending' ? 'bg-state-warning' : entry.status === 'matched' ? 'bg-state-info' : 'bg-state-success')} />
+                      <span className={'absolute -right-[calc(1.5rem+7px)] top-1 w-3 h-3 rounded-full ' + (entry.status === 'rejected' ? 'bg-state-danger' : entry.status === 'withdrawn' ? 'bg-outline' : entry.status === 'pending' ? 'bg-state-warning' : entry.status === 'matched' ? 'bg-state-info' : 'bg-state-success')} />
                       <div className="flex flex-col">
                         <span className="font-label-lg text-label-lg text-text-heading">{STATUS_WORDS[entry.status] || entry.status}</span>
                         <span className="font-body-sm text-body-sm text-text-muted">{formatDateTime(entry.at)}{entry.by ? ' · ' + entry.by : ''}</span>
