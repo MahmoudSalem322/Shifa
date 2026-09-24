@@ -3,6 +3,7 @@ import { navigate } from '@/lib/server/navigator-ai';
 import { searchDirectory } from '@/lib/server/navigator-search';
 import { describeSearch, parseWithRules } from '@/lib/navigator';
 import { geo } from '@/lib/vocab';
+import { createRateLimit } from '@/lib/server/rate-limit';
 
 /* POST /api/navigator { query, history?, governorate? }
    Module 6 · "Create AI Navigator API". Claude extracts the service,
@@ -11,20 +12,11 @@ import { geo } from '@/lib/vocab';
    declines, a keyword parser takes over so the person still gets
    results, and the response says so. */
 
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 30;
-const recent = new Map();
-
-function rateLimit(userId) {
-  const now = Date.now();
-  const hits = (recent.get(userId) || []).filter((at) => now - at < WINDOW_MS);
-  if (hits.length >= MAX_PER_WINDOW) {
-    throw new HttpError(429, 'أرسلت أسئلة كثيرة خلال وقت قصير. انتظر بضع دقائق ثم حاول مجدداً.');
-  }
-  hits.push(now);
-  recent.set(userId, hits);
-  if (recent.size > 1000) recent.delete(recent.keys().next().value);
-}
+const rateLimit = createRateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 30,
+  message: 'أرسلت أسئلة كثيرة خلال وقت قصير. انتظر بضع دقائق ثم حاول مجدداً.'
+});
 
 export const POST = handle(async (request) => {
   const user = await requireUser(request);
@@ -32,7 +24,12 @@ export const POST = handle(async (request) => {
   const query = String(body.query || '').trim();
   if (query.length < 2) throw new HttpError(400, 'اكتب ما تبحث عنه.');
   if (query.length > 500) throw new HttpError(400, 'الرسالة طويلة جداً. اختصرها في 500 حرف.');
-  const history = Array.isArray(body.history) ? body.history.slice(-6) : [];
+  /* Only the user's own earlier messages are trusted as context; the
+     assistant side is whatever the client says it was. */
+  const history = (Array.isArray(body.history) ? body.history : [])
+    .filter((turn) => turn && typeof turn === 'object')
+    .slice(-6)
+    .map((turn) => ({ role: turn.role === 'assistant' ? 'assistant' : 'user', text: String(turn.text || '').slice(0, 500) }));
   rateLimit(user.id);
 
   let parsed;
@@ -41,11 +38,12 @@ export const POST = handle(async (request) => {
   try {
     parsed = await navigate(query, history);
   } catch (error) {
-    if (!(error instanceof HttpError)) throw error;
+    /* Any failure, expected or not, falls back to keywords. */
+    if (!(error instanceof HttpError)) console.error('[shifa] navigator AI failed', error);
     source = 'rules';
-    aiNotice = error.extra && error.extra.code === 'ai_not_configured'
+    aiNotice = error instanceof HttpError && error.extra && error.extra.code === 'ai_not_configured'
       ? 'المساعد الذكي غير مفعّل حالياً، فاستخدمنا البحث بالكلمات المفتاحية.'
-      : 'تعذّر الوصول إلى المساعد الذكي (' + error.message + ') فاستخدمنا البحث بالكلمات المفتاحية.';
+      : 'تعذّر الوصول إلى المساعد الذكي' + (error instanceof HttpError ? ' (' + error.message + ')' : '') + ' فاستخدمنا البحث بالكلمات المفتاحية.';
     parsed = parseWithRules(query);
   }
 

@@ -1,7 +1,11 @@
-import { backend, handle, HttpError, readJson, requireUser, validationError } from '@/lib/server/auth';
+import { backend, handle, HttpError, readJson, requireUser, text, validationError } from '@/lib/server/auth';
 import { COLLECTION, bookedTimes, fetchDoctor, isHolding, publicAppointment, slotsFor } from '@/lib/server/appointments';
 import { store } from '@/lib/server/store';
 import { parseIsoDate, timeLabel, validate, WEEKDAYS_AR } from '@/lib/vocab';
+import { daysFromClinicToday } from '@/lib/clock';
+
+/* How far ahead a patient can book. */
+const MAX_DAYS_AHEAD = 90;
 
 /* GET /api/appointments — the caller's appointments, newest slot first.
    Module 4 · "Create Get Appointments API". */
@@ -23,16 +27,18 @@ export const POST = handle(async (request) => {
   const user = await requireUser(request);
   const body = await readJson(request);
 
-  const doctorId = Number(body.doctorId);
-  const date = String(body.date || '');
-  const time = String(body.time || '');
-  const patientName = String(body.patientName || '').trim();
-  const phone = String(body.phone || '').trim();
-  const notes = String(body.notes || '').trim();
+  const doctorId = text(body.doctorId, 64);
+  const date = text(body.date, 10);
+  const time = text(body.time, 5);
+  const patientName = text(body.patientName, 120);
+  const phone = text(body.phone, 20);
+  const notes = String(body.notes ?? '').trim();
 
   const errors = {};
   if (!doctorId) errors.DoctorId = ['لم يتم تحديد الطبيب.'];
   if (!parseIsoDate(date)) errors.Date = ['اختر تاريخ الموعد.'];
+  else if (daysFromClinicToday(date) < 0) errors.Date = ['لا يمكن الحجز في تاريخ سابق.'];
+  else if (daysFromClinicToday(date) > MAX_DAYS_AHEAD) errors.Date = ['يمكن الحجز حتى ' + MAX_DAYS_AHEAD + ' يوماً مقدماً فقط.'];
   if (!/^\d{2}:\d{2}$/.test(time)) errors.Time = ['اختر وقت الموعد من الأوقات المتاحة.'];
   if (!patientName) errors.PatientName = ['يرجى إدخال اسم المريض.'];
   if (!validate.phone(phone)) errors.Phone = ['رقم الهاتف يجب أن يتكون من 10 أرقام ويبدأ بـ 05.'];
@@ -45,7 +51,9 @@ export const POST = handle(async (request) => {
   /* Hold the slot. Everything between reading and writing happens inside
      the store's exclusive section, so a second request for the same slot
      sees this reservation. */
-  const reservation = await store.update(COLLECTION, (items) => {
+  const reservation = await store.update(COLLECTION, (stored) => {
+    /* Drop holds left behind by requests that died mid-flight. */
+    const items = stored.filter((a) => a.status !== 'reserving' || isHolding(a));
     const schedule = slotsFor(doctor, day, items);
     if (!schedule.worksThatDay) {
       throw new HttpError(409, 'الطبيب لا يعمل يوم ' + WEEKDAYS_AR[day.getDay()] + '. اختر يوماً آخر.');

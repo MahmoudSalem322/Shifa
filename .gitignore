@@ -6,4 +6,5 @@ out/
 # Runtime data written by the route handlers (appointments, donations, prescriptions)
 data/*.json
 data/uploads/
+data/*.tmp
 .claude/

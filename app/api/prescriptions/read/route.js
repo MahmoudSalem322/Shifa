@@ -3,6 +3,16 @@ import { extractPrescription } from '@/lib/server/prescription-ai';
 import { COLLECTION, publicPrescription } from '@/lib/server/prescriptions';
 import { store } from '@/lib/server/store';
 import { MAX_IMAGE_BYTES, MAX_PDF_BYTES, sniffType } from '@/lib/files';
+import { createRateLimit } from '@/lib/server/rate-limit';
+
+const rateLimit = createRateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 20,
+  message: 'قرأت وصفات كثيرة خلال وقت قصير. حاول بعد قليل.'
+});
+
+/* The largest allowed file plus room for the multipart envelope. */
+const MAX_BODY_BYTES = Math.max(MAX_IMAGE_BYTES, MAX_PDF_BYTES) + 512 * 1024;
 
 /* Reading a handwritten prescription can take a while. */
 export const maxDuration = 120;
@@ -12,6 +22,11 @@ export const maxDuration = 120;
    return the extracted medicines and keep them as a draft for review. */
 export const POST = handle(async (request) => {
   const user = await requireUser(request);
+
+  /* Refuse oversized uploads before buffering the body. */
+  const declared = Number(request.headers.get('content-length'));
+  if (declared && declared > MAX_BODY_BYTES) throw new HttpError(413, 'حجم الملف أكبر من الحد المسموح.');
+  rateLimit(user.id);
 
   let form;
   try {
@@ -24,7 +39,7 @@ export const POST = handle(async (request) => {
 
   const bytes = new Uint8Array(await file.arrayBuffer());
   const mediaType = sniffType(bytes);
-  if (!mediaType) throw new HttpError(415, 'الملف ليس صورة أو PDF صالحاً. الأنواع المسموحة: JPG أو PNG أو WEBP أو PDF.');
+  if (!mediaType) throw new HttpError(415, 'الملف ليس صورة أو PDF صالحاً. الأنواع المسموحة: JPG أو PNG أو WEBP أو GIF أو PDF.');
   const limit = mediaType === 'application/pdf' ? MAX_PDF_BYTES : MAX_IMAGE_BYTES;
   if (bytes.length > limit) throw new HttpError(413, 'حجم الملف أكبر من الحد المسموح.');
 

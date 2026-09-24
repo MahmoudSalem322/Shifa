@@ -1,4 +1,5 @@
-import { handle, HttpError, readJson, requireUser } from '@/lib/server/auth';
+import { backend, handle, HttpError, readJson, requireUser } from '@/lib/server/auth';
+import { pick, toList } from '@/lib/api';
 import { COLLECTION, parseMedications, publicPrescription } from '@/lib/server/prescriptions';
 import { store } from '@/lib/server/store';
 
@@ -22,6 +23,15 @@ export const PATCH = handle(async (request, { params }) => {
   const { id } = await params;
   const body = await readJson(request);
 
+  /* A link must point at the caller's own drug requests on the .NET API. */
+  let ownRequestIds = null;
+  if (body.action === 'link') {
+    const response = await backend(user, 'GET', '/api/drugrequests/my');
+    if (response.status === 401) throw new HttpError(401, 'انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.');
+    if (!response.ok) throw new HttpError(502, 'تعذّر التحقق من طلبات الأدوية على خادم شفاء.');
+    ownRequestIds = new Set(toList(response.payload).map((item) => String(pick(item, 'id', 'requestId', 'drugRequestId'))));
+  }
+
   const updated = await store.update(COLLECTION, (items) => {
     const index = items.findIndex((p) => p.id === id && p.userId === user.id);
     if (index === -1) throw new HttpError(404, 'لم يتم العثور على الوصفة.');
@@ -35,7 +45,8 @@ export const PATCH = handle(async (request, { params }) => {
     } else if (body.action === 'link') {
       if (current.status === 'extracted') throw new HttpError(409, 'أكّد بيانات الوصفة أولاً.');
       const links = (Array.isArray(body.drugRequests) ? body.drugRequests : [])
-        .filter((r) => r && (r.id !== undefined && r.id !== null && r.id !== ''))
+        .slice(0, 50)
+        .filter((r) => r && (r.id !== undefined && r.id !== null && r.id !== '') && ownRequestIds.has(String(r.id)))
         .map((r) => ({ id: String(r.id), medicineName: String(r.medicineName || '').slice(0, 200), quantity: Number(r.quantity) || 0 }));
       if (!links.length) throw new HttpError(400, 'لا توجد طلبات أدوية لربطها.');
       const known = new Set((current.drugRequests || []).map((r) => r.id));

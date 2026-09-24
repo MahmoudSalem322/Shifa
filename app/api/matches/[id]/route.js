@@ -1,6 +1,6 @@
 import { handle, HttpError, readJson, requireUser } from '@/lib/server/auth';
-import { COLLECTION as DONATIONS, isReviewer } from '@/lib/server/donations';
-import { COLLECTION, canViewMatch, publicMatch, settleDonationStatus } from '@/lib/server/matches';
+import { COLLECTION as DONATIONS } from '@/lib/server/donations';
+import { COLLECTION, canViewMatch, handlesMatch, publicMatch, settleDonationStatus } from '@/lib/server/matches';
 import { notify } from '@/lib/server/notify';
 import { store } from '@/lib/server/store';
 
@@ -16,7 +16,8 @@ export const GET = handle(async (request, { params }) => {
 /* PATCH /api/matches/{id} { action: 'cancel' | 'deliver', note? }
    cancel  — the patient or a reviewer, while reserved; the units go back
              to the donation.
-   deliver — a pharmacy or centre confirms the hand-over. */
+   deliver — the pharmacy or centre that approved the donation confirms
+             the hand-over. */
 export const PATCH = handle(async (request, { params }) => {
   const user = await requireUser(request);
   const { id } = await params;
@@ -24,7 +25,6 @@ export const PATCH = handle(async (request, { params }) => {
   const action = body.action;
   if (action !== 'cancel' && action !== 'deliver') throw new HttpError(400, 'إجراء غير معروف.');
   const note = String(body.note || '').trim().slice(0, 500);
-  const reviewer = isReviewer(user);
   const now = new Date().toISOString();
   const nextStatus = action === 'cancel' ? 'cancelled' : 'delivered';
 
@@ -33,10 +33,11 @@ export const PATCH = handle(async (request, { params }) => {
     const index = items.findIndex((m) => m.id === id);
     if (index === -1 || !canViewMatch(user, items[index])) throw new HttpError(404, 'لم يتم العثور على المطابقة.');
     const current = items[index];
+    const reviewer = handlesMatch(user, current);
     if (current.status !== 'reserved') {
       throw new HttpError(409, current.status === 'delivered' ? 'تم تسليم هذا الدواء مسبقاً.' : 'تم إلغاء هذه المطابقة مسبقاً.');
     }
-    if (action === 'deliver' && !reviewer) throw new HttpError(403, 'تأكيد التسليم متاح للصيدليات والمراكز الصحية فقط.');
+    if (action === 'deliver' && !reviewer) throw new HttpError(403, 'تأكيد التسليم متاح للجهة التي راجعت التبرع فقط.');
     if (action === 'cancel' && !reviewer && current.requesterId !== user.id) throw new HttpError(403, 'لا تملك صلاحية إلغاء هذه المطابقة.');
 
     const by = user.name || user.email || '';
@@ -52,19 +53,31 @@ export const PATCH = handle(async (request, { params }) => {
     return { items: copy, result: next };
   });
 
-  await store.update(DONATIONS, (items) => ({
-    items: items.map((d) => {
-      if (d.id !== match.donationId) return d;
-      const next = {
-        ...d,
-        allocations: (d.allocations || []).map((a) => (a.matchId === match.id ? { ...a, status: nextStatus, updatedAt: now } : a))
-      };
-      next.status = settleDonationStatus(next);
-      if (next.status !== d.status) next.history = [...(d.history || []), { status: next.status, at: now, by: user.name || '' }];
-      return next;
-    }),
-    result: null
-  }));
+  try {
+    await store.update(DONATIONS, (items) => ({
+      items: items.map((d) => {
+        if (d.id !== match.donationId) return d;
+        const next = {
+          ...d,
+          allocations: (d.allocations || []).map((a) => (a.matchId === match.id ? { ...a, status: nextStatus, updatedAt: now } : a))
+        };
+        next.status = settleDonationStatus(next);
+        if (next.status !== d.status) next.history = [...(d.history || []), { status: next.status, at: now, by: user.name || '' }];
+        return next;
+      }),
+      result: null
+    }));
+  } catch (error) {
+    /* Put the match back so the units are not left reserved against a
+       match that says otherwise. */
+    await store.update(COLLECTION, (items) => ({
+      items: items.map((m) => (m.id === match.id && m.status === nextStatus && m.updatedAt === now
+        ? { ...m, status: 'reserved', history: (m.history || []).slice(0, -1) }
+        : m)),
+      result: null
+    })).catch(() => {});
+    throw error;
+  }
 
   const units = match.quantity + ' ' + (match.unit || '');
   const href = '/matches/' + match.id;

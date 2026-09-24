@@ -29,7 +29,7 @@ export const PATCH = handle(async (request, { params }) => {
     const current = withTiming(items[index]);
     if (items[index].status === 'cancelled') throw new HttpError(409, 'تم إلغاء هذا الموعد مسبقاً.');
     if (!current.upcoming) throw new HttpError(409, 'لا يمكن إلغاء موعد انتهى وقته.');
-    const next = { ...items[index], status: 'cancelled', cancelledAt: new Date().toISOString(), cancelReason: String(body.reason || '').slice(0, 500) };
+    const next = { ...items[index], status: 'cancelled', cancelledAt: new Date().toISOString(), cancelReason: String(body.reason ?? '').slice(0, 500) };
     const copy = items.slice();
     copy[index] = next;
     return { items: copy, result: next };
