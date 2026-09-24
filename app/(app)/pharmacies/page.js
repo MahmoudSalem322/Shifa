@@ -51,7 +51,7 @@ function PharmacyCard({ pharmacy }) {
         </div>
       </div>
       <div className="flex items-center gap-space-xs">
-        <Link href={href} className="flex-1 py-space-2xs bg-primary text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-text-heading transition-colors flex items-center justify-center gap-space-2xs shadow-sm">
+        <Link href={href} className="flex-1 py-space-2xs bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-primary-hover transition-colors flex items-center justify-center gap-space-2xs shadow-sm">
           عرض الصيدلية <Icon name="arrow_back" className="text-base" />
         </Link>
         {pharmacy.phone ? (

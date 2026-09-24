@@ -179,7 +179,7 @@ function StatusSwitch({ value, onChange }) {
           disabled={busy}
           onClick={async () => { if (value === status) return; setBusy(true); try { await onChange(status); } finally { setBusy(false); } }}
           className={'px-space-sm py-1.5 rounded-md font-label-md text-label-md transition-colors ' +
-            (value === status ? (status === 'Open' ? 'bg-state-success text-on-primary' : 'bg-state-danger text-on-primary') : 'text-text-body')}
+            (value === status ? (status === 'Open' ? 'bg-state-success text-on-state' : 'bg-state-danger text-on-state') : 'text-text-body')}
         >
           {statusLabel(status)}
         </button>

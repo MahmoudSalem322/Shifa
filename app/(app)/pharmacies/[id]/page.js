@@ -31,20 +31,20 @@ export default function PharmacyDetailsPage() {
         <AsyncBlock state={state}>
           {p ? (
             <>
-              <div className="bg-gradient-to-l from-primary-container to-text-heading text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div className="bg-gradient-to-l from-primary-container to-primary-hover text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
                 <div className="flex items-center gap-space-md">
                   <span className="w-16 h-16 rounded-2xl bg-white/15 flex items-center justify-center shrink-0"><Icon name="local_pharmacy" className="text-[36px]" /></span>
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h1 className="font-headline-xl text-headline-xl">{p.name}</h1>
                       {p.governmentApproved ? <Badge className="bg-white/20 text-white" icon="verified">معتمدة</Badge> : null}
-                      {p.status ? <Badge className={p.status === 'Closed' ? 'bg-state-danger text-white' : 'bg-state-success text-white'}>{statusLabel(p.status)}</Badge> : null}
+                      {p.status ? <Badge className={p.status === 'Closed' ? 'bg-state-danger text-on-state' : 'bg-state-success text-on-state'}>{statusLabel(p.status)}</Badge> : null}
                     </div>
                     {p.address ? <span className="font-body-md text-body-md text-white/85 flex items-center gap-1"><Icon name="location_on" className="text-[18px]" />{p.address}</span> : null}
                   </div>
                 </div>
                 {p.phone ? (
-                  <a href={'tel:' + p.phone} className="inline-flex items-center justify-center gap-2 px-space-md py-3 rounded-xl bg-white text-text-heading font-label-lg text-label-lg shadow-sm shrink-0">
+                  <a href={'tel:' + p.phone} className="inline-flex items-center justify-center gap-2 px-space-md py-3 rounded-xl bg-surface-card text-text-heading font-label-lg text-label-lg shadow-sm shrink-0">
                     <Icon name="call" /> <span dir="ltr">{p.phone}</span>
                   </a>
                 ) : null}
@@ -87,7 +87,7 @@ export default function PharmacyDetailsPage() {
                 <Card>
                   <CardTitle icon="location_city">الموقع</CardTitle>
                   <p className="font-body-md text-body-md text-text-body">{p.address}</p>
-                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary hover:text-on-primary font-label-md text-label-md transition-colors"
+                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary-container hover:text-on-primary font-label-md text-label-md transition-colors"
                     href={'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.latitude && p.longitude ? p.latitude + ',' + p.longitude : p.name + ' ' + p.address)}
                     target="_blank" rel="noopener noreferrer">
                     <Icon name="directions" /> فتح في خرائط Google

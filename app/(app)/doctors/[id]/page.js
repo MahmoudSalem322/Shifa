@@ -55,7 +55,7 @@ export default function DoctorProfilePage() {
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
                     <div className="relative flex-shrink-0">
                       <img src={doctor.image || DOCTOR_FALLBACK_AVATAR} alt={doctor.name} className="w-28 h-28 lg:w-36 lg:h-36 rounded-xl object-cover shadow-sm ring-4 ring-state-info-subtle" />
-                      <span className="absolute -bottom-2 -left-2 bg-state-success text-on-primary w-7 h-7 rounded-full flex items-center justify-center shadow-sm" title="طبيب متاح للحجز">
+                      <span className="absolute -bottom-2 -left-2 bg-state-success text-on-state w-7 h-7 rounded-full flex items-center justify-center shadow-sm" title="طبيب متاح للحجز">
                         <Icon name="check" filled className="text-sm" />
                       </span>
                     </div>
@@ -152,7 +152,7 @@ export default function DoctorProfilePage() {
                   </p>
                 </div>
                 {mapQuery ? (
-                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold transition-colors"
+                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary-container hover:text-on-primary font-label-md text-label-md font-semibold transition-colors"
                     href={'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapQuery)} target="_blank" rel="noopener noreferrer">
                     <Icon name="directions" className="text-lg" /> فتح في خرائط Google
                   </a>

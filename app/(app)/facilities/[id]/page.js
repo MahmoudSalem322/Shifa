@@ -37,7 +37,7 @@ export default function FacilityDetailsPage() {
               {f.emergency ? (
                 <div className="bg-state-danger text-on-error rounded-xl p-space-sm flex items-center justify-between gap-space-sm">
                   <span className="flex items-center gap-2 font-label-lg text-label-lg"><Icon name="emergency" /> قسم الطوارئ يستقبل الحالات على مدار الساعة</span>
-                  {f.phone ? <a href={'tel:' + f.phone} className="px-space-sm py-1.5 rounded-lg bg-white text-state-danger font-label-md text-label-md shrink-0">اتصال</a> : null}
+                  {f.phone ? <a href={'tel:' + f.phone} className="px-space-sm py-1.5 rounded-lg bg-surface-card text-state-danger font-label-md text-label-md shrink-0">اتصال</a> : null}
                 </div>
               ) : null}
 
@@ -46,7 +46,7 @@ export default function FacilityDetailsPage() {
                   {f.image ? <img src={f.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full bg-gradient-to-br from-primary-container to-secondary-container" />}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <div className="absolute bottom-0 right-0 left-0 p-space-md flex flex-col gap-1 text-white">
-                    {f.type ? <span className="self-start px-space-xs py-1 rounded-full bg-white/90 text-text-heading font-label-sm text-label-sm">{facilityTypeLabel(f.type)}</span> : null}
+                    {f.type ? <span className="self-start px-space-xs py-1 rounded-full bg-surface-card/90 text-text-heading font-label-sm text-label-sm">{facilityTypeLabel(f.type)}</span> : null}
                     <h1 className="font-headline-xl text-headline-xl text-white">{f.name}</h1>
                     <div className="flex flex-wrap items-center gap-space-sm font-body-sm text-body-sm text-white/90">
                       {f.rating ? <span className="flex items-center gap-1"><Icon name="star" filled className="text-state-warning text-[18px]" />{f.rating.toFixed(1)}{f.reviewsCount ? ' (' + f.reviewsCount + ' تقييم)' : ''}</span> : null}
@@ -90,7 +90,7 @@ export default function FacilityDetailsPage() {
                 <CardTitle icon="location_city">الموقع</CardTitle>
                 <p className="font-body-md text-body-md text-text-body">{f.address || 'لم يُحدد العنوان.'}</p>
                 {mapQuery ? (
-                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary hover:text-on-primary font-label-md text-label-md transition-colors"
+                  <a className="inline-flex items-center gap-1.5 self-start px-space-sm py-2 rounded-lg bg-surface-container-low text-text-primary hover:bg-primary-container hover:text-on-primary font-label-md text-label-md transition-colors"
                     href={'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapQuery)} target="_blank" rel="noopener noreferrer">
                     <Icon name="directions" /> فتح في خرائط Google
                   </a>

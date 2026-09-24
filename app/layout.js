@@ -1,6 +1,7 @@
 import './legacy.css';
 import './globals.css';
 import { ToastProvider } from '@/components/toast';
+import { DarkModeProvider } from '@/components/dark-mode';
 
 export const metadata = {
   title: {
@@ -11,10 +12,23 @@ export const metadata = {
   icons: { icon: '/image/logo.png' }
 };
 
+export const viewport = {
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#0f766e' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f1a1e' }
+  ]
+};
+
+/* Inline script that runs before first paint to apply the saved theme
+   (or system preference) to <html>, preventing a flash of wrong theme. */
+const themeScript = `(function(){try{var t=localStorage.getItem('shifa-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch{}})()`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
@@ -29,7 +43,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ToastProvider>{children}</ToastProvider>
+        <DarkModeProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </DarkModeProvider>
       </body>
     </html>
   );

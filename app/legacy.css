@@ -2845,3 +2845,567 @@ select.input {
     font-weight: 700;
     cursor: pointer;
 }
+
+/* ====================================================================
+   DARK MODE OVERRIDES
+   Applied when html.dark is set (by the theme toggle or system pref).
+   ==================================================================== */
+
+html.dark {
+    --green: #3db89a;
+    --green-dark: #5cd4b4;
+    --green-light: #17322b;
+    --blue: #5ea8c2;
+    --blue-dark: #7ec4d8;
+    --blue-light: #17282e;
+    --white: #162226;
+    --background: #0f1a1e;
+    --text: #e0ecef;
+    --text-light: #8fa8b0;
+    --border: #26393f;
+    --shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+}
+
+/* Body */
+html.dark body {
+    background: var(--background);
+    color: var(--text);
+}
+
+/* Navbar */
+html.dark .navbar {
+    background: rgba(15, 26, 30, 0.96);
+    border-bottom-color: var(--border);
+}
+html.dark .navbar.scrolled {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+html.dark .login-btn {
+    background: transparent;
+    border-color: var(--green);
+    color: var(--green);
+}
+html.dark .login-btn:hover {
+    background: var(--green-light);
+}
+html.dark .menu-btn {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+/* Mobile nav dropdown */
+@media (max-width: 800px) {
+    html.dark .nav-links {
+        background: #1a2e33;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+    html.dark .nav-actions {
+        border-top-color: var(--border);
+    }
+}
+
+/* Hero */
+html.dark .hero {
+    background:
+        radial-gradient(circle at 90% 20%, rgba(61, 184, 154, 0.08), transparent 28%),
+        radial-gradient(circle at 10% 70%, rgba(61, 184, 154, 0.05), transparent 25%),
+        var(--background);
+}
+html.dark .secondary-btn {
+    background: #1a2e33;
+    color: var(--text);
+    border-color: var(--border);
+}
+html.dark .secondary-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+/* Hero image cards */
+html.dark .hero-floating-card {
+    background: rgba(22, 34, 38, 0.96);
+}
+html.dark .hero-mini-card {
+    background: rgba(22, 34, 38, 0.96);
+    border-color: rgba(38, 57, 63, 0.7);
+}
+
+/* Phone mockup */
+html.dark .phone-screen {
+    background: #1a2e33;
+}
+html.dark .phone-welcome {
+    background: linear-gradient(135deg, #17322b, #17282e);
+}
+html.dark .phone-welcome small {
+    color: #8fa8b0;
+}
+html.dark .phone-welcome strong {
+    color: #e0ecef;
+}
+html.dark .phone-search {
+    background: #162226;
+    border-color: var(--border);
+    color: #8fa8b0;
+}
+html.dark .phone-title {
+    color: #e0ecef;
+}
+html.dark .phone-service {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .phone-service strong {
+    color: #c8d8dc;
+}
+html.dark .phone-service span {
+    color: #8fa8b0;
+}
+html.dark .phone-doctor {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .doctor-info strong {
+    color: #c8d8dc;
+}
+html.dark .doctor-info span {
+    color: #8fa8b0;
+}
+html.dark .phone-notification {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .phone-bottom-nav {
+    background: rgba(22, 34, 38, 0.97);
+    border-color: var(--border);
+}
+html.dark .phone-nav-item {
+    color: #8fa8b0;
+}
+
+/* About section */
+html.dark .about {
+    background: #121f23;
+}
+html.dark .about-content h2 {
+    color: var(--text);
+}
+
+/* Feature cards */
+html.dark .feature {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .feature:hover {
+    border-color: rgba(61, 184, 154, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+html.dark .feature h4 {
+    color: var(--text);
+}
+
+/* Donation box */
+html.dark .donation-box {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .donation-box:hover {
+    border-color: rgba(61, 184, 154, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Services section */
+html.dark .services {
+    background: var(--background);
+}
+html.dark .service-card {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .service-card:hover {
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+    border-color: transparent;
+}
+
+/* Map section */
+html.dark .map-section {
+    background: #121f23;
+}
+html.dark .map-container {
+    border-color: var(--border);
+}
+html.dark .map-overlay {
+    background: rgba(22, 34, 38, 0.96);
+}
+html.dark .map-overlay h3 {
+    color: var(--text);
+}
+html.dark .map-search {
+    background: #1a2e33;
+    border-color: var(--border);
+    color: var(--text);
+}
+
+/* Contact section */
+html.dark .contact {
+    background: linear-gradient(135deg, #121f23, #17282e);
+}
+html.dark .contact-box {
+    background: #162226;
+}
+html.dark .contact-content h2 {
+    color: var(--text);
+}
+
+/* Footer — already dark, minor tweaks for deeper look */
+html.dark footer {
+    background: #0a1316;
+}
+
+/* Section heading overrides */
+html.dark .section-heading h2 {
+    color: var(--text);
+}
+
+/* ---- Auth / login pages ---- */
+
+html.dark .shifa-auth-page {
+    background: linear-gradient(135deg, #0f1a1e, #121f23);
+    color: #e0ecef;
+}
+html.dark .home-link {
+    background: #1a2e33;
+    color: var(--green);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+html.dark .home-link:hover {
+    background: var(--green);
+    color: #0f1a1e;
+}
+html.dark .auth-card {
+    background: rgba(22, 34, 38, 0.96);
+    border-color: rgba(38, 57, 63, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+html.dark .title {
+    color: #e0ecef;
+}
+html.dark .subtitle {
+    color: #8fa8b0;
+}
+html.dark .form-group label {
+    color: #b0c8ce;
+}
+html.dark .input {
+    background: #1a2e33;
+    border-color: var(--border);
+    color: #e0ecef;
+}
+html.dark .input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(61, 184, 154, 0.12);
+    background: #1e343a;
+}
+html.dark .password-toggle {
+    color: #8fa8b0;
+}
+html.dark .password-toggle:hover {
+    color: var(--green);
+}
+html.dark .remember {
+    color: #8fa8b0;
+}
+html.dark .btn {
+    background: var(--green);
+    color: #0f1a1e;
+}
+html.dark .btn:hover {
+    background: var(--green-dark);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+html.dark .btn-secondary {
+    background: var(--green-light);
+    color: var(--green);
+}
+html.dark .btn-secondary:hover {
+    background: #1e3e35;
+    color: var(--green-dark);
+}
+html.dark .btn-next {
+    background: #e0ecef;
+    color: #0f1a1e;
+}
+html.dark .btn-next:hover {
+    background: #c8d8dc;
+}
+html.dark .switch-auth {
+    color: #8fa8b0;
+}
+html.dark .message.error {
+    background: #2a1215;
+    color: #f87171;
+    border-color: #5f2022;
+}
+html.dark .message.success {
+    background: #0f2a1f;
+    color: #6ee7b7;
+    border-color: #17503a;
+}
+html.dark .brand-text {
+    color: var(--green);
+}
+html.dark .user-info {
+    background: #1a2e33;
+    border-color: var(--border);
+}
+html.dark .info-row {
+    border-bottom-color: var(--border);
+}
+html.dark .info-label {
+    color: #8fa8b0;
+}
+html.dark .info-value {
+    color: #e0ecef;
+}
+html.dark .logout-btn {
+    background: #2a1215;
+    color: #f87171;
+}
+html.dark .logout-btn:hover {
+    background: #3d191d;
+    color: #fca5a5;
+}
+html.dark .demo-code {
+    background: #2a2510;
+    border-color: #504820;
+    color: #fbbf24;
+}
+html.dark .next-description {
+    color: #8fa8b0;
+}
+html.dark .welcome-icon,
+html.dark .next-page-icon {
+    background: var(--green-light);
+    color: var(--green);
+}
+html.dark select.input {
+    background: #1a2e33;
+    color: #e0ecef;
+}
+
+/* ---- Notification panel ---- */
+
+html.dark #shifa-notification-panel {
+    background: #121f23;
+    box-shadow: -16px 0 40px rgba(0, 0, 0, 0.35);
+}
+html.dark #shifa-notification-overlay {
+    background: rgba(0, 0, 0, 0.45);
+}
+html.dark .shifa-notification-head {
+    border-bottom-color: var(--border);
+    background: #0f1a1e;
+}
+html.dark .shifa-notification-head > div > .material-symbols-outlined {
+    background: var(--green-light);
+}
+html.dark .shifa-notification-head h2 {
+    color: var(--green-dark);
+}
+html.dark .shifa-notification-head p {
+    color: #8fa8b0;
+}
+html.dark .shifa-notification-head > button {
+    background: #1a2e33;
+    color: #8fa8b0;
+}
+html.dark .shifa-notification-head > button:hover {
+    background: var(--border);
+    color: #e0ecef;
+}
+html.dark .shifa-notification-item {
+    border-color: var(--border);
+    background: #162226;
+}
+html.dark .shifa-notification-item:hover {
+    border-color: #2a4a4a;
+    background: #1a2e33;
+}
+html.dark .shifa-notification-item.is-unread {
+    background: #152e29;
+    border-color: #1e3e35;
+}
+html.dark .shifa-notification-copy strong {
+    color: var(--green);
+}
+html.dark .shifa-notification-copy span {
+    color: #8fa8b0;
+}
+html.dark .shifa-notification-copy small {
+    color: #6b8590;
+}
+html.dark .shifa-notification-icon.success { background: #0f2a1f; color: #6ee7b7; }
+html.dark .shifa-notification-icon.warning { background: #2a2510; color: #fbbf24; }
+html.dark .shifa-notification-icon.danger  { background: #2a1215; color: #f87171; }
+html.dark .shifa-notification-icon.info    { background: #0f1f2e; color: #60a5fa; }
+html.dark .shifa-appointment-card {
+    border-color: var(--border);
+    background: #162226;
+}
+html.dark .shifa-appointment-card strong { color: var(--green); }
+html.dark .shifa-appointment-card span { color: #8fa8b0; }
+html.dark .shifa-appointment-card small { color: #6b8590; }
+html.dark .shifa-cancel-appointment {
+    border-color: #5f2022;
+    background: #2a1215;
+    color: #f87171;
+}
+html.dark .shifa-cancel-appointment:hover { background: #3d191d; }
+html.dark .shifa-empty-state {
+    background: #162226;
+    border-color: var(--border);
+    color: #6b8590;
+}
+html.dark .shifa-notification-badge {
+    border-color: #121f23;
+}
+
+/* ---- Skeleton & states ---- */
+
+html.dark .shifa-skeleton-card {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .shifa-skeleton-line {
+    background: linear-gradient(90deg, #1a2e33 25%, #26393f 37%, #1a2e33 63%);
+    background-size: 400% 100%;
+}
+html.dark .shifa-state {
+    background: #162226;
+    border-color: var(--border);
+}
+html.dark .shifa-state__title {
+    color: #e0ecef;
+}
+html.dark .shifa-state__hint {
+    color: #8fa8b0;
+}
+html.dark .shifa-state--error {
+    border-color: #5f2022;
+    background: #2a1215;
+}
+html.dark .shifa-state--error .shifa-state__title { color: #f87171; }
+html.dark .shifa-state--auth {
+    border-color: #1e3a5f;
+    background: #0f1f2e;
+}
+html.dark .shifa-state--auth .shifa-state__title { color: #60a5fa; }
+
+/* ---- Toast ---- */
+
+html.dark .shifa-toast {
+    background: #e0ecef;
+    color: #0f1a1e;
+}
+
+/* ---- Modal ---- */
+
+html.dark .shifa-modal__backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+html.dark .shifa-modal__panel {
+    background: #162226;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+html.dark .shifa-modal__title {
+    color: var(--green-dark);
+}
+html.dark .shifa-field > span {
+    color: #b0c8ce;
+}
+html.dark .shifa-field input,
+html.dark .shifa-field textarea {
+    background: #1a2e33;
+    border-color: var(--border);
+    color: #e0ecef;
+}
+html.dark .shifa-field input:focus,
+html.dark .shifa-field textarea:focus {
+    border-color: var(--green);
+    background: #1e343a;
+}
+html.dark .shifa-modal__cancel {
+    background: #26393f;
+    color: #b0c8ce;
+}
+
+/* ---- Field validation ---- */
+
+html.dark .field-invalid {
+    border-color: #dc2626 !important;
+    background-color: #2a1215;
+}
+html.dark .field-error {
+    color: #f87171;
+}
+
+/* ---- Dark mode toggle button ---- */
+
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--green-light);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+.dark-mode-toggle:hover {
+    background: var(--green);
+    transform: translateY(-2px);
+}
+
+
+/* Tinted icon chips that use fixed light colours above. */
+html.dark .phone-service:nth-child(3) .phone-service-icon,
+html.dark .feature:nth-child(3) .feature-icon,
+html.dark .service-card:nth-child(3) .service-icon {
+    background: #1c2a3d;
+    color: #9db4d4;
+}
+html.dark .phone-service:nth-child(4) .phone-service-icon,
+html.dark .feature:nth-child(4) .feature-icon,
+html.dark .service-card:nth-child(4) .service-icon {
+    background: #232c19;
+    color: #a9c283;
+}
+html.dark .service-card:nth-child(5) .service-icon {
+    background: #33261a;
+    color: #e0a66a;
+}
+html.dark .shifa-section-heading h3,
+html.dark .shifa-section-heading button {
+    color: #5cd4b4;
+}
+
+/* Theme toggle on the auth page: opposite corner to .home-link. */
+.auth-theme-toggle {
+    position: fixed;
+    top: 25px;
+    left: 30px;
+    z-index: 10;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+@media (max-width: 600px) {
+    .auth-theme-toggle {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+    }
+}

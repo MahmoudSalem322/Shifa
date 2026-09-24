@@ -26,7 +26,7 @@ function FacilityCard({ facility }) {
             <span className="absolute top-3 right-3 px-space-xs py-1 rounded-full bg-surface-card/95 text-text-heading font-label-sm text-label-sm shadow-sm">{facilityTypeLabel(facility.type)}</span>
           ) : null}
           {facility.emergency ? (
-            <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-space-xs py-1 rounded-full bg-state-success text-on-primary font-label-sm text-label-sm shadow-sm">
+            <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-space-xs py-1 rounded-full bg-state-success text-on-state font-label-sm text-label-sm shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />طوارئ 24/7
             </span>
           ) : null}
@@ -54,7 +54,7 @@ function FacilityCard({ facility }) {
         </div>
       </div>
       <div className="p-space-md pt-0 flex items-center gap-space-2xs">
-        <Link href={href} className="flex-1 py-space-xs px-space-sm rounded-lg bg-primary-container hover:bg-text-heading text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm transition-colors">
+        <Link href={href} className="flex-1 py-space-xs px-space-sm rounded-lg bg-primary-container hover:bg-primary-hover text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm transition-colors">
           عرض التفاصيل <Icon name="arrow_back" className="text-[18px]" />
         </Link>
         {facility.phone ? (
@@ -174,7 +174,7 @@ export default function FacilitySearchPage() {
                 <p className="font-body-md text-body-md text-white/90">خط الطوارئ المركزي للهلال الأحمر الفلسطيني يعمل على مدار 24 ساعة.</p>
               </div>
             </div>
-            <a href="tel:101" className="w-full md:w-auto px-space-lg py-space-xs rounded-lg bg-white text-state-danger font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-sm">
+            <a href="tel:101" className="w-full md:w-auto px-space-lg py-space-xs rounded-lg bg-surface-card text-state-danger font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-sm">
               <Icon name="call" /> اتصل بالإسعاف 101
             </a>
           </div>

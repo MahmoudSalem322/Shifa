@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api, auth, fieldErrors } from '@/lib/api';
 import { roles, validate } from '@/lib/vocab';
+import { DarkModeToggle } from '@/components/dark-mode';
 
 /* Login, register, forgot-password (email → OTP) and new-password views.
    The server owns account state, the OTP and the token; this page only
@@ -295,6 +296,7 @@ export default function LoginPage() {
     <div className="shifa-auth-page shifa-page-fade">
       <div className="page">
         <Link href="/" className="home-link">← العودة للرئيسية</Link>
+        <DarkModeToggle className="auth-theme-toggle" />
 
         <div className="auth-wrapper">
           <div className="auth-card">

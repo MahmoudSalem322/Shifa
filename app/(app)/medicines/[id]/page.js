@@ -76,7 +76,7 @@ export default function MedicineDetailsPage() {
                 <div className="flex flex-wrap gap-space-2xs">
                   {[['', 'كل الحالات'], ['available', 'متوفر'], ['critical', 'كمية محدودة'], ['out', 'نفدت الكمية']].map(([key, label]) => (
                     <button key={key || 'all'} type="button" aria-pressed={level === key} onClick={() => setLevel(key)}
-                      className={'px-space-sm py-1 rounded-full font-label-sm text-label-sm ' + (level === key ? 'bg-text-heading text-on-primary' : 'bg-surface-subtle text-text-muted')}>{label}</button>
+                      className={'px-space-sm py-1 rounded-full font-label-sm text-label-sm ' + (level === key ? 'bg-primary-hover text-on-primary' : 'bg-surface-subtle text-text-muted')}>{label}</button>
                   ))}
                 </div>
                 {stocks.length ? (

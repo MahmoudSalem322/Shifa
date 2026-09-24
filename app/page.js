@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/api';
 import { useToast } from '@/components/toast';
 import { useSession } from '@/lib/hooks';
+import { DarkModeToggle } from '@/components/dark-mode';
 
 const SECTIONS = [
   { id: 'home', label: 'الرئيسية' },
@@ -77,6 +78,7 @@ export default function LandingPage() {
             ))}
           </nav>
           <div className="nav-actions">
+            <DarkModeToggle />
             <button className="login-btn" onClick={() => router.push(session ? '/dashboard' : '/login')}>
               {session ? 'لوحة التحكم' : 'تسجيل الدخول'}
             </button>

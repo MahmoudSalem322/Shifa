@@ -82,7 +82,7 @@ export default function MyAppointmentsPage() {
       <PageBody>
         <RoleGate allow={['Patient', 'Donor']} message="المواعيد متاحة لحسابات المرضى">
           {next ? (
-            <div className="bg-gradient-to-l from-primary-container to-text-heading text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+            <div className="bg-gradient-to-l from-primary-container to-primary-hover text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
               <div className="flex items-center gap-space-md">
                 <span className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center shrink-0"><Icon name="alarm" className="text-[30px]" /></span>
                 <div>
@@ -93,7 +93,7 @@ export default function MyAppointmentsPage() {
                   </p>
                 </div>
               </div>
-              <Link href={'/appointments/' + encodeURIComponent(next.id)} className="inline-flex items-center justify-center gap-2 px-space-md py-3 rounded-xl bg-white text-text-heading font-label-lg text-label-lg shadow-sm shrink-0">
+              <Link href={'/appointments/' + encodeURIComponent(next.id)} className="inline-flex items-center justify-center gap-2 px-space-md py-3 rounded-xl bg-surface-card text-text-heading font-label-lg text-label-lg shadow-sm shrink-0">
                 تفاصيل الموعد <Icon name="arrow_back" />
               </Link>
             </div>

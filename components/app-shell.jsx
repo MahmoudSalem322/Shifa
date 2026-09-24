@@ -8,6 +8,7 @@ import { useSession } from '@/lib/hooks';
 import { REVIEWER_ROLES, roles } from '@/lib/vocab';
 import { NotificationBell, NotificationProvider } from './notification-panel';
 import { Icon, Spinner } from './ui';
+import { DarkModeToggle } from './dark-mode';
 
 /* Sidebar entries. `roles` limits an entry to those account types. */
 const NAV = [
@@ -68,7 +69,7 @@ function Sidebar({ role, onNavigate, onLogout }) {
               className={
                 'flex items-center gap-space-xs px-3.5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all ' +
                 (isActive(pathname, item.href)
-                  ? 'bg-[#0f766e] text-on-primary shadow-sm'
+                  ? 'bg-primary-container text-on-primary shadow-sm'
                   : 'text-text-body hover:text-text-primary hover:bg-surface-subtle')
               }
             >
@@ -170,8 +171,8 @@ export function PageHeader({ title, subtitle, actions }) {
 
   return (
     <header className="relative w-full bg-surface-container-lowest border-b border-border-soft overflow-hidden">
-      <div className="absolute -top-16 -left-10 w-56 h-56 bg-pink-100/60 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -top-20 right-16 w-64 h-64 bg-pink-50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-16 -left-10 w-56 h-56 bg-pink-100/60 dark:bg-teal-900/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-20 right-16 w-64 h-64 bg-pink-50 dark:bg-teal-800/20 rounded-full blur-3xl pointer-events-none" />
       <div className="relative max-w-[1280px] mx-auto w-full px-space-sm sm:px-space-md lg:px-space-xl py-space-sm flex items-center justify-between gap-space-sm">
         <div className="flex items-center gap-space-xs min-w-0">
           <button
@@ -200,6 +201,7 @@ export function PageHeader({ title, subtitle, actions }) {
           >
             <Icon name="person" className="text-[22px]" />
           </button>
+          <DarkModeToggle className="w-11 h-11 rounded-full" />
           <NotificationBell />
         </div>
       </div>

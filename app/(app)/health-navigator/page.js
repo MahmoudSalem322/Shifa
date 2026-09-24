@@ -63,7 +63,7 @@ export default function HealthNavigatorPage() {
     <>
       <PageHeader title="المساعد الصحي الذكي" subtitle="صف ما تحتاجه بكلماتك، ونرشدك إلى الطبيب أو المنشأة أو الصيدلية المناسبة" />
       <PageBody narrow>
-        <div className="bg-gradient-to-l from-primary-container to-text-heading text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex items-start gap-space-md">
+        <div className="bg-gradient-to-l from-primary-container to-primary-hover text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex items-start gap-space-md">
           <span className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
             <Icon name="assistant" className="text-[32px]" />
           </span>

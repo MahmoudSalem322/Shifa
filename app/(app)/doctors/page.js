@@ -99,7 +99,7 @@ export default function DoctorSearchPage() {
                   {geo.all().map((g) => <option key={g.slug} value={g.slug}>{g.label}</option>)}
                 </select>
               </div>
-              <button type="submit" className="md:col-span-2 w-full flex items-center justify-center gap-space-2xs bg-primary-container text-on-primary hover:bg-text-heading font-headline-sm text-headline-sm py-3 px-space-md rounded-lg shadow-md transition-all">
+              <button type="submit" className="md:col-span-2 w-full flex items-center justify-center gap-space-2xs bg-primary-container text-on-primary hover:bg-primary-hover font-headline-sm text-headline-sm py-3 px-space-md rounded-lg shadow-md transition-all">
                 <Icon name="search" /><span>ابحث</span>
               </button>
             </div>

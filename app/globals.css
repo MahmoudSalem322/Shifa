@@ -1,3 +1,150 @@
+/* ------------------------------------------------------------------
+   Tailwind colour tokens as CSS custom properties.
+   Light values are in :root, dark overrides in html.dark.
+   Values are space-separated RGB channels so Tailwind can add opacity
+   (bg-primary/10); tailwind.config.js wraps them as rgb(var(--c-*) / <alpha-value>).
+   ------------------------------------------------------------------ */
+
+:root {
+  --c-text-body: 30 41 59;
+  --c-canvas-bg: 240 247 255;
+  --c-tertiary-fixed: 111 251 190;
+  --c-text-muted: 100 116 139;
+  --c-surface-container-lowest: 255 255 255;
+  --c-on-tertiary: 255 255 255;
+  --c-error-container: 255 218 214;
+  --c-state-success-subtle: 236 253 245;
+  --c-border-focus: 15 118 110;
+  --c-surface-subtle: 248 250 252;
+  --c-surface-container-highest: 211 228 254;
+  --c-outline-variant: 189 201 198;
+  --c-surface-card: 255 255 255;
+  --c-surface: 248 249 255;
+  --c-inverse-primary: 128 213 203;
+  --c-inverse-surface: 33 49 69;
+  --c-text-heading: 17 94 89;
+  --c-on-tertiary-fixed-variant: 0 82 54;
+  --c-state-info: 2 132 199;
+  --c-surface-dim: 203 219 245;
+  --c-on-primary-container: 163 250 239;
+  --c-secondary-container: 91 184 254;
+  --c-primary-container: 15 118 110;
+  --c-on-error: 255 255 255;
+  --c-outline: 110 121 119;
+  --c-on-primary-fixed-variant: 0 80 74;
+  --c-secondary-fixed-dim: 147 204 255;
+  --c-on-background: 11 28 48;
+  --c-on-surface: 11 28 48;
+  --c-on-primary: 255 255 255;
+  --c-secondary-fixed: 204 229 255;
+  --c-tertiary-fixed-dim: 78 222 163;
+  --c-tertiary-container: 0 121 82;
+  --c-primary: 0 92 85;
+  --c-tertiary: 0 94 63;
+  --c-text-primary: 15 118 110;
+  --c-state-info-subtle: 240 249 255;
+  --c-primary-fixed-dim: 128 213 203;
+  --c-on-tertiary-fixed: 0 33 19;
+  --c-surface-container-low: 239 244 255;
+  --c-state-warning-subtle: 255 251 235;
+  --c-state-danger-subtle: 254 242 242;
+  --c-state-warning: 217 119 6;
+  --c-on-error-container: 147 0 10;
+  --c-border-soft: 226 232 240;
+  --c-state-danger: 220 38 38;
+  --c-error: 186 26 26;
+  --c-primary-fixed: 156 242 232;
+  --c-surface-variant: 211 228 254;
+  --c-surface-container-high: 220 233 255;
+  --c-surface-bright: 248 249 255;
+  --c-on-tertiary-container: 153 255 205;
+  --c-on-surface-variant: 62 73 71;
+  --c-secondary: 0 99 152;
+  --c-inverse-on-surface: 234 241 255;
+  --c-state-success: 22 163 74;
+  --c-surface-container: 229 238 255;
+  --c-on-secondary-fixed: 0 29 49;
+  --c-on-secondary: 255 255 255;
+  --c-on-secondary-container: 0 71 110;
+  --c-background: 248 249 255;
+  --c-on-primary-fixed: 0 32 29;
+  --c-on-secondary-fixed-variant: 0 75 115;
+  --c-surface-tint: 0 106 99;
+  /* Added for dark mode: hover shade of primary-container, and text on
+     solid state-success / state-danger fills. */
+  --c-primary-hover: 17 94 89;
+  --c-on-state: 255 255 255;
+}
+
+html.dark {
+  --c-text-body: 200 216 220;
+  --c-canvas-bg: 15 26 30;
+  --c-tertiary-fixed: 23 80 58;
+  --c-text-muted: 143 168 176;
+  --c-surface-container-lowest: 18 31 35;
+  --c-on-tertiary: 15 26 30;
+  --c-error-container: 61 25 29;
+  --c-state-success-subtle: 15 42 31;
+  --c-border-focus: 61 184 154;
+  --c-surface-subtle: 22 34 38;
+  --c-surface-container-highest: 38 57 63;
+  --c-outline-variant: 58 80 85;
+  --c-surface-card: 22 34 38;
+  --c-surface: 18 31 35;
+  --c-inverse-primary: 0 92 85;
+  --c-inverse-surface: 3 8 10; /* only used for modal and drawer backdrops */
+  --c-text-heading: 92 212 180;
+  --c-on-tertiary-fixed-variant: 110 231 183;
+  --c-state-info: 96 165 250;
+  --c-surface-dim: 15 26 30;
+  --c-on-primary-container: 224 236 239;
+  --c-secondary-container: 30 58 95;
+  --c-primary-container: 26 92 85;
+  --c-on-error: 42 18 21;
+  --c-outline: 107 133 144;
+  --c-on-primary-fixed-variant: 128 213 203;
+  --c-secondary-fixed-dim: 58 122 170;
+  --c-on-background: 224 236 239;
+  --c-on-surface: 224 236 239;
+  --c-on-primary: 224 236 239;
+  --c-secondary-fixed: 30 58 95;
+  --c-tertiary-fixed-dim: 42 122 90;
+  --c-tertiary-container: 23 80 58;
+  --c-primary: 61 184 154;
+  --c-tertiary: 61 184 154;
+  --c-text-primary: 61 184 154;
+  --c-state-info-subtle: 15 31 46;
+  --c-primary-fixed-dim: 42 122 106;
+  --c-on-tertiary-fixed: 110 231 183;
+  --c-surface-container-low: 26 46 51;
+  --c-state-warning-subtle: 42 37 16;
+  --c-state-danger-subtle: 42 18 21;
+  --c-state-warning: 251 191 36;
+  --c-on-error-container: 248 113 113;
+  --c-border-soft: 38 57 63;
+  --c-state-danger: 248 113 113;
+  --c-error: 248 113 113;
+  --c-primary-fixed: 23 50 43;
+  --c-surface-variant: 26 46 51;
+  --c-surface-container-high: 30 52 58;
+  --c-surface-bright: 26 46 51;
+  --c-on-tertiary-container: 110 231 183;
+  --c-on-surface-variant: 143 168 176;
+  --c-secondary: 96 165 250;
+  --c-inverse-on-surface: 15 26 30;
+  --c-state-success: 110 231 183;
+  --c-surface-container: 26 46 51;
+  --c-on-secondary-fixed: 200 216 220;
+  --c-on-secondary: 15 26 30;
+  --c-on-secondary-container: 96 165 250;
+  --c-background: 15 26 30;
+  --c-on-primary-fixed: 200 216 220;
+  --c-on-secondary-fixed-variant: 96 165 250;
+  --c-surface-tint: 61 184 154;
+  --c-primary-hover: 32 112 103;
+  --c-on-state: 15 26 30;
+}
+
 @tailwind base;
 @tailwind components;
 
@@ -14,7 +161,7 @@
 :where(.shifa-app-shell) ::after {
   border-width: 0;
   border-style: solid;
-  border-color: #e2e8f0;
+  border-color: rgb(var(--c-border-soft));
 }
 
 :where(.shifa-app-shell) :is(h1, h2, h3, h4, h5, h6) {
@@ -59,15 +206,15 @@
 /* The CDN build also loaded @tailwindcss/forms on most pages, which gave
    bare fields a visible edge. This is the same idea, in the palette. */
 :where(.shifa-app-shell) :is(input:not([type='checkbox']):not([type='radio']):not([type='file']), select, textarea) {
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgb(var(--c-border-soft));
 }
 
 :where(.shifa-app-shell) :is(input, select, textarea):focus {
-  border-color: #0f766e;
+  border-color: rgb(var(--c-border-focus));
 }
 
 :where(.shifa-app-shell) :is(input[type='checkbox'], input[type='radio']) {
-  accent-color: #0f766e;
+  accent-color: rgb(var(--c-border-focus));
   width: 1rem;
   height: 1rem;
 }
@@ -181,3 +328,22 @@
   font-weight: 500;
   color: #56696f;
 }
+
+/* ---- Dark mode adjustments for hard-coded values above ---- */
+
+html.dark .shifa-landing .nav-links a {
+  color: #8fa8b0;
+}
+html.dark .shifa-landing .service-card p {
+  color: #8fa8b0;
+}
+html.dark .shifa-landing .feature p {
+  color: #8fa8b0;
+}
+html.dark .shifa-auth-slow {
+  color: #8fa8b0;
+}
+html.dark :where(.shifa-app-shell) :is(input, select, textarea)::placeholder {
+  color: #6b8590;
+}
+

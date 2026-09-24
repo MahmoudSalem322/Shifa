@@ -93,10 +93,10 @@ export function Spinner() {
 }
 
 const BUTTON_TONES = {
-  primary: 'bg-primary-container text-on-primary hover:bg-text-heading shadow-sm',
+  primary: 'bg-primary-container text-on-primary hover:bg-primary-hover shadow-sm',
   soft: 'bg-surface-container-low text-text-primary hover:bg-surface-container-high',
   danger: 'bg-state-danger-subtle text-state-danger hover:bg-error-container',
-  success: 'bg-state-success text-on-primary hover:brightness-110 shadow-sm',
+  success: 'bg-state-success text-on-state hover:brightness-110 shadow-sm',
   ghost: 'bg-surface-container-high text-text-muted hover:text-text-body'
 };
 

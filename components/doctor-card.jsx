@@ -16,7 +16,7 @@ export function DoctorCard({ doctor }) {
           <div className="relative shrink-0">
             <img className="w-16 h-16 rounded-xl object-cover shadow-sm" alt="" src={doctor.image || DOCTOR_FALLBACK_AVATAR} />
             {doctor.licenseNumber ? (
-              <span className="absolute -bottom-1 -left-1 bg-state-success text-on-primary w-5 h-5 rounded-full flex items-center justify-center shadow-sm" title="طبيب معتمد رسمياً">
+              <span className="absolute -bottom-1 -left-1 bg-state-success text-on-state w-5 h-5 rounded-full flex items-center justify-center shadow-sm" title="طبيب معتمد رسمياً">
                 <Icon name="check" className="text-[13px]" />
               </span>
             ) : null}
@@ -61,7 +61,7 @@ export function DoctorCard({ doctor }) {
       </div>
 
       <div className="grid grid-cols-2 gap-space-2xs pt-space-xs">
-        <Link href={profileHref + '/book'} className="w-full bg-primary-container text-on-primary hover:bg-text-heading py-2.5 px-space-xs rounded-lg font-label-lg text-label-lg flex items-center justify-center gap-1 shadow-sm transition-all">
+        <Link href={profileHref + '/book'} className="w-full bg-primary-container text-on-primary hover:bg-primary-hover py-2.5 px-space-xs rounded-lg font-label-lg text-label-lg flex items-center justify-center gap-1 shadow-sm transition-all">
           <span>حجز موعد</span>
           <Icon name="arrow_back" className="text-[18px]" />
         </Link>

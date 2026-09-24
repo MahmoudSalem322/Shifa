@@ -50,7 +50,7 @@ function MedicineCard({ medicine }) {
         </div>
         <div className="flex items-center gap-space-2xs shrink-0">
           <Link href={href} className="px-space-sm py-space-2xs rounded-lg bg-surface-container-high text-text-primary font-label-md text-label-md">نقاط التوفر</Link>
-          <Link href={'/drug-requests/new?medicine=' + encodeURIComponent(medicine.name)} className="px-space-md py-space-2xs rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-text-heading flex items-center gap-1">
+          <Link href={'/drug-requests/new?medicine=' + encodeURIComponent(medicine.name)} className="px-space-md py-space-2xs rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary-hover flex items-center gap-1">
             <Icon name="bookmark_added" className="text-body-md" /> طلب الدواء
           </Link>
         </div>
