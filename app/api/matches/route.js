@@ -1,4 +1,5 @@
 import { handle, HttpError, readJson, requireRole, requireUser } from '@/lib/server/auth';
+import { ADMIN_ID } from '@/lib/server/admin-auth';
 import { COLLECTION as DONATIONS } from '@/lib/server/donations';
 import { COLLECTION, canViewMatch, loadOwnDrugRequest, publicMatch, reservedFor, settleDonationStatus } from '@/lib/server/matches';
 import { notify } from '@/lib/server/notify';
@@ -7,13 +8,15 @@ import { evaluateDonation } from '@/lib/matching';
 import { geo } from '@/lib/vocab';
 
 /* GET /api/matches?drugRequestId=…&donationId=… — the matches the caller is part of:
-   a patient's requests, a donor's donations, or all of them for reviewers. */
+   a patient's requests, a donor's donations, or all of them for reviewers
+   and the admin. `status` narrows to reserved | delivered | cancelled. */
 export const GET = handle(async (request) => {
   const user = await requireUser(request);
   const { searchParams } = new URL(request.url);
   const drugRequestId = searchParams.get('drugRequestId') || '';
   const scope = searchParams.get('scope') || '';
   const donationId = searchParams.get('donationId') || '';
+  const status = searchParams.get('status') || '';
 
   const items = await store.read(COLLECTION);
   const list = items
@@ -22,6 +25,7 @@ export const GET = handle(async (request) => {
     .filter((m) => (scope === 'mine' ? m.requesterId === user.id || m.donorId === user.id : true))
     .filter((m) => (drugRequestId ? String(m.drugRequestId) === String(drugRequestId) : true))
     .filter((m) => (donationId ? m.donationId === donationId : true))
+    .filter((m) => (status ? m.status === status : true))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((m) => publicMatch(m, user));
   return Response.json({ matches: list });
@@ -123,7 +127,8 @@ export const POST = handle(async (request) => {
   await notify([
     { userId: user.id, type: 'match_created', title: 'تم ربط طلبك بتبرع', message: 'تم حجز ' + units + ' من ' + donation.medicineName + ' لطلبك #' + drugRequestId + '.', href: '/matches/' + matchId },
     { userId: donation.donorId, type: 'match_created', title: 'تبرعك سيصل إلى مريض', message: 'تمت مطابقة ' + units + ' من تبرعك بـ ' + donation.medicineName + ' مع طلب دواء.', href: '/matches/' + matchId },
-    { userId: donation.reviewerId, type: 'match_created', title: 'مطابقة جديدة بانتظار التسليم', message: donation.medicineName + ' · ' + units + ' لطلب #' + drugRequestId + '.', href: '/matches/' + matchId }
+    { userId: donation.reviewerId, type: 'match_created', title: 'مطابقة جديدة بانتظار التسليم', message: donation.medicineName + ' · ' + units + ' لطلب #' + drugRequestId + '.', href: '/matches/' + matchId },
+    ...(donation.reviewerId === ADMIN_ID ? [] : [{ userId: ADMIN_ID, type: 'match_created', title: 'مطابقة جديدة', message: donation.medicineName + ' · ' + units + ' لطلب #' + drugRequestId + '.', href: '/matches/' + matchId }])
   ]);
 
   return Response.json({ match: publicMatch(match, user), message: 'تم ربط التبرع بطلبك.' }, { status: 201 });

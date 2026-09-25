@@ -15,6 +15,9 @@ import { DarkModeToggle } from '@/components/dark-mode';
    the real, role-aware dashboard. */
 
 const VIEWS = ['login', 'register', 'forgot', 'newPassword'];
+/* Usernames can't start with a digit, so a phone number with a typo is still
+   reported as an invalid phone number. */
+const ADMIN_USERNAME = /^[a-z][a-z0-9_.-]{2,31}$/i;
 
 function EyeIcon({ open }) {
   return open ? (
@@ -144,13 +147,17 @@ export default function LoginPage() {
     setInvalid({});
     const emailOrPhone = login.emailOrPhone.trim();
     if (!emailOrPhone) return error('البريد الإلكتروني أو رقم الهاتف: قم بادخاله');
-    if (!validate.emailOrPhone(emailOrPhone)) return error('أدخل بريد Gmail صحيح أو رقم هاتف مكوّن من 10 أرقام يبدأ بـ 05.');
+    /* A plain username (no @, not a phone number) is the local admin account. */
+    const asAdmin = !validate.emailOrPhone(emailOrPhone) && ADMIN_USERNAME.test(emailOrPhone);
+    if (!asAdmin && !validate.emailOrPhone(emailOrPhone)) return error('أدخل بريد Gmail صحيح أو رقم هاتف مكوّن من 10 أرقام يبدأ بـ 05.');
     if (!login.password) return error('كلمة المرور: قم بادخاله');
 
     setBusy(true);
     setMessage(null);
     try {
-      const response = await api.auth.login({ emailOrPhone, password: login.password, rememberMe: login.remember });
+      const response = asAdmin
+        ? await api.auth.adminLogin({ username: emailOrPhone, password: login.password })
+        : await api.auth.login({ emailOrPhone, password: login.password, rememberMe: login.remember });
       auth.setSession(response);
       if (!auth.isAuthed()) {
         error('لم يتم تأكيد الحساب بعد. تحقّق من بريدك الإلكتروني.');

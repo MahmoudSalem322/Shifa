@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="أموكسيسيلين">
+  <rect width="400" height="400" rx="36" fill="#e6f0f5"/>
+  <circle cx="330" cy="70" r="90" fill="#d5e7ee"/>
+  <ellipse cx="200" cy="300" rx="140" ry="12" fill="#000" opacity="0.06"/>
+  
+  <polygon points="70,110 110,80 340,80 300,110" fill="#77b0c8"/>
+  <polygon points="300,110 340,80 340,250 300,280" fill="#236580"/>
+  <rect x="70" y="110" width="230" height="170" fill="#ffffff"/>
+  <rect x="70" y="110" width="230" height="30" fill="#2E86AB"/>
+  <rect x="70" y="262" width="230" height="18" fill="#2E86AB"/>
+  <text x="185" y="195" text-anchor="middle" font-family="Tahoma, 'Segoe UI', Arial, sans-serif" direction="rtl" font-size="26" font-weight="700" fill="#1d2b36">أموكسيسيلين</text>
+  <text x="185" y="228" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#4a5a66">Amoxicillin</text>
+  <text x="185" y="131" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="700" fill="#fff" letter-spacing="2">500 mg</text>
+  <g transform="translate(40 250) rotate(-12)">
+    <rect width="120" height="110" rx="10" fill="#e6eaee" stroke="#b8c1c9"/>
+    <g transform="translate(38 22) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g><g transform="translate(82 22) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g><g transform="translate(38 52) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g><g transform="translate(82 52) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g><g transform="translate(38 82) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g><g transform="translate(82 82) rotate(-20)"><rect x="-16" y="-7" width="32" height="14" rx="7" fill="#2E86AB"/><rect x="0" y="-7" width="16" height="14" rx="7" fill="#fff"/><rect x="0" y="-7" width="8" height="14" fill="#fff"/></g>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="فينتولين بخاخ">
+  <rect width="400" height="400" rx="36" fill="#e0f4f4"/>
+  <circle cx="330" cy="70" r="90" fill="#cceded"/>
+  <ellipse cx="200" cy="322" rx="140" ry="12" fill="#000" opacity="0.06"/>
+  
+  <rect x="190" y="52" width="56" height="60" rx="10" fill="#c9d1d8" stroke="#a7b1ba"/>
+  <rect x="172" y="92" width="92" height="190" rx="34" fill="#00A6A6"/>
+  <rect x="186" y="120" width="12" height="130" rx="6" fill="#fff" opacity="0.35"/>
+  <rect x="112" y="238" width="112" height="62" rx="18" fill="#007474"/>
+  <rect x="104" y="250" width="26" height="38" rx="8" fill="#2b3a45"/>
+  <text x="218" y="200" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#fff" transform="rotate(-90 218 200)">100 mcg</text>
+  
+  <text x="200" y="342" text-anchor="middle" font-family="Tahoma, 'Segoe UI', Arial, sans-serif" direction="rtl" font-size="28" font-weight="700" fill="#1d2b36">فينتولين بخاخ</text>
+  <text x="200" y="370" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="17" fill="#4a5a66" direction="ltr">Salbutamol</text>
+</svg>

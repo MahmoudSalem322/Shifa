@@ -3,14 +3,15 @@
 import { useMemo, useState } from 'react';
 import { api } from '@/lib/api';
 import { useAsync, useSession } from '@/lib/hooks';
-import { REVIEWER_ROLES } from '@/lib/vocab';
+import { DONATION_MANAGERS } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
 import { MatchRow, NoMatches } from '@/components/matches';
 import { AsyncBlock, Button, ButtonLink, Card, CardTitle, Icon } from '@/components/ui';
 
 /* Module 9 — every match the account is part of. Patients see their
    requests, donors their donations, pharmacies and centres all matches
-   waiting for hand-over. */
+   waiting for hand-over. The admin sees every match on the platform and
+   can confirm or cancel any of them. */
 
 const TABS = [
   { key: 'reserved', label: 'بانتظار التسليم', icon: 'inventory_2' },
@@ -21,7 +22,8 @@ const TABS = [
 
 export default function MatchesPage() {
   const session = useSession();
-  const reviewer = !!session && REVIEWER_ROLES.includes(session.role);
+  const reviewer = !!session && DONATION_MANAGERS.includes(session.role);
+  const admin = !!session && session.role === 'Admin';
   const [tab, setTab] = useState('reserved');
   const state = useAsync(async () => (await api.matches.list()).matches, []);
 
@@ -34,7 +36,10 @@ export default function MatchesPage() {
 
   return (
     <>
-      <PageHeader title="مطابقة التبرعات" subtitle="التبرعات المرتبطة بطلبات الأدوية وحالة تسليمها" />
+      <PageHeader
+        title="مطابقة التبرعات"
+        subtitle={admin ? 'كل المطابقات في المنصة: تابع التسليم أو ألغِ ما يلزم' : 'التبرعات المرتبطة بطلبات الأدوية وحالة تسليمها'}
+      />
       <PageBody>
         <div className="grid grid-cols-3 gap-space-sm">
           {TABS.slice(0, 3).map((t) => (
@@ -52,10 +57,11 @@ export default function MatchesPage() {
           <CardTitle icon="join" count={list.length} actions={
             <>
               {!reviewer ? <ButtonLink href="/drug-requests" tone="soft" icon="prescriptions">طلباتي</ButtonLink> : null}
+              {admin ? <ButtonLink href="/donations/review" tone="soft" icon="volunteer_activism">التبرعات المتاحة</ButtonLink> : null}
               <Button tone="soft" icon="refresh" onClick={state.reload}>تحديث</Button>
             </>
           }>
-            المطابقات
+            {admin ? 'كل المطابقات' : 'المطابقات'}
           </CardTitle>
 
           <div className="flex flex-wrap gap-space-2xs" role="tablist">
@@ -69,12 +75,12 @@ export default function MatchesPage() {
           </div>
 
           <AsyncBlock state={state} empty={{ when: !!all.length && !list.length, icon: 'join', title: 'لا توجد مطابقات في هذا التبويب' }}>
-            {!all.length ? <NoMatches reviewer={reviewer} /> : (
+            {!all.length ? <NoMatches reviewer={reviewer} admin={admin} /> : (
               <div className="flex flex-col gap-space-md">
                 {[
                   { title: 'لطلباتي', items: asRequester, icon: 'prescriptions' },
                   { title: 'من تبرعاتي', items: asDonor, icon: 'volunteer_activism' },
-                  { title: reviewer ? 'مطابقات للتسليم' : 'أخرى', items: others, icon: 'local_shipping' }
+                  { title: admin ? 'كل المطابقات' : reviewer ? 'مطابقات للتسليم' : 'أخرى', items: others, icon: 'local_shipping' }
                 ].filter((group) => group.items.length).map((group) => (
                   <section key={group.title} className="flex flex-col gap-space-2xs">
                     <h3 className="font-label-lg text-label-lg text-text-muted flex items-center gap-1">

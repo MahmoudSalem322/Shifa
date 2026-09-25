@@ -297,12 +297,14 @@ export function MatchActions({ match, onDone }) {
   );
 }
 
-export function NoMatches({ reviewer }) {
+export function NoMatches({ reviewer, admin = false }) {
   return (
     <EmptyState
       icon="join"
       title="لا توجد مطابقات بعد"
-      hint={reviewer
+      hint={admin
+        ? 'عندما يربط مريض طلب دواء بتبرع مقبول، تظهر المطابقة هنا لمتابعة التسليم.'
+        : reviewer
         ? 'عندما يربط مريض طلب دواء بتبرع قبلتموه، يظهر هنا لتنسيق التسليم.'
         : 'افتح أحد طلبات الأدوية لترى التبرعات المطابقة له، أو انتظر حتى يُربط تبرعك بطلب.'}
     />

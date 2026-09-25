@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { api, auth, onUnauthorized } from '@/lib/api';
 import { useSession } from '@/lib/hooks';
@@ -18,22 +18,41 @@ const NAV = [
   { href: '/my-profile', icon: 'badge', label: 'ملفي المهني', roles: ['Doctor'] },
   { href: '/doctor-appointments', icon: 'event_note', label: 'مواعيد العيادة', roles: ['Doctor'] },
 
+  { group: 'الإدارة' },
+  { href: '/admin/users', icon: 'group', label: 'الحسابات المسجلة', roles: ['Admin'] },
+  { href: '/admin/healthcare', icon: 'domain_add', label: 'الجهات الصحية', roles: ['Admin'] },
+  { href: '/admin/medicines', icon: 'medication', label: 'إدارة الأدوية', roles: ['Admin'] },
+  { href: '/admin/drug-requests', icon: 'prescriptions', label: 'طلبات الأدوية', roles: ['Admin'] },
+  { href: '/donations/review', icon: 'fact_check', label: 'إدارة التبرعات', roles: ['Admin'] },
+  { href: '/admin/server-donations', icon: 'cloud', label: 'تبرعات الخادم المركزي', roles: ['Admin'] },
+  { href: '/matches', icon: 'join', label: 'مطابقة التبرعات', roles: ['Admin'] },
+  { href: '/admin/appointments', icon: 'event_note', label: 'كل المواعيد', roles: ['Admin'] },
+
   { group: 'الرعاية الطبية' },
-  { href: '/health-navigator', icon: 'assistant', label: 'المساعد الصحي الذكي' },
-  { href: '/doctors', icon: 'person_search', label: 'البحث عن طبيب' },
-  { href: '/appointments', icon: 'calendar_month', label: 'مواعيدي والحجوزات', roles: ['Patient', 'Donor'] },
-  { href: '/facilities', icon: 'domain', label: 'المراكز والمستشفيات' },
+  { href: '/health-navigator', icon: 'assistant', label: 'المساعد الصحي الذكي', roles: ['Patient'] },
+  { href: '/doctors', icon: 'person_search', label: 'البحث عن طبيب', roles: ['Patient'] },
+  { href: '/doctors', icon: 'person_search', label: 'دليل الأطباء', roles: ['Admin'] },
+  { href: '/appointments', icon: 'calendar_month', label: 'مواعيدي والحجوزات', roles: ['Patient'] },
+  { href: '/facilities', icon: 'domain', label: 'المراكز والمستشفيات', roles: ['Patient', 'Doctor', 'Admin'] },
+
+  { group: 'إدارة المركز' },
+  { href: '/facility-services', icon: 'health_and_safety', label: 'الخدمات والأقسام', roles: ['Hospital'] },
+  { href: '/facility-doctors', icon: 'groups', label: 'الأطباء', roles: ['Hospital'] },
+  { href: '/facility-medicine-requests', icon: 'medication', label: 'طلبات الأدوية', roles: ['Hospital'] },
+  { href: '/facility-equipment-requests', icon: 'medical_services', label: 'طلبات المعدات', roles: ['Hospital'] },
+
+  { group: 'إدارة الصيدلية' },
+  { href: '/pharmacy-stock', icon: 'inventory_2', label: 'مخزون الأدوية', roles: ['Pharmacy'] },
 
   { group: 'الأدوية' },
-  { href: '/medicines', icon: 'medication', label: 'البحث عن دواء' },
-  { href: '/pharmacies', icon: 'store', label: 'دليل الصيدليات' },
-  { href: '/drug-requests', icon: 'prescriptions', label: 'طلبات الأدوية', roles: ['Patient', 'Donor'] },
-  { href: '/prescription-reader', icon: 'document_scanner', label: 'قارئ الوصفات الذكي', roles: ['Patient', 'Donor'] },
+  { href: '/medicines', icon: 'medication', label: 'البحث عن دواء', roles: ['Patient', 'Doctor', 'Admin'] },
+  { href: '/pharmacies', icon: 'store', label: 'دليل الصيدليات', roles: ['Patient', 'Doctor', 'Admin'] },
+  { href: '/drug-requests', icon: 'prescriptions', label: 'طلبات الأدوية', roles: ['Patient'] },
+  { href: '/prescription-reader', icon: 'document_scanner', label: 'قارئ الوصفات الذكي', roles: ['Patient'] },
 
   { group: 'التبرع' },
-  { href: '/donations', icon: 'volunteer_activism', label: 'تبرعاتي بالأدوية', roles: ['Patient', 'Donor'] },
-  { href: '/donations/review', icon: 'fact_check', label: 'مراجعة التبرعات', roles: REVIEWER_ROLES },
-  { href: '/matches', icon: 'join', label: 'مطابقة التبرعات', roles: ['Patient', 'Donor', ...REVIEWER_ROLES] }
+  { href: '/donations', icon: 'volunteer_activism', label: 'تبرعاتي', roles: ['Patient', 'Donor'] },
+  { href: '/donations/review', icon: 'fact_check', label: 'مراجعة التبرعات', roles: REVIEWER_ROLES }
 ];
 
 function isActive(pathname, href) {
@@ -100,7 +119,8 @@ function Sidebar({ role, onNavigate, onLogout }) {
 export function useLogout() {
   const router = useRouter();
   return async () => {
-    if (auth.isAuthed()) {
+    /* The admin's token is this app's own; the .NET API has nothing to end. */
+    if (auth.isAuthed() && !auth.isAdmin()) {
       try { await api.auth.logout(); } catch { /* clear locally regardless */ }
     }
     auth.clear();
@@ -114,12 +134,11 @@ export function AppShell({ children }) {
   const pathname = usePathname();
   const logout = useLogout();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerConfig, setHeaderConfig] = useState({ title: '', subtitle: '', actions: null });
   const drawerRef = useRef(null);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   useOverlay(menuOpen, closeMenu, drawerRef);
 
-  /* Every endpoint on the API needs a token, including browse and search,
-     so the whole app sits behind login. */
   useEffect(() => {
     if (session === null) {
       auth.rememberReturnTo(pathname + window.location.search);
@@ -144,10 +163,10 @@ export function AppShell({ children }) {
   }
 
   return (
-    <ShellContext.Provider value={{ openMenu: () => setMenuOpen(true) }}>
+    <ShellContext.Provider value={{ openMenu: () => setMenuOpen(true), setHeaderConfig }}>
       <NotificationProvider>
         <div className="shifa-app-shell bg-canvas-bg font-body-md text-body min-h-screen flex">
-          <aside className="hidden lg:flex w-72 bg-surface-card border-l border-border-soft flex-col shrink-0 sticky top-0 h-screen z-40 p-space-md shadow-[-2px_0_12px_rgba(0,0,0,0.03)]">
+          <aside className="hidden lg:flex w-72 bg-surface-card flex-col shrink-0 sticky top-0 h-screen z-40 p-space-md">
             <Sidebar role={session.role} onLogout={logout} />
           </aside>
 
@@ -160,19 +179,56 @@ export function AppShell({ children }) {
             </div>
           ) : null}
 
-          <main className="flex-1 min-w-0 w-full bg-canvas-bg min-h-screen">{children}</main>
+          <main className="flex-1 min-w-0 w-full bg-canvas-bg min-h-screen flex flex-col">
+            <header className="relative w-full bg-surface-card border-b border-border-soft overflow-hidden shrink-0">
+              <div className="relative max-w-[1280px] mx-auto w-full px-space-sm sm:px-space-md lg:px-space-xl py-space-sm flex items-center justify-between gap-space-sm">
+                <div className="flex items-center gap-space-xs min-w-0">
+                  <button
+                    type="button"
+                    aria-label="القائمة"
+                    onClick={() => setMenuOpen(true)}
+                    className="lg:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text-body hover:bg-surface-subtle shrink-0"
+                  >
+                    <Icon name="menu" />
+                  </button>
+                  <div className="min-w-0">
+                    <h2 className="font-headline-lg text-headline-lg text-text-heading truncate">{headerConfig.title}</h2>
+                    {headerConfig.subtitle ? <p className="font-body-sm text-body-sm text-text-muted mt-1 hidden sm:block">{headerConfig.subtitle}</p> : null}
+                  </div>
+                </div>
+                <div className="flex items-center gap-space-xs shrink-0">
+                  {headerConfig.actions}
+                  <span className="hidden md:inline-flex font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-2.5 py-0.5 rounded-full">
+                    {session ? roles.toArabic(session.role) || 'مستخدم' : ''}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="حسابي"
+                    onClick={() => router.push('/account')}
+                    className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm hover:brightness-110 transition-all"
+                  >
+                    <Icon name="person" className="text-[22px]" />
+                  </button>
+                  <DarkModeToggle className="w-11 h-11 rounded-full" />
+                  <NotificationBell />
+                </div>
+              </div>
+            </header>
+            <div className="flex-1">
+              {children}
+            </div>
+          </main>
         </div>
       </NotificationProvider>
     </ShellContext.Provider>
   );
 }
 
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 /* The white bar at the top of every app page. */
 export function PageHeader({ title, subtitle, actions }) {
-  const { openMenu } = useContext(ShellContext);
-  const session = useSession();
-  const router = useRouter();
-  const profileHref = '/account';
+  const { setHeaderConfig } = useContext(ShellContext);
 
   /* App pages are client components, so the tab title is set here. Next
      writes the layout's default title after navigation, so keep ours. */
@@ -186,44 +242,11 @@ export function PageHeader({ title, subtitle, actions }) {
     return () => observer.disconnect();
   }, [title]);
 
-  return (
-    <header className="relative w-full bg-surface-container-lowest border-b border-border-soft overflow-hidden">
-      <div className="absolute -top-16 -left-10 w-56 h-56 bg-pink-100/60 dark:bg-teal-900/30 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -top-20 right-16 w-64 h-64 bg-pink-50 dark:bg-teal-800/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="relative max-w-[1280px] mx-auto w-full px-space-sm sm:px-space-md lg:px-space-xl py-space-sm flex items-center justify-between gap-space-sm">
-        <div className="flex items-center gap-space-xs min-w-0">
-          <button
-            type="button"
-            aria-label="القائمة"
-            onClick={openMenu}
-            className="lg:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text-body hover:bg-surface-subtle shrink-0"
-          >
-            <Icon name="menu" />
-          </button>
-          <div className="min-w-0">
-            <h2 className="font-headline-lg text-headline-lg text-text-heading truncate">{title}</h2>
-            {subtitle ? <p className="font-body-sm text-body-sm text-text-muted mt-1 hidden sm:block">{subtitle}</p> : null}
-          </div>
-        </div>
-        <div className="flex items-center gap-space-xs shrink-0">
-          {actions}
-          <span className="hidden md:inline-flex font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-2.5 py-0.5 rounded-full">
-            {session ? roles.toArabic(session.role) || 'مستخدم' : ''}
-          </span>
-          <button
-            type="button"
-            aria-label="حسابي"
-            onClick={() => router.push(profileHref)}
-            className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm hover:brightness-110 transition-all"
-          >
-            <Icon name="person" className="text-[22px]" />
-          </button>
-          <DarkModeToggle className="w-11 h-11 rounded-full" />
-          <NotificationBell />
-        </div>
-      </div>
-    </header>
-  );
+  useIsomorphicLayoutEffect(() => {
+    if (setHeaderConfig) setHeaderConfig({ title, subtitle, actions });
+  }, [title, subtitle, actions, setHeaderConfig]);
+
+  return null;
 }
 
 /* Standard content column under the header. */

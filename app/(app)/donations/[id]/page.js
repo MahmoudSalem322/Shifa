@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAsync, useSession } from '@/lib/hooks';
-import { formatDate, formatDateTime, geo, REVIEWER_ROLES, roles } from '@/lib/vocab';
+import { DONATION_MANAGERS, formatDate, formatDateTime, geo, roles } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
+import { AdminDonationControls } from '@/components/admin-donation-controls';
 import { donationStatus, ExpiryBadge } from '@/components/donations';
 import { RequestMatches } from '@/components/matches';
 import { ReviewActions } from '@/components/review-actions';
@@ -63,14 +64,15 @@ export default function DonationDetailsPage() {
   const matchesState = useAsync(async () => (await api.matches.list({ donationId: id })).matches, [id]);
   const donation = state.data;
   const matches = matchesState.data || [];
-  const reviewer = session && REVIEWER_ROLES.includes(session.role);
+  const reviewer = session && DONATION_MANAGERS.includes(session.role);
+  const admin = !!session && session.role === 'Admin';
 
   return (
     <>
       <PageHeader title="تفاصيل التبرع" subtitle={donation ? donation.medicineName : ''} />
       <PageBody narrow>
         <nav className="flex items-center gap-1 font-body-sm text-body-sm text-text-muted" aria-label="مسار التنقل">
-          <Link href={reviewer ? '/donations/review' : '/donations'} className="hover:text-text-primary">{reviewer ? 'مراجعة التبرعات' : 'تبرعاتي'}</Link>
+          <Link href={reviewer ? '/donations/review' : '/donations'} className="hover:text-text-primary">{admin ? 'إدارة التبرعات' : reviewer ? 'مراجعة التبرعات' : 'تبرعاتي'}</Link>
           <Icon name="chevron_left" className="text-[18px]" />
           <span className="text-text-body">تفاصيل التبرع</span>
         </nav>
@@ -82,11 +84,11 @@ export default function DonationDetailsPage() {
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm">
                   <div className="flex items-start gap-space-sm">
                     <span className="w-14 h-14 rounded-xl bg-state-success-subtle text-state-success flex items-center justify-center shrink-0">
-                      <Icon name="medication" className="text-[30px]" />
+                      <Icon name={donation.donationType === 'equipment' ? 'medical_services' : 'medication'} className="text-[30px]" />
                     </span>
                     <div className="flex flex-col gap-1">
                       <h1 className="font-headline-xl text-headline-xl text-text-heading" dir="auto">{donation.medicineName}</h1>
-                      <ExpiryBadge expiryDate={donation.expiryDate} days={donation.daysToExpiry} />
+                      {donation.donationType !== 'equipment' && <ExpiryBadge expiryDate={donation.expiryDate} days={donation.daysToExpiry} />}
                     </div>
                   </div>
                   <Badge className={donationStatus(donation.status).cls + ' text-label-md py-1 px-3'} icon={donationStatus(donation.status).icon}>
@@ -94,14 +96,20 @@ export default function DonationDetailsPage() {
                   </Badge>
                 </div>
 
-                <CardTitle icon="medication_liquid">معلومات الدواء</CardTitle>
+                <CardTitle icon={donation.donationType === 'equipment' ? 'medical_services' : 'medication_liquid'}>
+                  {donation.donationType === 'equipment' ? 'معلومات الجهاز الطبي' : 'معلومات الدواء'}
+                </CardTitle>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
                   <InfoRow icon="numbers" label="الكمية">
-                    {donation.quantity + ' ' + donation.unit}
+                    {donation.quantity + ' ' + (donation.donationType === 'equipment' ? 'قطعة' : donation.unit)}
                     {donation.availableQuantity !== undefined && donation.availableQuantity < donation.quantity ? ' · المتاح ' + donation.availableQuantity : ''}
                   </InfoRow>
-                  <InfoRow icon="event_busy" label="تاريخ انتهاء الصلاحية">{formatDate(donation.expiryDate)}</InfoRow>
-                  <InfoRow icon="verified_user" label="حالة العبوة">{donation.condition === 'sealed' ? 'مغلقة وسليمة (بإقرار المتبرع)' : donation.condition}</InfoRow>
+                  {donation.donationType !== 'equipment' && (
+                    <InfoRow icon="event_busy" label="تاريخ انتهاء الصلاحية">{formatDate(donation.expiryDate)}</InfoRow>
+                  )}
+                  <InfoRow icon="verified_user" label={donation.donationType === 'equipment' ? 'حالة الجهاز' : 'حالة العبوة'}>
+                    {donation.condition === 'sealed' ? 'مغلقة وسليمة (بإقرار المتبرع)' : donation.condition === 'new' ? 'جديد' : donation.condition === 'used' ? 'مستعمل' : donation.condition}
+                  </InfoRow>
                 </div>
 
                 <CardTitle icon="location_on">الاستلام والتواصل</CardTitle>
@@ -123,6 +131,8 @@ export default function DonationDetailsPage() {
                 {reviewer && donation.status === 'pending' && !donation.isMine ? (
                   <ReviewActions donation={donation} onDone={() => state.reload()} />
                 ) : null}
+
+                {admin ? <AdminDonationControls donation={donation} onChanged={() => state.reload()} /> : null}
 
                 {donation.isMine && donation.status === 'pending' ? (
                   <div className="flex flex-wrap gap-space-xs">

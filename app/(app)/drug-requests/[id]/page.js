@@ -279,9 +279,9 @@ function EditRequestModal({ open, request, onClose, onSaved }) {
         </Field>
         <PrescriptionUpload file={file} onChange={setFile} label="استبدال الوصفة" />
         {error ? <p className="font-label-md text-label-md text-state-danger" role="alert">{error}</p> : null}
-        <div className="flex gap-space-xs">
-          <Button type="submit" busy={busy} busyLabel="جارٍ الحفظ…" icon="save" className="flex-1">حفظ التعديلات</Button>
+        <div className="flex items-center justify-end gap-3 pt-4 mt-2 border-t border-border-soft">
           <Button tone="ghost" onClick={onClose}>إلغاء</Button>
+          <Button type="submit" busy={busy} busyLabel="جارٍ الحفظ…" icon="save">حفظ التعديلات</Button>
         </div>
       </form>
     </Modal>

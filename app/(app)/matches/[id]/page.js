@@ -1,18 +1,39 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAsync } from '@/lib/hooks';
 import { formatDate, formatDateTime, geo } from '@/lib/vocab';
 import { PageBody, PageHeader } from '@/components/app-shell';
 import { MatchActions, matchStatus } from '@/components/matches';
-import { AsyncBlock, Badge, Card, CardTitle, Icon, InfoRow } from '@/components/ui';
+import { useToast } from '@/components/toast';
+import { AsyncBlock, Badge, Button, Card, CardTitle, Icon, InfoRow } from '@/components/ui';
 
 /* Module 9 · "Display Match Details". */
 
 const STEP_WORDS = { reserved: 'تم ربط التبرع بالطلب وحجز الكمية', delivered: 'تم تسليم الدواء', cancelled: 'أُلغيت المطابقة' };
 const DOT = { reserved: 'bg-state-warning', delivered: 'bg-state-success', cancelled: 'bg-text-muted' };
+
+/* Admin: remove a finished (delivered or cancelled) match record. */
+function DeleteMatch({ match }) {
+  const toast = useToast();
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const remove = async () => {
+    if (!window.confirm('حذف سجل هذه المطابقة نهائياً؟')) return;
+    setBusy(true);
+    try {
+      toast((await api.admin.matches.remove(match.id)).message);
+      router.replace('/matches');
+    } catch (error) {
+      toast(error.message);
+      setBusy(false);
+    }
+  };
+  return <Button tone="danger" icon="delete" busy={busy} busyLabel="جارٍ الحذف…" onClick={remove}>حذف المطابقة</Button>;
+}
 
 export default function MatchDetailsPage() {
   const { id } = useParams();
@@ -94,6 +115,7 @@ export default function MatchDetailsPage() {
                 ) : null}
 
                 <MatchActions match={match} onDone={() => state.reload()} />
+                {match.isAdmin && match.status !== 'reserved' ? <DeleteMatch match={match} /> : null}
               </Card>
 
               <Card>

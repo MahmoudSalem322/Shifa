@@ -45,6 +45,7 @@ export default function NewDrugRequestPage() {
     else if (!Number.isInteger(quantity) || quantity < 1) next.quantity = 'الكمية يجب أن تكون رقماً صحيحاً أكبر من صفر.';
     else if (quantity > 1000) next.quantity = 'الكمية كبيرة جداً لطلب واحد.';
     if (form.notes.length > MAX_NOTES) next.notes = 'الملاحظات يجب ألا تتجاوز ' + MAX_NOTES + ' حرف.';
+    if (!file) next.prescription = 'صورة الوصفة الطبية مطلوبة.';
     setErrors(next);
     return !Object.keys(next).length;
   };
@@ -168,7 +169,7 @@ export default function NewDrugRequestPage() {
                   placeholder="مثال: الجرعة، الشكل الدوائي المفضل، أو أي بديل مقبول" aria-invalid={!!errors.notes} />
               </Field>
 
-              <PrescriptionUpload file={file} onChange={(f) => { setFile(f); setErrors({ ...errors, prescription: '' }); }} error={errors.prescription} />
+              <PrescriptionUpload file={file} optional={false} onChange={(f) => { setFile(f); setErrors({ ...errors, prescription: '' }); }} error={errors.prescription} />
 
               <div className="p-space-sm rounded-xl bg-state-info-subtle text-state-info flex items-start gap-2 font-body-sm text-body-sm">
                 <Icon name="lock" className="text-[20px]" />

@@ -1,10 +1,10 @@
-import { handle, HttpError, readJson, requireUser } from '@/lib/server/auth';
+import { handle, HttpError, isAdmin, readJson, requireUser } from '@/lib/server/auth';
 import {
   COLLECTION, doctorAccountOf, doctorAppointment, ownDoctorId, publicAppointment, withTiming
 } from '@/lib/server/appointments';
 import { notify } from '@/lib/server/notify';
 import { store } from '@/lib/server/store';
-import { formatDate, timeLabel } from '@/lib/vocab';
+import { APPOINTMENT_STATUS, formatDate, timeLabel } from '@/lib/vocab';
 
 /* GET /api/appointments/{id} — Module 4 · "View Appointment Details". */
 export const GET = handle(async (request, { params }) => {
@@ -17,6 +17,7 @@ export const GET = handle(async (request, { params }) => {
 });
 
 const DOCTOR_ACTIONS = {
+  confirm: { status: 'confirmed', message: 'تم تأكيد الموعد وإبلاغ المريض.', title: 'تم تأكيد موعدك' },
   complete: { status: 'completed', message: 'تم تسجيل حضور المريض.', title: 'اكتمل موعدك' },
   no_show: { status: 'no_show', message: 'تم تسجيل عدم حضور المريض.', title: 'سُجّل غيابك عن الموعد' },
   cancel: { status: 'cancelled', message: 'تم إلغاء الموعد وإبلاغ المريض.', title: 'ألغى الطبيب موعدك' }
@@ -36,6 +37,8 @@ export const PATCH = handle(async (request, { params }) => {
   const reason = String(body.reason ?? '').trim().slice(0, 500);
   const now = new Date().toISOString();
 
+  if (body.as === 'admin') return adminPatch(user, id, body, reason, now);
+
   if (body.as === 'doctor') {
     if (user.role !== 'Doctor') throw new HttpError(403, 'هذا الإجراء متاح للأطباء فقط.');
     const action = DOCTOR_ACTIONS[body.action];
@@ -46,15 +49,19 @@ export const PATCH = handle(async (request, { params }) => {
       const index = items.findIndex((a) => a.id === id && String(a.doctorId) === doctorId && a.status !== 'reserving');
       if (index === -1) throw new HttpError(404, 'لم يتم العثور على الموعد.');
       const stored = items[index];
-      if (stored.status !== 'confirmed') throw new HttpError(409, 'تم تحديث حالة هذا الموعد مسبقاً.');
+      if (stored.status === 'cancelled' || stored.status === 'completed' || stored.status === 'no_show') {
+        throw new HttpError(409, 'تم تحديث حالة هذا الموعد مسبقاً ولا يمكن تغييرها.');
+      }
       const timing = withTiming(stored);
+      if (body.action === 'confirm' && stored.status !== 'pending') throw new HttpError(409, 'هذا الموعد مؤكد مسبقاً.');
       if (body.action === 'cancel' && !timing.upcoming) throw new HttpError(409, 'لا يمكن إلغاء موعد بدأ وقته. سجّل الحضور أو الغياب بدلاً من ذلك.');
-      if (body.action !== 'cancel' && timing.upcoming) throw new HttpError(409, 'يمكن تسجيل الحضور أو الغياب بعد بدء وقت الموعد.');
+      if ((body.action === 'complete' || body.action === 'no_show') && timing.upcoming) throw new HttpError(409, 'يمكن تسجيل الحضور أو الغياب بعد بدء وقت الموعد.');
       const next = {
         ...stored,
         status: action.status,
         updatedAt: now,
-        ...(body.action === 'cancel' ? { cancelledAt: now, cancelledBy: 'doctor', cancelReason: reason } : { attendanceAt: now })
+        ...(body.action === 'cancel' ? { cancelledAt: now, cancelledBy: 'doctor', cancelReason: reason } : 
+           (body.action === 'confirm' ? { confirmedAt: now } : { attendanceAt: now }))
       };
       const copy = items.slice();
       copy[index] = next;
@@ -96,4 +103,48 @@ export const PATCH = handle(async (request, { params }) => {
   }]);
 
   return Response.json({ appointment: publicAppointment(updated), message: 'تم إلغاء الموعد.' });
+});
+
+/* Admin: { as: 'admin', action: 'status', status, reason? } sets any
+   status; the patient and the doctor are told. */
+async function adminPatch(user, id, body, reason, now) {
+  if (!isAdmin(user)) throw new HttpError(403, 'هذا الإجراء متاح للإدارة فقط.');
+  const status = String(body.status || '');
+  if (body.action !== 'status' || !APPOINTMENT_STATUS[status] || status === 'reserving') throw new HttpError(400, 'حالة غير معروفة.');
+
+  const updated = await store.update(COLLECTION, (items) => {
+    const index = items.findIndex((a) => a.id === id && a.status !== 'reserving');
+    if (index === -1) throw new HttpError(404, 'لم يتم العثور على الموعد.');
+    const next = {
+      ...items[index],
+      status,
+      updatedAt: now,
+      ...(status === 'cancelled' ? { cancelledAt: now, cancelledBy: 'admin', cancelReason: reason } : {})
+    };
+    const copy = items.slice();
+    copy[index] = next;
+    return { items: copy, result: next };
+  });
+
+  const label = APPOINTMENT_STATUS[status].label;
+  const when = formatDate(updated.date) + ' الساعة ' + timeLabel(updated.time);
+  const doctorAccount = await doctorAccountOf(updated.doctorId).catch(() => '');
+  await notify([
+    { userId: updated.patientId, type: status === 'cancelled' ? 'appointment_cancelled' : 'info', title: 'حدّثت الإدارة موعدك: ' + label, message: 'موعدك مع ' + updated.doctorName + ' ' + when + (reason ? ' — ' + reason : ''), href: '/appointments/' + updated.id },
+    { userId: doctorAccount, type: 'info', title: 'حدّثت الإدارة موعداً: ' + label, message: updated.patientName + ' · ' + when, href: '/doctor-appointments' }
+  ]);
+
+  return Response.json({ appointment: doctorAppointment(updated), message: 'تم تحديث حالة الموعد.' });
+}
+
+/* DELETE /api/appointments/{id} — admin only; frees the slot. */
+export const DELETE = handle(async (request, { params }) => {
+  const user = await requireUser(request);
+  if (!isAdmin(user)) throw new HttpError(403, 'حذف المواعيد متاح للإدارة فقط.');
+  const { id } = await params;
+  await store.update(COLLECTION, (items) => {
+    if (!items.some((a) => a.id === id)) throw new HttpError(404, 'لم يتم العثور على الموعد.');
+    return { items: items.filter((a) => a.id !== id), result: null };
+  });
+  return Response.json({ message: 'تم حذف الموعد.' });
 });

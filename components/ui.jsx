@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname, useRouter } from 'next/navigation';
 import { auth, defaultMessage } from '@/lib/api';
 
@@ -165,15 +166,15 @@ export function CardTitle({ icon, children, count, actions }) {
 }
 
 export const inputClass =
-  'w-full bg-surface-container-lowest text-text-body font-body-md text-body-md py-2.5 px-space-sm rounded-lg shadow-sm focus:outline-none focus:border-border-focus transition-colors';
+  'w-full bg-surface-container-lowest border border-border-soft hover:border-outline-variant text-text-body font-body-md text-body-md py-3 px-4 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] focus:outline-none focus:border-border-focus focus:ring-1 focus:ring-border-focus transition-all placeholder:text-text-muted';
 
 /* Label + control + inline error, matching the dashboard form rows. */
 export function Field({ label, htmlFor, required, error, hint, className = '', children }) {
   return (
     <div className={'flex flex-col gap-1.5 ' + className}>
       {label ? (
-        <label className="font-label-md text-label-md text-text-heading" htmlFor={htmlFor}>
-          {label} {required ? <span className="text-state-danger">*</span> : null}
+        <label className="font-label-lg text-label-lg text-text-body" htmlFor={htmlFor}>
+          {label} {required ? <span className="text-state-danger mx-0.5">*</span> : null}
         </label>
       ) : null}
       {children}
@@ -214,11 +215,14 @@ export function useOverlay(open, onClose, panelRef) {
 
 export function Modal({ open, onClose, title, eyebrow, children, wide = false }) {
   const panelRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => { setMounted(true); }, []);
   useOverlay(open, onClose, panelRef);
 
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-space-sm bg-inverse-surface/50 backdrop-blur-sm" onClick={onClose}>
+  if (!open || !mounted) return null;
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-space-sm bg-inverse-surface/60 backdrop-blur-lg transition-all" onClick={onClose}>
       <div
         ref={panelRef}
         role="dialog"
@@ -228,21 +232,24 @@ export function Modal({ open, onClose, title, eyebrow, children, wide = false })
         className={'outline-none bg-surface-card rounded-2xl shadow-2xl w-full p-space-md lg:p-space-lg relative max-h-[90vh] overflow-y-auto ' + (wide ? 'max-w-2xl' : 'max-w-lg')}
         onClick={(event) => event.stopPropagation()}
       >
-        <button
-          type="button"
-          aria-label="إغلاق"
-          onClick={onClose}
-          className="absolute top-4 left-4 w-9 h-9 rounded-full bg-surface-container-high text-text-muted hover:text-text-body flex items-center justify-center transition-colors"
-        >
-          <Icon name="close" className="text-[20px]" />
-        </button>
-        <div className="mb-space-md">
-          {eyebrow ? <div className="text-primary font-label-sm text-label-sm mb-1">{eyebrow}</div> : null}
-          <h3 className="font-headline-lg text-headline-lg text-text-heading">{title}</h3>
+        <div className="flex items-center justify-between border-b border-border-soft pb-space-sm mb-space-md">
+          <div>
+            {eyebrow ? <div className="text-primary font-label-sm text-label-sm mb-1">{eyebrow}</div> : null}
+            <h3 className="font-headline-md text-headline-md text-text-heading">{title}</h3>
+          </div>
+          <button
+            type="button"
+            aria-label="إغلاق"
+            onClick={onClose}
+            className="w-9 h-9 shrink-0 rounded-full bg-surface-container-low text-text-muted hover:text-text-body hover:bg-surface-container-high flex items-center justify-center transition-colors"
+          >
+            <Icon name="close" className="text-[20px]" />
+          </button>
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

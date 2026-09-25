@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { api } from '@/lib/api';
-import { useAsync, useDebounced } from '@/lib/hooks';
-import { geo, REVIEWER_ROLES } from '@/lib/vocab';
+import { useAsync, useDebounced, useSession } from '@/lib/hooks';
+import { DONATION_MANAGERS, geo } from '@/lib/vocab';
 import { ACCEPTED } from '@/components/donations';
 import { PageBody, PageHeader, RoleGate } from '@/components/app-shell';
 import { DonationCard } from '@/components/donations';
@@ -12,7 +12,8 @@ import { AsyncBlock, Button, ButtonLink, Card, CardTitle, Icon } from '@/compone
 
 /* Module 8 · Feature 2 — review donations (pharmacies and health centres).
    Lists every donation with its medicine, quantity and expiry; pending
-   ones can be approved or rejected in place. */
+   ones can be approved or rejected in place. The admin manages the same
+   queue, withdrawn donations included. */
 
 const TABS = [
   { key: 'pending', label: 'بانتظار المراجعة', icon: 'hourglass_top' },
@@ -21,7 +22,12 @@ const TABS = [
   { key: '', label: 'الكل', icon: 'list' }
 ];
 
+const WITHDRAWN_TAB = { key: 'withdrawn', label: 'المسحوبة', icon: 'undo' };
+
 export default function ReviewDonationsPage() {
+  const session = useSession();
+  const admin = !!session && session.role === 'Admin';
+  const tabs = admin ? [...TABS.slice(0, 3), WITHDRAWN_TAB, TABS[3]] : TABS;
   const [tab, setTab] = useState('pending');
   const [query, setQuery] = useState('');
   const [governorate, setGovernorate] = useState('');
@@ -46,13 +52,16 @@ export default function ReviewDonationsPage() {
     return sorted;
   }, [state.data, tab, governorate, debounced, sort]);
 
-  const total = counts.pending + counts.approved + counts.rejected;
+  const total = counts.pending + counts.approved + counts.rejected + (counts.withdrawn || 0);
 
   return (
     <>
-      <PageHeader title="مراجعة التبرعات" subtitle="راجع الأدوية المتبرع بها واقبلها أو ارفضها" />
+      <PageHeader
+        title={admin ? 'إدارة التبرعات' : 'مراجعة التبرعات'}
+        subtitle={admin ? 'كل التبرعات في المنصة: راجعها وتابع حالتها وبيانات المتبرعين' : 'راجع الأدوية المتبرع بها واقبلها أو ارفضها'}
+      />
       <PageBody>
-        <RoleGate allow={REVIEWER_ROLES} message="مراجعة التبرعات متاحة للصيدليات والمراكز الصحية">
+        <RoleGate allow={DONATION_MANAGERS} message="مراجعة التبرعات متاحة للصيدليات والمراكز الصحية والإدارة">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-space-sm">
             {[
               { label: 'بانتظار المراجعة', value: counts.pending, icon: 'hourglass_top', cls: 'bg-state-warning-subtle text-state-warning' },
@@ -76,7 +85,7 @@ export default function ReviewDonationsPage() {
             </CardTitle>
 
             <div className="flex flex-wrap gap-space-2xs" role="tablist">
-              {TABS.map((t) => (
+              {tabs.map((t) => (
                 <button key={t.key || 'all'} type="button" role="tab" aria-selected={tab === t.key} onClick={() => setTab(t.key)}
                   className={'inline-flex items-center gap-1 px-space-sm py-1.5 rounded-full font-label-md text-label-md transition-colors ' +
                     (tab === t.key ? 'bg-primary-container text-on-primary shadow-sm' : 'bg-surface-container-low text-text-body hover:bg-surface-container')}>

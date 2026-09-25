@@ -12,14 +12,18 @@ import { AsyncBlock, Badge, Icon } from '@/components/ui';
    GET /api/medicines/search is the only endpoint with documented
    parameters: name, area, category. */
 
-const CATEGORIES = ['', 'مضاد حيوي', 'مسكن', 'أمراض مزمنة', 'قلب وضغط', 'سكري', 'تنفسي', 'أطفال'];
+const CATEGORIES = ['', 'مضاد حيوي', 'مسكن', 'أمراض مزمنة', 'قلب وضغط', 'سكري', 'تنفسي', 'أطفال', 'جهاز هضمي', 'حساسية', 'فيتامينات', 'جلدية'];
 
 function MedicineCard({ medicine }) {
   const href = '/medicines/' + encodeURIComponent(medicine.id);
   return (
     <div className="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col gap-space-md">
       <div className="flex items-start gap-space-md">
-        <span className="w-14 h-14 rounded-xl bg-state-success-subtle text-state-success flex items-center justify-center shrink-0"><Icon name="medication" className="text-headline-xl" /></span>
+        {medicine.imageUrl ? (
+          <Link href={href} className="shrink-0" tabIndex={-1} aria-hidden="true"><img src={medicine.imageUrl} alt="" loading="lazy" className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover" /></Link>
+        ) : (
+          <span className="w-14 h-14 rounded-xl bg-state-success-subtle text-state-success flex items-center justify-center shrink-0"><Icon name="medication" className="text-headline-xl" /></span>
+        )}
         <div className="flex flex-col gap-space-3xs min-w-0">
           <div className="flex flex-wrap items-center gap-space-2xs">
             <Link href={href} className="font-headline-lg text-headline-lg text-text-heading hover:text-primary">{medicine.name}</Link>

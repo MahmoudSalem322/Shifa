@@ -10,6 +10,7 @@ import {
 import { clinicToday } from '@/lib/clock';
 import { applyMatchStatus } from '@/lib/matching';
 import { PageBody, PageHeader, useLogout } from '@/components/app-shell';
+import { AdminPanel } from '@/components/admin-panel';
 import { DoctorPanel, FacilityPanel, PharmacyPanel } from '@/components/dashboard-panels';
 import { donationStatus } from '@/components/donations';
 import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Icon } from '@/components/ui';
@@ -18,7 +19,8 @@ import { AsyncBlock, Badge, Button, ButtonLink, Card, CardTitle, Icon } from '@/
      Patient / Donor : quick actions, appointments, drug requests, donations
      Doctor          : professional profile      (GET|PUT /api/doctors/me)
      Pharmacy        : profile, status, stock    (GET|PUT /api/pharmacies/me)
-     Hospital        : profile, status, services (GET|PUT /api/facilities/me) */
+     Hospital        : profile, status, services (GET|PUT /api/facilities/me)
+     Admin           : platform numbers, review queue, matches, appointments */
 
 const ROLE_PROFILE_API = { Doctor: 'doctors', Pharmacy: 'pharmacies', Hospital: 'facilities', Patient: 'patients' };
 
@@ -70,10 +72,10 @@ const QUICK_ACTIONS = [
   { href: '/doctors', icon: 'calendar_add_on', title: 'حجز موعد', text: 'اختر طبيباً ووقتاً متاحاً' },
   { href: '/drug-requests/new', icon: 'medication', title: 'طلب دواء', text: 'أرفق وصفتك وتابع الطلب' },
   { href: '/prescription-reader', icon: 'document_scanner', title: 'قراءة وصفة', text: 'استخراج الأدوية بالذكاء الاصطناعي' },
-  { href: '/donations/new', icon: 'volunteer_activism', title: 'تبرع بدواء', text: 'ساهم بدوائك الفائض' }
+  { href: '/donations/new', icon: 'volunteer_activism', title: 'إضافة تبرع', text: 'ساهم بدوائك أو أجهزتك الطبية الفائضة' }
 ];
 
-function PatientPanels() {
+function PatientPanels({ role }) {
   const appointments = useAsync(async () => (await api.appointments.mine()).appointments.filter((a) => a.upcoming), []);
   const requests = useAsync(async () => {
     const [response, matchList] = await Promise.all([
@@ -85,10 +87,14 @@ function PatientPanels() {
   }, []);
   const donations = useAsync(async () => (await api.donations.mine()).donations, []);
 
+  const visibleActions = role === 'Donor' 
+    ? QUICK_ACTIONS.filter((a) => a.href === '/donations/new')
+    : QUICK_ACTIONS;
+
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-space-sm">
-        {QUICK_ACTIONS.map((action) => (
+        {visibleActions.map((action) => (
           <Link key={action.href} href={action.href} className="bg-surface-card rounded-2xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-2xs group">
             <span className="w-12 h-12 rounded-xl bg-primary/10 text-text-primary flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
               <Icon name={action.icon} className="text-[26px]" />
@@ -99,57 +105,59 @@ function PatientPanels() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
-        <Card id="appointments">
-          <CardTitle icon="calendar_month" count={(appointments.data || []).length} actions={<ButtonLink href="/appointments" tone="soft">عرض الكل</ButtonLink>}>
-            مواعيدي القادمة
-          </CardTitle>
-          <AsyncBlock state={appointments} skeleton={2} empty={{ when: !(appointments.data || []).length, icon: 'event_available', title: 'لا توجد مواعيد قادمة', action: <Link href="/doctors" className="shifa-state__action">حجز موعد</Link> }}>
-            <div className="flex flex-col gap-space-xs">
-              {(appointments.data || []).slice(0, 4).map((a) => (
-                <Link key={a.id} href={'/appointments/' + encodeURIComponent(a.id)} className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
-                  <div className="flex items-center gap-space-sm min-w-0">
-                    <span className="w-11 h-11 rounded-xl bg-primary/10 text-text-primary flex items-center justify-center shrink-0"><Icon name="event" /></span>
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-headline-sm text-headline-sm text-text-heading truncate">{a.doctorName}</span>
-                      <span className="font-body-sm text-body-sm text-text-muted">{a.specialization}</span>
+      {role !== 'Donor' && (
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+          <Card id="appointments">
+            <CardTitle icon="calendar_month" count={(appointments.data || []).length} actions={<ButtonLink href="/appointments" tone="soft">عرض الكل</ButtonLink>}>
+              مواعيدي القادمة
+            </CardTitle>
+            <AsyncBlock state={appointments} skeleton={2} empty={{ when: !(appointments.data || []).length, icon: 'event_available', title: 'لا توجد مواعيد قادمة', action: <Link href="/doctors" className="shifa-state__action">حجز موعد</Link> }}>
+              <div className="flex flex-col gap-space-xs">
+                {(appointments.data || []).slice(0, 4).map((a) => (
+                  <Link key={a.id} href={'/appointments/' + encodeURIComponent(a.id)} className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
+                    <div className="flex items-center gap-space-sm min-w-0">
+                      <span className="w-11 h-11 rounded-xl bg-primary/10 text-text-primary flex items-center justify-center shrink-0"><Icon name="event" /></span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-headline-sm text-headline-sm text-text-heading truncate">{a.doctorName}</span>
+                        <span className="font-body-sm text-body-sm text-text-muted">{a.specialization}</span>
+                      </div>
                     </div>
-                  </div>
-                  <span className="font-label-md text-label-md text-text-body text-left shrink-0">{formatDate(a.date, { day: 'numeric', month: 'short' })} · {timeLabel(a.time)}</span>
-                </Link>
-              ))}
-            </div>
-          </AsyncBlock>
-        </Card>
-
-        <Card id="drug-requests">
-          <CardTitle icon="prescriptions" count={(requests.data || []).length} actions={<ButtonLink href="/drug-requests" tone="soft">عرض الكل</ButtonLink>}>
-            طلبات الأدوية
-          </CardTitle>
-          <AsyncBlock state={requests} skeleton={2} empty={{ when: !(requests.data || []).length, icon: 'medication', title: 'لا توجد طلبات أدوية بعد', action: <Link href="/drug-requests/new" className="shifa-state__action">طلب دواء</Link> }}>
-            <div className="flex flex-col gap-space-xs">
-              {(requests.data || []).slice(0, 4).map((r) => {
-                const status = drugRequestStatus(r.status);
-                return (
-                  <Link key={r.id} href={'/drug-requests/' + encodeURIComponent(r.id)} className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-headline-sm text-headline-sm text-text-heading truncate">{r.medicineName}</span>
-                      <span className="font-body-sm text-body-sm text-text-muted"><span dir="ltr">#{r.id}</span> · الكمية {r.quantity}</span>
-                    </div>
-                    <Badge className={status.cls}>{status.label}</Badge>
+                    <span className="font-label-md text-label-md text-text-body text-left shrink-0">{formatDate(a.date, { day: 'numeric', month: 'short' })} · {timeLabel(a.time)}</span>
                   </Link>
-                );
-              })}
-            </div>
-          </AsyncBlock>
-        </Card>
-      </div>
+                ))}
+              </div>
+            </AsyncBlock>
+          </Card>
+
+          <Card id="drug-requests">
+            <CardTitle icon="prescriptions" count={(requests.data || []).length} actions={<ButtonLink href="/drug-requests" tone="soft">عرض الكل</ButtonLink>}>
+              طلبات الأدوية
+            </CardTitle>
+            <AsyncBlock state={requests} skeleton={2} empty={{ when: !(requests.data || []).length, icon: 'medication', title: 'لا توجد طلبات أدوية بعد', action: <Link href="/drug-requests/new" className="shifa-state__action">طلب دواء</Link> }}>
+              <div className="flex flex-col gap-space-xs">
+                {(requests.data || []).slice(0, 4).map((r) => {
+                  const status = drugRequestStatus(r.status);
+                  return (
+                    <Link key={r.id} href={'/drug-requests/' + encodeURIComponent(r.id)} className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-headline-sm text-headline-sm text-text-heading truncate">{r.medicineName}</span>
+                        <span className="font-body-sm text-body-sm text-text-muted"><span dir="ltr">#{r.id}</span> · الكمية {r.quantity}</span>
+                      </div>
+                      <Badge className={status.cls}>{status.label}</Badge>
+                    </Link>
+                  );
+                })}
+              </div>
+            </AsyncBlock>
+          </Card>
+        </div>
+      )}
 
       <Card id="donations">
         <CardTitle icon="volunteer_activism" count={(donations.data || []).length} actions={<ButtonLink href="/donations" tone="soft">عرض الكل</ButtonLink>}>
           تبرعاتي
         </CardTitle>
-        <AsyncBlock state={donations} skeleton={1} empty={{ when: !(donations.data || []).length, icon: 'volunteer_activism', title: 'لم تتبرع بأي دواء بعد', action: <Link href="/donations/new" className="shifa-state__action">تبرع الآن</Link> }}>
+        <AsyncBlock state={donations} skeleton={1} empty={{ when: !(donations.data || []).length, icon: 'volunteer_activism', title: 'لم تتبرع بعد', action: <Link href="/donations/new" className="shifa-state__action">تبرع الآن</Link> }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-space-xs">
             {(donations.data || []).slice(0, 4).map((d) => (
               <Link key={d.id} href={'/donations/' + encodeURIComponent(d.id)} className="flex items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle hover:bg-surface-container-low">
@@ -187,7 +195,8 @@ export default function DashboardPage() {
         {role === 'Doctor' ? <DoctorPanel /> : null}
         {role === 'Pharmacy' ? <PharmacyPanel /> : null}
         {role === 'Hospital' ? <FacilityPanel /> : null}
-        {role === 'Patient' || role === 'Donor' || !ROLE_PROFILE_API[role] ? <PatientPanels /> : null}
+        {role === 'Admin' ? <AdminPanel /> : null}
+        {role === 'Patient' || role === 'Donor' || (!ROLE_PROFILE_API[role] && role !== 'Admin') ? <PatientPanels role={role} /> : null}
         <div className="flex justify-end">
           <Button tone="danger" icon="logout" onClick={logout}>تسجيل الخروج</Button>
         </div>

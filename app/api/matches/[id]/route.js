@@ -1,4 +1,4 @@
-import { handle, HttpError, readJson, requireUser } from '@/lib/server/auth';
+import { handle, HttpError, isAdmin, readJson, requireUser } from '@/lib/server/auth';
 import { COLLECTION as DONATIONS } from '@/lib/server/donations';
 import { COLLECTION, canViewMatch, handlesMatch, publicMatch, settleDonationStatus } from '@/lib/server/matches';
 import { notify } from '@/lib/server/notify';
@@ -84,7 +84,11 @@ export const PATCH = handle(async (request, { params }) => {
   if (action === 'deliver') {
     await notify([
       { userId: match.requesterId, type: 'match_delivered', title: 'تم تسليم الدواء', message: 'استلمت ' + units + ' من ' + match.donationMedicineName + '.', href },
-      { userId: match.donorId, type: 'match_delivered', title: 'وصل تبرعك إلى مريض', message: 'تم تسليم ' + units + ' من ' + match.donationMedicineName + '. شكراً لك.', href }
+      { userId: match.donorId, type: 'match_delivered', title: 'وصل تبرعك إلى مريض', message: 'تم تسليم ' + units + ' من ' + match.donationMedicineName + '. شكراً لك.', href },
+      /* When the admin confirms, the reviewing pharmacy or centre hears of it too. */
+      ...(match.reviewerId && match.reviewerId !== user.id
+        ? [{ userId: match.reviewerId, type: 'match_delivered', title: 'تم تأكيد تسليم مطابقة', message: match.donationMedicineName + ' · ' + units + ' — بواسطة الإدارة.', href }]
+        : [])
     ]);
   } else {
     const others = [match.requesterId, match.donorId, match.reviewerId].filter((uid) => uid && uid !== user.id);
@@ -101,4 +105,19 @@ export const PATCH = handle(async (request, { params }) => {
     match: publicMatch(match, user),
     message: action === 'deliver' ? 'تم تأكيد التسليم.' : 'تم إلغاء المطابقة وإعادة الكمية إلى التبرع.'
   });
+});
+
+/* DELETE /api/matches/{id} — admin only, once the match is delivered or
+   cancelled; a reserved match is cancelled first so its units go back. */
+export const DELETE = handle(async (request, { params }) => {
+  const user = await requireUser(request);
+  if (!isAdmin(user)) throw new HttpError(403, 'حذف المطابقات متاح للإدارة فقط.');
+  const { id } = await params;
+  await store.update(COLLECTION, (items) => {
+    const current = items.find((m) => m.id === id);
+    if (!current) throw new HttpError(404, 'لم يتم العثور على المطابقة.');
+    if (current.status === 'reserved') throw new HttpError(409, 'ألغِ المطابقة أولاً لتعود الكمية إلى التبرع، ثم احذفها.');
+    return { items: items.filter((m) => m.id !== id), result: null };
+  });
+  return Response.json({ message: 'تم حذف المطابقة.' });
 });

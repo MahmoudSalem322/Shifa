@@ -22,41 +22,51 @@ const PILLS = [
 function PharmacyCard({ pharmacy }) {
   const href = '/pharmacies/' + encodeURIComponent(pharmacy.id);
   return (
-    <article className="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md">
-      <div className="flex flex-col gap-space-xs">
-        <div className="flex items-center gap-space-sm">
-          <span className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-text-primary shrink-0"><Icon name="medication" className="text-3xl" /></span>
-          <div className="flex flex-col min-w-0">
-            <div className="flex items-center gap-space-2xs">
-              <Link href={href} className="font-headline-md text-headline-md text-text-heading font-semibold truncate hover:text-primary">{pharmacy.name}</Link>
-              {pharmacy.governmentApproved ? <Icon name="verified" className="text-text-primary text-lg" title="صيدلية معتمدة" /> : null}
-            </div>
-            {pharmacy.governmentApproved ? <span className="font-label-sm text-label-sm text-text-muted">معتمدة من وزارة الصحة</span> : null}
+    <article className="bg-surface-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+      <div>
+        <div className="relative h-40 w-full bg-surface-container overflow-hidden">
+          {pharmacy.imageUrl
+            ? <img className="w-full h-full object-cover" alt="" src={pharmacy.imageUrl} />
+            : <div className="w-full h-full bg-gradient-to-br from-primary-container to-secondary-container" />}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          
+          {pharmacy.status ? (
+            <span className={'absolute top-3 right-3 inline-flex items-center gap-1 px-space-xs py-1 rounded-full font-label-sm text-label-sm shadow-sm ' + TONE_BADGE[statusTone(pharmacy.status)]}>
+              <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" /> {statusLabel(pharmacy.status)}
+            </span>
+          ) : null}
+
+          <div className="absolute bottom-3 right-3 left-3 flex justify-between items-end text-white gap-2">
+            <h3 className="font-headline-md text-headline-md leading-tight text-white flex items-center gap-1">
+              {pharmacy.name}
+              {pharmacy.governmentApproved ? <Icon name="verified" className="text-white text-lg" title="صيدلية معتمدة" /> : null}
+            </h3>
+            {pharmacy.rating ? (
+              <span className="flex items-center gap-1 bg-surface-card/90 text-text-body px-2 py-0.5 rounded-md font-label-sm text-label-sm shrink-0">
+                <Icon name="star" filled className="text-state-warning text-[16px]" />{pharmacy.rating.toFixed(1)}
+              </span>
+            ) : null}
           </div>
         </div>
-        {pharmacy.address ? <div className="flex items-start gap-space-2xs text-text-muted font-body-sm text-body-sm"><Icon name="location_on" className="text-base text-text-primary mt-0.5" />{pharmacy.address}</div> : null}
-        <div className="flex flex-wrap items-center gap-space-2xs">
-          {pharmacy.status ? (
-            <span className={'px-space-2xs py-0.5 rounded-md font-label-sm text-label-sm ' + TONE_BADGE[statusTone(pharmacy.status)]}>{statusLabel(pharmacy.status)}</span>
-          ) : null}
-          {pharmacy.workingHours ? <span className="px-space-2xs py-0.5 rounded-md bg-surface-container-high text-text-primary font-label-sm text-label-sm">{pharmacy.workingHours}</span> : null}
-          {pharmacy.acceptsInsurance ? <span className="px-space-2xs py-0.5 rounded-md bg-state-info-subtle text-state-info font-label-sm text-label-sm">يقبل التأمين</span> : null}
-          {pharmacy.hasColdChain ? <span className="px-space-2xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm">سلسلة تبريد</span> : null}
-        </div>
-        <div className="flex items-center justify-between text-text-muted font-body-sm text-body-sm">
-          {pharmacy.rating ? (
-            <span className="flex items-center gap-1"><Icon name="star" filled className="text-state-warning text-base" /><strong className="text-text-body">{pharmacy.rating.toFixed(1)}</strong></span>
-          ) : <span />}
-          {pharmacy.phone ? <span className="flex items-center gap-1 text-text-primary font-label-md" dir="ltr"><Icon name="call" className="text-sm" />{pharmacy.phone}</span> : null}
+
+        <div className="p-space-md flex flex-col gap-space-sm">
+          {pharmacy.address ? <div className="flex items-center gap-space-2xs text-text-muted font-body-sm text-body-sm"><Icon name="location_on" className="text-text-primary text-[18px]" />{pharmacy.address}</div> : null}
+          {pharmacy.workingHours ? <div className="flex items-center gap-space-2xs text-text-muted font-body-sm text-body-sm"><Icon name="schedule" className="text-text-primary text-[18px]" />{pharmacy.workingHours}</div> : null}
+          
+          <div className="flex flex-wrap gap-space-3xs mt-1">
+            {pharmacy.acceptsInsurance ? <span className="px-space-2xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">يقبل التأمين</span> : null}
+            {pharmacy.hasColdChain ? <span className="px-space-2xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">سلسلة تبريد</span> : null}
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-space-xs">
-        <Link href={href} className="flex-1 py-space-2xs bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-primary-hover transition-colors flex items-center justify-center gap-space-2xs shadow-sm">
-          عرض الصيدلية <Icon name="arrow_back" className="text-base" />
+
+      <div className="p-space-md pt-0 flex items-center gap-space-2xs">
+        <Link href={href} className="flex-1 py-space-xs px-space-sm rounded-lg bg-primary-container hover:bg-primary-hover text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm transition-colors">
+          عرض التفاصيل <Icon name="arrow_back" className="text-[18px]" />
         </Link>
         {pharmacy.phone ? (
-          <a href={'tel:' + pharmacy.phone} className="px-space-md py-space-2xs bg-surface-subtle text-text-primary rounded-lg font-label-md text-label-md hover:bg-surface-container-high flex items-center gap-1 shadow-sm">
-            <Icon name="phone_in_talk" className="text-base" /> اتصال
+          <a aria-label="الاتصال بالصيدلية" href={'tel:' + pharmacy.phone} className="w-10 h-10 rounded-lg bg-surface-container-low hover:bg-surface-container text-text-primary flex items-center justify-center">
+            <Icon name="call" className="text-[20px]" />
           </a>
         ) : null}
       </div>

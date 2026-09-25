@@ -86,7 +86,7 @@ export default function BookAppointmentPage() {
       setConfirming(false);
       notifications.add({
         type: 'confirmation',
-        title: 'تم تأكيد حجز الموعد',
+        title: 'تم طلب حجز الموعد',
         message: 'موعدك مع ' + doctor.name + ' يوم ' + WEEKDAYS_AR[new Date(date + 'T00:00').getDay()] + ' ' + formatDate(date) + ' الساعة ' + timeLabel(time) + '.',
         ref: response.appointment.id
       });
@@ -115,13 +115,13 @@ export default function BookAppointmentPage() {
             <span className="w-20 h-20 rounded-full bg-state-success-subtle text-state-success flex items-center justify-center">
               <Icon name="event_available" className="text-[46px]" />
             </span>
-            <h1 className="font-headline-xl text-headline-xl text-text-heading">تم تأكيد موعدك بنجاح</h1>
+            <h1 className="font-headline-xl text-headline-xl text-text-heading">بانتظار تأكيد الطبيب</h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-sm w-full text-right">
               <InfoRow icon="stethoscope" label="الطبيب">{booked.doctorName}</InfoRow>
               <InfoRow icon="event" label="التاريخ">{WEEKDAYS_AR[new Date(booked.date + 'T00:00').getDay()] + ' ' + formatDate(booked.date)}</InfoRow>
               <InfoRow icon="schedule" label="الوقت">{timeLabel(booked.time) + ' - ' + timeLabel(booked.endTime)}</InfoRow>
             </div>
-            <p className="font-body-md text-body-md text-text-muted">يرجى الحضور قبل الموعد بعشر دقائق. يمكنك إلغاء الموعد من صفحة مواعيدي قبل وقته.</p>
+            <p className="font-body-md text-body-md text-text-muted">تم استلام طلب الحجز بنجاح ونحن بانتظار تأكيد الطبيب له. سنقوم بإبلاغك فور تأكيده. يمكنك إلغاء الموعد من صفحة مواعيدي.</p>
             <div className="flex flex-wrap items-center justify-center gap-space-xs">
               <ButtonLink href={'/appointments/' + encodeURIComponent(booked.id)} icon="visibility">تفاصيل الموعد</ButtonLink>
               <ButtonLink href="/appointments" tone="soft" icon="calendar_month">كل مواعيدي</ButtonLink>

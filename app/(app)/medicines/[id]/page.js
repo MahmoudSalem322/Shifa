@@ -43,7 +43,11 @@ export default function MedicineDetailsPage() {
               <Card>
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
                   <div className="flex items-start gap-space-md">
-                    <span className="w-16 h-16 rounded-2xl bg-state-success-subtle text-state-success flex items-center justify-center shrink-0"><Icon name="medication" className="text-[36px]" /></span>
+                    {m.imageUrl ? (
+                      <img src={m.imageUrl} alt={m.name} className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover shrink-0 shadow-sm" />
+                    ) : (
+                      <span className="w-16 h-16 rounded-2xl bg-state-success-subtle text-state-success flex items-center justify-center shrink-0"><Icon name="medication" className="text-[36px]" /></span>
+                    )}
                     <div className="flex flex-col gap-1">
                       <div className="flex flex-wrap items-center gap-2">
                         {m.category ? <Badge className="bg-surface-container-high text-text-primary">{m.category}</Badge> : null}

@@ -15,17 +15,17 @@ export default function MyDonationsPage() {
 
   return (
     <>
-      <PageHeader title="تبرعاتي بالأدوية" subtitle="تابع حالة الأدوية التي تبرعت بها" />
+      <PageHeader title="تبرعاتي" subtitle="تابع حالة تبرعاتك" />
       <PageBody>
-        <RoleGate allow={['Patient', 'Donor']} message="التبرع بالأدوية متاح لحسابات المتبرعين والمرضى">
+        <RoleGate allow={['Patient', 'Donor']} message="التبرع متاح لحسابات المتبرعين والمرضى">
           <div className="bg-gradient-to-l from-primary-container to-primary-hover text-on-primary rounded-2xl p-space-md lg:p-space-lg shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
             <div className="flex items-center gap-space-md">
               <span className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
                 <Icon name="volunteer_activism" className="text-[32px]" />
               </span>
               <div>
-                <h1 className="font-headline-lg text-headline-lg">لديك دواء فائض؟</h1>
-                <p className="font-body-md text-body-md text-white/85">تبرّع به ليصل إلى من يحتاجه. تراجع الصيدليات المعتمدة كل تبرع قبل قبوله.</p>
+                <h1 className="font-headline-lg text-headline-lg">لديك دواء أو معدات طبية فائضة؟</h1>
+                <p className="font-body-md text-body-md text-white/85">تبرّع بها لتصل إلى من يحتاجها. تراجع الصيدليات المعتمدة كل تبرع قبل قبوله.</p>
               </div>
             </div>
             <Link href="/donations/new" className="inline-flex items-center justify-center gap-2 px-space-md py-3 rounded-xl bg-surface-card text-text-heading font-label-lg text-label-lg shadow-sm hover:bg-surface-subtle shrink-0">
@@ -58,7 +58,7 @@ export default function MyDonationsPage() {
               empty={{
                 when: !donations.length,
                 icon: 'volunteer_activism',
-                title: 'لم تتبرع بأي دواء بعد',
+                title: 'لم تتبرع بعد',
                 hint: 'أضف تبرعك الأول وسيظهر هنا مع حالته.',
                 action: <Link href="/donations/new" className="shifa-state__action">تبرع الآن</Link>
               }}

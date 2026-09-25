@@ -28,7 +28,7 @@ const FIELD_MAP = {
 export default function NewDonationPage() {
   const session = useSession();
   const [form, setForm] = useState({
-    medicineName: '', quantity: '1', unit: 'علبة', expiryDate: '', governorate: '', address: '',
+    donationType: 'medicine', medicineName: '', quantity: '1', unit: 'علبة', expiryDate: '', governorate: '', address: '',
     donorName: '', donorPhone: '', notes: '', confirmSealed: false
   });
   const [errors, setErrors] = useState({});
@@ -50,6 +50,7 @@ export default function NewDonationPage() {
         return;
       }
       setForm({
+        donationType: donation.donationType || 'medicine',
         medicineName: donation.medicineName || '', quantity: String(donation.quantity || 1), unit: donation.unit || 'علبة',
         expiryDate: donation.expiryDate || '', governorate: donation.governorate || '', address: donation.address || '',
         donorName: donation.donorName || '', donorPhone: donation.donorPhone || '', notes: donation.notes || '', confirmSealed: true
@@ -82,16 +83,20 @@ export default function NewDonationPage() {
   const validateForm = () => {
     const next = {};
     const quantity = Number(form.quantity);
-    if (form.medicineName.trim().length < 2) next.medicineName = 'أدخل اسم الدواء.';
+    if (form.medicineName.trim().length < 2) next.medicineName = form.donationType === 'equipment' ? 'أدخل اسم الجهاز.' : 'أدخل اسم الدواء.';
     if (!Number.isInteger(quantity) || quantity < 1) next.quantity = 'الكمية يجب أن تكون رقماً صحيحاً أكبر من صفر.';
     else if (quantity > 10000) next.quantity = 'الكمية كبيرة جداً.';
-    if (!form.expiryDate) next.expiryDate = 'أدخل تاريخ انتهاء الصلاحية.';
-    else if (form.expiryDate < minExpiry) next.expiryDate = 'لا نقبل دواءً تنتهي صلاحيته خلال أقل من ' + MIN_SHELF_LIFE_DAYS + ' يوماً.';
+    
+    if (form.donationType === 'medicine') {
+      if (!form.expiryDate) next.expiryDate = 'أدخل تاريخ انتهاء الصلاحية.';
+      else if (form.expiryDate < minExpiry) next.expiryDate = 'لا نقبل دواءً تنتهي صلاحيته خلال أقل من ' + MIN_SHELF_LIFE_DAYS + ' يوماً.';
+      if (!form.confirmSealed) next.confirmSealed = 'يجب التأكيد على سلامة الدواء.';
+    }
+
     if (!form.governorate) next.governorate = 'اختر المحافظة.';
     if (form.address.trim().length < 3) next.address = 'أدخل عنوان الاستلام بالتفصيل.';
     if (form.donorName.trim().length < 3) next.donorName = 'أدخل اسم المتبرع.';
     if (!validate.phone(form.donorPhone)) next.donorPhone = 'رقم الهاتف يجب أن يتكون من 10 أرقام ويبدأ بـ 05.';
-    if (!form.confirmSealed) next.confirmSealed = 'يجب التأكيد على سلامة الدواء.';
     setErrors(next);
     return !Object.keys(next).length;
   };
@@ -112,7 +117,7 @@ export default function NewDonationPage() {
       notifications.add({
         type: 'donation_submitted',
         title: 'تم استلام تبرعك',
-        message: 'تبرعك بـ ' + response.donation.medicineName + ' قيد المراجعة الآن. شكراً لعطائك 🌿',
+        message: 'تم ارسال طلبك للجهات المختصة و سيتم التواصل معك قريبا.',
         ref: response.donation.id
       });
     } catch (error) {
@@ -129,7 +134,7 @@ export default function NewDonationPage() {
     const status = DONATION_STATUS[created.status] || DONATION_STATUS.pending;
     return (
       <>
-        <PageHeader title="التبرع بدواء" subtitle="تم استلام التبرع" />
+        <PageHeader title={created.donationType === 'equipment' ? 'التبرع بجهاز طبي' : 'التبرع بدواء'} subtitle="تم استلام التبرع" />
         <PageBody narrow>
           <Card className="items-center text-center py-space-2xl">
             <span className="w-20 h-20 rounded-full bg-state-success-subtle text-state-success flex items-center justify-center">
@@ -137,8 +142,8 @@ export default function NewDonationPage() {
             </span>
             <h1 className="font-headline-xl text-headline-xl text-text-heading">شكراً لعطائك!</h1>
             <p className="font-body-lg text-body-lg text-text-muted max-w-md">
-              تم تسجيل تبرعك بـ <strong className="text-text-body">{created.quantity} {created.unit} من {created.medicineName}</strong>.
-              ستراجعه صيدلية أو مركز صحي، وسنبلغك بالنتيجة.
+              تم تسجيل تبرعك بـ <strong className="text-text-body">{created.quantity} {created.donationType === 'equipment' ? 'قطعة' : created.unit} من {created.medicineName}</strong>.<br />
+              تم ارسال طلبك للجهات المختصة و سيتم التواصل معك قريبا.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-space-sm">
               <span className="font-label-md text-label-md text-text-muted">حالة التبرع:</span>
@@ -154,11 +159,13 @@ export default function NewDonationPage() {
     );
   }
 
+  const isEq = form.donationType === 'equipment';
+
   return (
     <>
-      <PageHeader title={editingId ? 'تعديل التبرع' : 'التبرع بدواء'} subtitle={editingId ? 'صحّح بيانات تبرعك قبل مراجعته' : 'ساهم بدوائك الفائض لمن يحتاجه'} />
+      <PageHeader title={editingId ? 'تعديل التبرع' : 'إضافة تبرع جديد'} subtitle={editingId ? 'صحّح بيانات تبرعك قبل مراجعته' : 'ساهم بدوائك الفائض أو أجهزتك الطبية لمن يحتاجها'} />
       <PageBody narrow>
-        <RoleGate allow={['Patient', 'Donor']} message="التبرع بالأدوية متاح لحسابات المتبرعين والمرضى">
+        <RoleGate allow={['Patient', 'Donor']} message="التبرع متاح لحسابات المتبرعين والمرضى">
           <nav className="flex items-center gap-1 font-body-sm text-body-sm text-text-muted" aria-label="مسار التنقل">
             <Link href="/donations" className="hover:text-text-primary">تبرعاتي</Link>
             <Icon name="chevron_left" className="text-[18px]" />
@@ -172,29 +179,51 @@ export default function NewDonationPage() {
 
           <form className="flex flex-col gap-space-lg" onSubmit={submit} noValidate>
             <Card>
-              <CardTitle icon="medication">معلومات الدواء</CardTitle>
+              <CardTitle icon="category">نوع التبرع</CardTitle>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="donationType" value="medicine" checked={!isEq} onChange={set('donationType')} />
+                  <span>دواء</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="donationType" value="equipment" checked={isEq} onChange={set('donationType')} />
+                  <span>أجهزة ومعدات طبية</span>
+                </label>
+              </div>
+            </Card>
+
+            <Card>
+              <CardTitle icon={isEq ? 'medical_services' : 'medication'}>{isEq ? 'معلومات الجهاز الطبي' : 'معلومات الدواء'}</CardTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
-                <Field label="اسم الدواء" htmlFor="don-name" required error={errors.medicineName} className="md:col-span-2">
+                <Field label={isEq ? 'اسم الجهاز/المعدة' : 'اسم الدواء'} htmlFor="don-name" required error={errors.medicineName} className="md:col-span-2">
                   <input id="don-name" className={inputClass} value={form.medicineName} onChange={set('medicineName')} maxLength={200}
-                    placeholder="الاسم التجاري والتركيز كما على العلبة، مثال: Augmentin 1g" dir="auto" />
+                    placeholder={isEq ? "مثال: كرسي متحرك، جهاز قياس ضغط، عكازات" : "الاسم التجاري والتركيز كما على العلبة، مثال: Augmentin 1g"} dir="auto" />
                 </Field>
                 <Field label="الكمية" htmlFor="don-qty" required error={errors.quantity}>
                   <div className="flex gap-space-2xs">
                     <input id="don-qty" type="number" min="1" className={inputClass} value={form.quantity} onChange={set('quantity')} />
-                    <select aria-label="الوحدة" className={inputClass + ' max-w-[9rem] cursor-pointer'} value={form.unit} onChange={set('unit')}>
-                      {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
-                    </select>
+                    {!isEq ? (
+                      <select aria-label="الوحدة" className={inputClass + ' max-w-[9rem] cursor-pointer'} value={form.unit} onChange={set('unit')}>
+                        {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
+                      </select>
+                    ) : (
+                      <span className={inputClass + ' max-w-[9rem] flex items-center justify-center bg-surface-subtle text-text-muted cursor-not-allowed'}>قطعة</span>
+                    )}
                   </div>
                 </Field>
-                <Field label="تاريخ انتهاء الصلاحية" htmlFor="don-expiry" required error={errors.expiryDate}
-                  hint={'يُقبل الدواء الصالح حتى ' + formatDate(minExpiry) + ' على الأقل'}>
-                  <input id="don-expiry" type="date" min={minExpiry} className={inputClass} value={form.expiryDate} onChange={set('expiryDate')} />
-                </Field>
-                <label className="md:col-span-2 flex items-start gap-2 cursor-pointer font-body-md text-body-md text-text-body">
-                  <input type="checkbox" className="mt-1" checked={form.confirmSealed} onChange={set('confirmSealed')} />
-                  <span>أؤكد أن الدواء مغلق في عبوته الأصلية، غير تالف، وحُفظ وفق شروط التخزين المطلوبة.</span>
-                </label>
-                {errors.confirmSealed ? <p className="md:col-span-2 font-label-sm text-label-sm text-state-danger -mt-space-sm" role="alert">{errors.confirmSealed}</p> : null}
+                {!isEq && (
+                  <Field label="تاريخ انتهاء الصلاحية" htmlFor="don-expiry" required error={errors.expiryDate}
+                    hint={'يُقبل الدواء الصالح حتى ' + formatDate(minExpiry) + ' على الأقل'}>
+                    <input id="don-expiry" type="date" min={minExpiry} className={inputClass} value={form.expiryDate} onChange={set('expiryDate')} />
+                  </Field>
+                )}
+                {!isEq && (
+                  <label className="md:col-span-2 flex items-start gap-2 cursor-pointer font-body-md text-body-md text-text-body">
+                    <input type="checkbox" className="mt-1" checked={form.confirmSealed} onChange={set('confirmSealed')} />
+                    <span>أؤكد أن الدواء مغلق في عبوته الأصلية، غير تالف، وحُفظ وفق شروط التخزين المطلوبة.</span>
+                  </label>
+                )}
+                {(!isEq && errors.confirmSealed) ? <p className="md:col-span-2 font-label-sm text-label-sm text-state-danger -mt-space-sm" role="alert">{errors.confirmSealed}</p> : null}
               </div>
             </Card>
 

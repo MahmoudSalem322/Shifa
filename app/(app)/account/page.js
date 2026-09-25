@@ -125,7 +125,9 @@ export default function AccountPage() {
           {!profile ? (
             <p className="p-space-sm rounded-xl bg-state-info-subtle text-state-info font-body-sm text-body-sm flex items-start gap-2">
               <Icon name="info" className="text-[18px] mt-0.5" />
-              خادم شفاء لا يوفّر حتى الآن تعديل بيانات حسابات المتبرعين، لذلك تُحفظ تعديلاتك على هذا الجهاز فقط وتُستخدم لتعبئة النماذج تلقائياً.
+              {role === 'Admin'
+                ? 'حساب الإدارة مُعرَّف في إعدادات الخادم، ويُغيَّر اسم المستخدم وكلمة المرور من هناك. تعديلات هذه الصفحة تُحفظ على هذا الجهاز فقط.'
+                : 'خادم شفاء لا يوفّر حتى الآن تعديل بيانات حسابات المتبرعين، لذلك تُحفظ تعديلاتك على هذا الجهاز فقط وتُستخدم لتعبئة النماذج تلقائياً.'}
             </p>
           ) : null}
           <AsyncBlock state={profile ? state : { loading: false, error: null, data: true }} skeleton={2}>

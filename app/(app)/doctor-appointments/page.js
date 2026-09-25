@@ -87,10 +87,33 @@ function Attendance({ appointment, onDone }) {
   );
 }
 
+function ConfirmByDoctor({ appointment, onDone }) {
+  const toast = useToast();
+  const [busy, setBusy] = useState(false);
+
+  const confirm = async () => {
+    setBusy(true);
+    try {
+      const response = await api.appointments.doctorAction(appointment.id, 'confirm');
+      toast(response.message);
+      onDone();
+    } catch (error) {
+      toast(error.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Button tone="success" icon="check_circle" className="!py-1.5" busy={busy} busyLabel="…" disabled={busy} onClick={confirm}>تأكيد</Button>
+  );
+}
+
 function DoctorAppointmentRow({ appointment, onChange }) {
   const status = APPOINTMENT_STATUS[appointment.status] || APPOINTMENT_STATUS.confirmed;
   const day = new Date(appointment.date + 'T00:00');
-  const open = appointment.recordedStatus === 'confirmed';
+  const isPending = appointment.recordedStatus === 'pending';
+  const isConfirmed = appointment.recordedStatus === 'confirmed';
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm p-space-sm rounded-xl bg-surface-subtle">
@@ -121,9 +144,12 @@ function DoctorAppointmentRow({ appointment, onChange }) {
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-space-2xs">
-        <Badge className={status.cls}>{open && !appointment.upcoming ? 'بانتظار تسجيل الحضور' : status.label}</Badge>
-        {open && appointment.upcoming ? <CancelByDoctor appointment={appointment} onDone={onChange} /> : null}
-        {open && !appointment.upcoming ? <Attendance appointment={appointment} onDone={onChange} /> : null}
+        <Badge className={status.cls}>
+          {isPending ? status.label : (isConfirmed && !appointment.upcoming ? 'بانتظار تسجيل الحضور' : status.label)}
+        </Badge>
+        {isPending ? <ConfirmByDoctor appointment={appointment} onDone={onChange} /> : null}
+        {(isPending || (isConfirmed && appointment.upcoming)) ? <CancelByDoctor appointment={appointment} onDone={onChange} /> : null}
+        {isConfirmed && !appointment.upcoming ? <Attendance appointment={appointment} onDone={onChange} /> : null}
       </div>
     </div>
   );

@@ -1,33 +1,38 @@
-import { handle, HttpError, readJson, requireRole, requireUser } from '@/lib/server/auth';
-import { ACCEPTED, COLLECTION, isReviewer, parseDonation, publicDonation } from '@/lib/server/donations';
+import { handle, HttpError, isAdmin, readJson, requireRole, requireUser } from '@/lib/server/auth';
+import { ADMIN_ID } from '@/lib/server/admin-auth';
+import { ACCEPTED, COLLECTION, managesDonations, parseDonation, publicDonation } from '@/lib/server/donations';
+import { notify } from '@/lib/server/notify';
 import { store } from '@/lib/server/store';
 
 /* GET /api/donations?scope=mine|all&status=pending|approved|rejected
    Module 8 · "Create Get Donations API". `mine` is every account's own
-   donations; `all` is the review queue, for pharmacies and health centres. */
+   donations; `all` is the review queue, for pharmacies and health centres,
+   and every donation (withdrawn ones too) for the admin. */
 export const GET = handle(async (request) => {
   const user = await requireUser(request);
   const { searchParams } = new URL(request.url);
   const scope = searchParams.get('scope') || 'mine';
   const status = searchParams.get('status') || '';
 
-  if (scope === 'all' && !isReviewer(user)) {
+  if (scope === 'all' && !managesDonations(user)) {
     throw new HttpError(403, 'مراجعة التبرعات متاحة للصيدليات والمراكز الصحية فقط.');
   }
 
   const items = await store.read(COLLECTION);
+  const admin = isAdmin(user);
+  const inQueue = (d) => admin || d.status !== 'withdrawn';
   const list = items
-    .filter((d) => (scope === 'all' ? d.status !== 'withdrawn' : d.donorId === user.id))
+    .filter((d) => (scope === 'all' ? inQueue(d) : d.donorId === user.id))
     /* 'approved' also covers donations since matched or delivered (Module 9). */
     .filter((d) => (status ? (status === 'approved' ? ACCEPTED.includes(d.status) : d.status === status) : true))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((d) => publicDonation(d, user));
 
   const counts = scope === 'all'
-    ? items.filter((d) => d.status !== 'withdrawn').reduce((acc, d) => {
+    ? items.filter(inQueue).reduce((acc, d) => {
       const key = ACCEPTED.includes(d.status) ? 'approved' : d.status;
       return { ...acc, [key]: (acc[key] || 0) + 1 };
-    }, { pending: 0, approved: 0, rejected: 0 })
+    }, admin ? { pending: 0, approved: 0, rejected: 0, withdrawn: 0 } : { pending: 0, approved: 0, rejected: 0 })
     : undefined;
 
   return Response.json({ donations: list, counts });
@@ -52,6 +57,14 @@ export const POST = handle(async (request) => {
     };
     return { items: [...items, record], result: record };
   });
+
+  await notify([{
+    userId: ADMIN_ID,
+    type: 'info',
+    title: 'تبرع جديد بانتظار المراجعة',
+    message: donation.medicineName + ' · ' + donation.quantity + ' ' + donation.unit + ' · ' + donation.governorate,
+    href: '/donations/' + donation.id
+  }]);
 
   return Response.json({ donation: publicDonation(donation, user), message: 'تم استلام تبرعك وهو الآن قيد المراجعة.' }, { status: 201 });
 });
